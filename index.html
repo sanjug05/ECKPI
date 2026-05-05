@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AIS Windows — Experience Center KPI Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body,#root{height:100%;background:#0A1628;font-family:'DM Sans',sans-serif;color:#fff;overflow:hidden}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:rgba(0,180,216,.3);border-radius:99px}
+input[type=date],input[type=time]{color-scheme:dark}
+input:-webkit-autofill,input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 1000px #0c1d38 inset!important;-webkit-text-fill-color:#fff!important}
+select option{background:#0c1d38;color:#fff}
+@keyframes fadeIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+.ani-fade{animation:fadeIn .38s ease both}
+.ani-slide{animation:slideIn .32s ease both}
+/* Layout */
+.app{display:flex;height:100vh;overflow:hidden}
+/* Sidebar */
+.sb{display:flex;flex-direction:column;flex-shrink:0;background:rgba(7,16,32,.97);border-right:1px solid rgba(0,180,216,.11);transition:width .28s ease;overflow:hidden;z-index:20}
+.sb.wide{width:224px}.sb.slim{width:58px}
+.sb-logo{display:flex;align-items:center;gap:9px;padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0}
+.logo-pill{width:32px;min-width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#00B4D8,#0096C7);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em}
+.logo-info{overflow:hidden;white-space:nowrap}
+.logo-info p{font-size:13px;font-weight:700;letter-spacing:.04em;font-family:'Rajdhani',sans-serif}
+.logo-info span{font-size:9px;color:rgba(0,180,216,.65)}
+.sb-toggle{margin-left:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.65);cursor:pointer;padding:6px 8px;border-radius:7px;font-size:16px;flex-shrink:0;line-height:1;transition:all .15s;flex-shrink:0}
+.sb-toggle:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+.vo-badge{margin:7px 7px 0;padding:5px 8px;border-radius:8px;background:rgba(255,215,0,.09);border:1px solid rgba(255,215,0,.2);display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden}
+.vo-badge span{font-size:9px;font-weight:600;color:#FFD700}
+.sb-nav{flex:1;overflow-y:auto;padding:5px;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.nav-item{width:100%;display:flex;align-items:center;gap:8px;padding:7px 7px;border-radius:9px;margin-bottom:2px;border:1px solid transparent;cursor:pointer;background:none;text-align:left;transition:all .13s;white-space:nowrap;overflow:hidden}
+.nav-item:hover{background:rgba(255,255,255,.055)}
+.nav-item.act{background:rgba(0,180,216,.13);border-color:rgba(0,180,216,.26)}
+.nav-ico{width:22px;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:13px;border-radius:6px;background:rgba(255,255,255,.04);flex-shrink:0}
+.nav-item.act .nav-ico{background:rgba(0,180,216,.18)}
+.nav-txt p{font-size:10.5px;font-weight:500;color:rgba(255,255,255,.62);line-height:1.2}
+.nav-item.act .nav-txt p{color:#fff}
+.nav-txt span{font-size:8.5px;color:rgba(0,180,216,.5)}
+.sb-foot{padding:6px 5px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0}
+/* Main */
+.main{display:flex;flex-direction:column;flex:1;min-width:0;overflow:hidden}
+/* Header */
+.hdr{display:flex;align-items:center;gap:9px;padding:8px 15px;background:rgba(7,16,32,.92);border-bottom:1px solid rgba(0,180,216,.09);flex-shrink:0;backdrop-filter:blur(14px)}
+.hdr-title p{font-size:13px;font-weight:600;font-family:'Rajdhani',sans-serif;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px}
+.hdr-title span{font-size:9px;color:rgba(255,255,255,.35)}
+.hdr-sep{flex:1}
+.date-strip{display:flex;gap:2px;padding:3px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
+.dp{padding:5px 10px;border-radius:7px;font-size:10px;font-weight:500;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,.42);transition:all .13s;font-family:inherit}
+.dp.act{background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff}
+.hdr-user{display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
+.avatar{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#00B4D8,#0096C7);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.hdr-user p{font-size:10px;font-weight:500;white-space:nowrap}
+.hdr-user span{font-size:8.5px;color:rgba(255,255,255,.35)}
+/* Content */
+.content{flex:1;overflow-y:auto;padding:13px 15px;scrollbar-width:thin;scrollbar-color:rgba(0,180,216,.22) transparent}
+/* Overview */
+.ov-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:13px}
+.ov-card{border-radius:13px;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden;transition:transform .18s}
+.ov-card:hover{transform:translateY(-2px)}
+.ov-glow{position:absolute;top:-14px;right:-14px;width:64px;height:64px;border-radius:50%;opacity:.15;pointer-events:none}
+.ov-ico{display:inline-flex;padding:6px;border-radius:8px;margin-bottom:8px;font-size:13px;position:relative;z-index:1}
+.ov-trend{position:absolute;top:8px;right:8px;font-size:8px;font-weight:700;padding:2px 5px;border-radius:5px}
+.tup{background:rgba(74,222,128,.14);color:#4ADE80}
+.tdn{background:rgba(248,113,113,.14);color:#F87171}
+.ov-val{font-size:20px;font-weight:700;font-family:'Rajdhani',sans-serif;position:relative;z-index:1}
+.ov-lbl{font-size:9.5px;color:rgba(255,255,255,.6);margin-top:1px}
+.ov-sub{font-size:8.5px;color:rgba(255,255,255,.3);margin-top:1px}
+/* KPI Card */
+.kc{border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:13px;overflow:hidden}
+.kc-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(0,180,216,.025);transition:background .13s}
+.kc-hdr:hover{background:rgba(255,255,255,.04)}
+.kc-left{display:flex;align-items:center;gap:9px}
+.kc-num{width:28px;height:28px;min-width:28px;border-radius:8px;background:linear-gradient(135deg,#00B4D8,#0096C7);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Rajdhani',sans-serif}
+.kc-title p{font-size:12px;font-weight:600;font-family:'Rajdhani',sans-serif;letter-spacing:.03em}
+.kc-title span{font-size:8.5px;padding:1px 7px;border-radius:99px;background:rgba(0,180,216,.13);color:#00B4D8;display:inline-block;margin-top:2px}
+.kc-right{display:flex;align-items:center;gap:7px}
+.add-btn{display:flex;align-items:center;gap:4px;padding:5px 11px;border-radius:7px;border:none;background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff;font-size:9px;font-weight:600;cursor:pointer;transition:all .13s;font-family:inherit}
+.add-btn:hover{transform:scale(1.05)}
+.chev{color:rgba(255,255,255,.35);font-size:11px}
+.kc-body{padding:14px}
+/* Stats */
+.sg{display:grid;gap:8px;margin-bottom:13px}
+.sg2{grid-template-columns:repeat(2,1fr)}
+.sg3{grid-template-columns:repeat(3,1fr)}
+.sg4{grid-template-columns:repeat(4,1fr)}
+.sbox{padding:11px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);text-align:center}
+.sval{font-size:20px;font-weight:700;font-family:'Rajdhani',sans-serif;margin-bottom:2px}
+.slbl{font-size:9px;color:rgba(255,255,255,.46)}
+/* Charts */
+.cr{display:grid;gap:10px;margin-bottom:13px}
+.cr2{grid-template-columns:1fr 1fr}
+.cr3{grid-template-columns:2fr 1fr}
+.cbox{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:11px;padding:11px}
+.clbl{font-size:8.5px;font-weight:600;color:rgba(255,255,255,.42);margin-bottom:9px;letter-spacing:.07em}
+/* Progress */
+.pbar{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin:3px 0}
+.pfill{height:100%;border-radius:99px;transition:width .5s ease}
+/* Table */
+.srch-row{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.srch{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.7);border-radius:7px;padding:5px 9px;font-size:10px;outline:none;width:165px;font-family:inherit}
+.srch:focus{border-color:#00B4D8}
+.rec-cnt{font-size:8.5px;color:rgba(255,255,255,.3)}
+.twrap{overflow-x:auto;border-radius:8px;border:1px solid rgba(255,255,255,.07)}
+.dt{width:100%;font-size:9.5px;border-collapse:collapse;min-width:460px}
+.dt th{padding:7px 10px;text-align:left;font-weight:600;color:#00B4D8;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(0,180,216,.065);white-space:nowrap}
+.dt td{padding:6.5px 10px;border-bottom:1px solid rgba(255,255,255,.038);color:rgba(255,255,255,.72);white-space:nowrap}
+.dt tr:hover td{background:rgba(255,255,255,.033)}
+.pages{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.pg{padding:3px 9px;border-radius:5px;border:none;cursor:pointer;font-size:9px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.52);transition:all .12s;font-family:inherit}
+.pg:hover{background:rgba(0,180,216,.18);color:#00B4D8}
+.pg.act{background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff}
+.pg:disabled{opacity:.28;cursor:not-allowed}
+/* Badges */
+.badge{padding:2px 7px;border-radius:99px;font-size:8.5px;display:inline-block;font-weight:500}
+.bg{background:rgba(74,222,128,.13);color:#4ADE80}
+.by{background:rgba(255,215,0,.13);color:#FFD700}
+.br{background:rgba(248,113,113,.13);color:#F87171}
+.bb{background:rgba(0,180,216,.13);color:#00B4D8}
+/* Modal */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(7px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:#0c1d38;border-radius:18px;border:1px solid rgba(0,180,216,.22);width:100%;max-width:500px;max-height:90vh;overflow:hidden;box-shadow:0 28px 60px rgba(0,0,0,.65)}
+.m-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,180,216,.04)}
+.m-hdr p{font-size:13px;font-weight:600;font-family:'Rajdhani',sans-serif}
+.m-close{background:none;border:none;color:rgba(255,255,255,.42);cursor:pointer;font-size:19px;line-height:1;padding:2px 6px;border-radius:5px}
+.m-close:hover{background:rgba(255,255,255,.08);color:#fff}
+.m-body{padding:14px;overflow-y:auto;max-height:calc(90vh - 108px);display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mfield{display:flex;flex-direction:column;gap:4px}
+.mfield.full{grid-column:1/-1}
+.mfield label{font-size:8.5px;font-weight:600;color:rgba(255,255,255,.45);letter-spacing:.06em}
+.mfield input,.mfield select{padding:8px 10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:8px;color:#fff;font-size:11px;outline:none;transition:border-color .16s;font-family:inherit}
+.mfield input:focus,.mfield select:focus{border-color:#00B4D8}
+.m-ftr{display:flex;justify-content:flex-end;gap:7px;padding:10px 16px;border-top:1px solid rgba(255,255,255,.055)}
+.btn-c{padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:none;color:rgba(255,255,255,.48);font-size:11px;cursor:pointer;transition:all .13s;font-family:inherit}
+.btn-c:hover{background:rgba(255,255,255,.07)}
+.btn-s{padding:7px 17px;border-radius:8px;border:none;background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff;font-size:11px;font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,180,216,.28);transition:all .13s;font-family:inherit}
+.btn-s:hover{transform:scale(1.04)}
+/* Insights */
+.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.ins-card{padding:11px;border-radius:11px;display:flex;align-items:flex-start;gap:9px}
+.ins-ico{width:27px;min-width:27px;height:27px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.ins-ttl{font-size:10px;font-weight:600;margin-bottom:3px}
+.ins-txt{font-size:9px;color:rgba(255,255,255,.5);line-height:1.55}
+/* Rankings */
+.sp-row{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);margin-bottom:5px}
+.sp-rnk{width:24px;height:24px;min-width:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+/* Tabs */
+.atabs{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.atab{padding:5px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font-size:9.5px;font-weight:500;cursor:pointer;transition:all .13s;font-family:inherit}
+.atab.act{background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff;border-color:transparent}
+/* Login */
+.login-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0A1628 0%,#0d2040 45%,#060e1c 100%);position:relative;overflow:hidden}
+.l-glow1{position:absolute;top:-80px;left:-80px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,216,.16) 0%,transparent 70%);pointer-events:none}
+.l-glow2{position:absolute;bottom:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,.09) 0%,transparent 70%);pointer-events:none}
+.l-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,180,216,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,216,.022) 1px,transparent 1px);background-size:54px 54px;pointer-events:none}
+.login-card{width:100%;max-width:385px;padding:26px;border-radius:21px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(22px);box-shadow:0 26px 55px rgba(0,0,0,.55);position:relative;z-index:2}
+.l-logo{text-align:center;margin-bottom:20px}
+.l-badge{width:56px;height:56px;border-radius:15px;background:linear-gradient(135deg,rgba(0,180,216,.2),rgba(0,180,216,.05));border:1px solid rgba(0,180,216,.28);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:19px;color:#00B4D8}
+.l-logo h1{font-family:'Rajdhani',sans-serif;font-size:25px;font-weight:700;letter-spacing:.05em}
+.l-logo p{font-size:10.5px;color:rgba(255,255,255,.38);margin-top:2px}
+.vo-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-radius:12px;border:1px solid rgba(255,215,0,.36);background:rgba(255,215,0,.08);cursor:pointer;margin-bottom:12px;transition:all .17s;color:inherit;font-family:inherit}
+.vo-btn:hover{transform:scale(1.015);background:rgba(255,215,0,.13)}
+.vo-btn-txt{font-size:11px;font-weight:600;color:#FFD700}
+.ltab-bar{display:flex;border-radius:11px;padding:3px;margin-bottom:17px;background:rgba(0,0,0,.26)}
+.ltab{flex:1;padding:8px;border-radius:8px;border:none;cursor:pointer;font-size:10.5px;font-weight:500;transition:all .16s;font-family:inherit}
+.ltab.act{background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff}
+.ltab:not(.act){background:transparent;color:rgba(255,255,255,.4)}
+.flbl{font-size:8.5px;font-weight:600;color:rgba(255,255,255,.48);margin-bottom:4px;display:block;letter-spacing:.05em}
+.fwrap{position:relative;margin-bottom:12px}
+.fico{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+.linput{width:100%;padding:10px 12px 10px 32px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:12px;outline:none;transition:border-color .16s;font-family:inherit}
+.linput:focus{border-color:#00B4D8}
+.lbtn{width:100%;padding:11px;border-radius:11px;border:none;background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:0 4px 18px rgba(0,180,216,.33);transition:all .18s;font-family:inherit}
+.lbtn:hover{transform:scale(1.02)}
+.lerr{padding:8px 11px;border-radius:8px;background:rgba(239,68,68,.13);border:1px solid rgba(239,68,68,.26);color:#FCA5A5;font-size:9.5px;margin-bottom:10px}
+.demo-tip{padding:7px 11px;border-radius:8px;background:rgba(0,180,216,.09);color:rgba(0,180,216,.78);font-size:9px;margin-bottom:12px;line-height:1.55}
+.otp-row{display:flex;gap:7px;justify-content:center;margin-bottom:12px}
+.obox{width:40px;height:46px;border-radius:9px;background:rgba(255,255,255,.07);border:1px solid rgba(0,180,216,.3);color:#fff;font-size:18px;font-weight:700;text-align:center;outline:none;font-family:inherit}
+.obox:focus{border-color:#00B4D8}
+.empty{text-align:center;padding:20px;color:rgba(255,255,255,.26);font-size:11px;border:1px dashed rgba(255,255,255,.09);border-radius:9px}
+.gauge-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.gauge-label{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+/* Row action buttons */
+.row-act{display:flex;gap:4px;align-items:center}
+.act-btn{width:22px;height:22px;border-radius:5px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .12s;flex-shrink:0}
+.act-edit{background:rgba(0,180,216,.12);color:#00B4D8}
+.act-edit:hover{background:rgba(0,180,216,.28)}
+.act-del{background:rgba(248,113,113,.12);color:#F87171}
+.act-del:hover{background:rgba(248,113,113,.28)}
+.btn-del{padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#F87171,#dc2626);color:#fff;font-size:11px;font-weight:600;cursor:pointer;transition:all .13s;font-family:inherit}
+.btn-del:hover{transform:scale(1.04)}
+/* Toast */
+@keyframes slideInRight{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+.toast-wrap{position:fixed;top:16px;right:16px;z-index:500;pointer-events:none}
+.toast-msg{padding:10px 16px;border-radius:10px;background:rgba(10,22,40,.96);border:1px solid rgba(0,180,216,.38);color:#fff;font-size:11.5px;font-weight:500;box-shadow:0 8px 28px rgba(0,0,0,.45);animation:slideInRight .28s ease;max-width:280px;margin-bottom:6px}
+/* Inline edit for KPI10 */
+.ie-input{background:rgba(255,255,255,.07);border:1px solid rgba(0,180,216,.35);border-radius:6px;color:#fff;font-size:9.5px;padding:3px 7px;outline:none;width:70px;font-family:inherit}
+.ie-input:focus{border-color:#00B4D8}
+.ie-save{padding:3px 9px;border-radius:5px;border:none;background:linear-gradient(135deg,#00B4D8,#0096C7);color:#fff;font-size:8.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.print-btn{display:flex;align-items:center;gap:4px;padding:5px 11px;border-radius:7px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);font-size:9px;font-weight:500;cursor:pointer;transition:all .13s;font-family:inherit;white-space:nowrap}
+.print-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+/* Print */
+@media print{
+  .sb,.hdr-user,.add-btn,.kc-right,.print-btn,.date-strip,.hdr-sep,.vo-badge,.sb-toggle,.srch-row,.pages,.row-act{display:none!important}
+  html,body,#root,.app,.main,.content{height:auto!important;overflow:visible!important}
+  .app{background:#fff!important;color:#111!important;display:block!important}
+  .main{overflow:visible!important}
+  .content{overflow:visible!important;height:auto!important;padding:8px!important}
+  .kc{background:#f8f9fa!important;border:1px solid #ddd!important;page-break-inside:avoid;margin-bottom:12px!important;overflow:visible!important}
+  .kc-hdr{background:#e8f4f8!important;border-bottom:1px solid #ccc!important}
+  .kc-body{display:block!important}
+  .kc-title p{color:#0A1628!important;font-size:13px!important}
+  .kc-num{background:#0A1628!important}
+  .hdr{background:#e8f4f8!important;padding:8px 12px!important}
+  .hdr-title p{color:#0A1628!important}
+  .hdr-title span{color:#555!important}
+  .ov-card,.sbox,.cbox,.ins-card,.sp-row{background:#f0f4f8!important;border:1px solid #ccc!important}
+  .ov-val,.sval{color:#0A1628!important}
+  .ov-lbl,.slbl,.clbl,.ins-ttl{color:#333!important}
+  .ins-txt,.ov-sub,.nav-txt{color:#555!important}
+  .dt th{background:#ddeef5!important;color:#0055aa!important;border-bottom:1px solid #aaa!important}
+  .dt td{color:#111!important;border-bottom:1px solid #eee!important}
+  .twrap{border:1px solid #bbb!important}
+  .badge{border:1px solid #999!important}
+  .toast-wrap{display:none!important}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+'use strict';
+const {useState,useMemo,useCallback,useEffect}=React;
+const h=React.createElement;
+
+// ═══════════════════════════════════════════════════════════
+// PURE SVG CHART LIBRARY — no external dependencies
+// ═══════════════════════════════════════════════════════════
+const SVG_W=420,SVG_H=180,PAD={t:10,r:14,b:28,l:36};
+
+function svgTxt(x,y,txt,style={}){return h('text',{x,y,textAnchor:style.anchor||'middle',fontSize:style.size||9,fill:style.fill||'rgba(255,255,255,.42)',dominantBaseline:'middle',...style},txt);}
+function gridLines(xs,ys){
+  return h('g',null,
+    ys.map((y,i)=>h('line',{key:'h'+i,x1:PAD.l,x2:SVG_W-PAD.r,y1:y,y2:y,stroke:'rgba(255,255,255,.05)',strokeWidth:1})),
+    xs.map((x,i)=>h('line',{key:'v'+i,x1:x,x2:x,y1:PAD.t,y2:SVG_H-PAD.b,stroke:'rgba(255,255,255,.03)',strokeWidth:1}))
+  );
+}
+
+// Bar Chart (vertical)
+function BarChart({data,keys,colors,barColors,height=SVG_H,labels,showLegend,refLine}){
+  const W=SVG_W,H=height,pl=PAD.l,pr=PAD.r,pt=PAD.t,pb=PAD.b;
+  const maxV=Math.max(...data.flatMap(d=>keys.map(k=>d[k]||0)),1);
+  const chartH=H-pt-pb,chartW=W-pl-pr;
+  const barW=Math.max(4,(chartW/data.length)*0.7/keys.length);
+  const groupW=chartW/data.length;
+  const yTicks=4;
+  const ys=Array.from({length:yTicks+1},(_,i)=>pt+chartH*(1-i/yTicks));
+  const yVals=Array.from({length:yTicks+1},(_,i)=>Math.round(maxV*i/yTicks));
+  return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H,style:{overflow:'visible'}},
+    // grid
+    ys.map((y,i)=>h('line',{key:'g'+i,x1:pl,x2:W-pr,y1:y,y2:y,stroke:'rgba(255,255,255,.05)',strokeWidth:1})),
+    // y labels
+    yVals.map((v,i)=>svgTxt(pl-4,ys[i],v,{anchor:'end',size:8})),
+    // ref line
+    refLine&&h('line',{x1:pl,x2:W-pr,y1:pt+chartH*(1-refLine/maxV),y2:pt+chartH*(1-refLine/maxV),stroke:'rgba(255,215,0,.4)',strokeWidth:1,strokeDasharray:'4 3'}),
+    refLine&&svgTxt(W-pr+2,pt+chartH*(1-refLine/maxV),refLine+'%',{anchor:'start',size:7.5,fill:'rgba(255,215,0,.6)'}),
+    // bars
+    data.map((d,di)=>h('g',{key:di},
+      keys.map((k,ki)=>{
+        const bh=Math.max(2,(d[k]||0)/maxV*chartH);
+        const x=pl+di*groupW+(ki-(keys.length-1)/2)*(barW+2)+groupW/2-barW/2;
+        const y=pt+chartH-bh;
+        const col=barColors?barColors[di]:(Array.isArray(colors)?colors[ki]:(colors||'#00B4D8'));
+        return h('g',{key:k},
+          h('rect',{x,y,width:barW,height:bh,fill:col,rx:3}),
+        );
+      }),
+      svgTxt(pl+di*groupW+groupW/2,H-pb/2+4,labels?labels[di]:String(d.label||d.name||di).slice(0,8),{size:8})
+    )),
+    // legend
+    showLegend&&keys.map((k,i)=>h('g',{key:k,transform:`translate(${pl+i*80},${H-5})`},h('rect',{x:0,y:-5,width:7,height:7,fill:Array.isArray(colors)?colors[i]:colors,rx:1}),svgTxt(10,-1,k,{anchor:'start',size:8})))
+  );
+}
+
+// Horizontal Bar Chart
+function HBarChart({data,height=180}){
+  const W=SVG_W,H=height,pl=60,pr=30,pt=8,pb=8;
+  const maxV=Math.max(...data.map(d=>d.v||0),1);
+  const rowH=(H-pt-pb)/data.length;
+  const barH=Math.max(6,rowH*0.55);
+  const chartW=W-pl-pr;
+  const ac=v=>v>=90?'#4ADE80':v>=70?'#FFD700':'#F87171';
+  return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H},
+    h('line',{x1:pl,x2:pl,y1:pt,y2:H-pb,stroke:'rgba(255,255,255,.06)',strokeWidth:1}),
+    data.map((d,i)=>{
+      const y=pt+i*rowH+rowH/2;
+      const bw=Math.max(2,(d.v/maxV)*chartW);
+      return h('g',{key:i},
+        svgTxt(pl-4,y,String(d.name||'').split(' ')[0],{anchor:'end',size:8.5,fill:'rgba(255,255,255,.6)'}),
+        h('rect',{x:pl,y:y-barH/2,width:chartW,height:barH,fill:'rgba(255,255,255,.04)',rx:3}),
+        h('rect',{x:pl,y:y-barH/2,width:bw,height:barH,fill:ac(d.v),rx:3}),
+        svgTxt(pl+bw+4,y,d.v+'%',{anchor:'start',size:8,fill:ac(d.v)})
+      );
+    })
+  );
+}
+
+// Area / Line Chart
+function AreaChart({data,color='#00B4D8',height=SVG_H,fill=true}){
+  const W=SVG_W,H=height,pl=PAD.l,pr=PAD.r,pt=PAD.t,pb=PAD.b;
+  const maxV=Math.max(...data.map(d=>d.v||0),1);
+  const chartH=H-pt-pb,chartW=W-pl-pr;
+  const pts=data.map((d,i)=>({x:pl+i*(chartW/(data.length-1||1)),y:pt+chartH*(1-(d.v/maxV))}));
+  const pathD=pts.map((p,i)=>`${i===0?'M':'L'}${p.x},${p.y}`).join(' ');
+  const areaD=pathD+` L${pts[pts.length-1].x},${pt+chartH} L${pts[0].x},${pt+chartH} Z`;
+  const gradId='ag'+Math.round(Math.random()*1e6);
+  const yTicks=3;
+  const ys=Array.from({length:yTicks+1},(_,i)=>pt+chartH*(1-i/yTicks));
+  const skip=Math.ceil(data.length/6);
+  return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H,style:{overflow:'visible'}},
+    h('defs',null,h('linearGradient',{id:gradId,x1:'0',y1:'0',x2:'0',y2:'1'},
+      h('stop',{offset:'5%',stopColor:color,stopOpacity:.28}),h('stop',{offset:'95%',stopColor:color,stopOpacity:0}))),
+    ys.map((y,i)=>h('line',{key:'g'+i,x1:pl,x2:W-pr,y1:y,y2:y,stroke:'rgba(255,255,255,.05)',strokeWidth:1})),
+    ys.map((v,i)=>svgTxt(pl-4,ys[i],Math.round(maxV*i/yTicks),{anchor:'end',size:8})),
+    fill&&pts.length>1&&h('path',{d:areaD,fill:`url(#${gradId})`}),
+    pts.length>1&&h('path',{d:pathD,fill:'none',stroke:color,strokeWidth:2}),
+    pts.filter((_,i)=>i%skip===0).map((p,i)=>svgTxt(p.x,H-pb/2+4,data[i*skip]?.label||'',{size:8}))
+  );
+}
+
+// Multi-line Chart
+function LineChart({data,series,height=SVG_H}){
+  const W=SVG_W,H=height,pl=PAD.l,pr=PAD.r,pt=PAD.t,pb=PAD.b;
+  const allVals=data.flatMap(d=>series.map(s=>d[s.k]||0));
+  const maxV=Math.max(...allVals,1);
+  const chartH=H-pt-pb,chartW=W-pl-pr;
+  const x=i=>pl+i*(chartW/(data.length-1||1));
+  const y=v=>pt+chartH*(1-v/maxV);
+  const yTicks=3;
+  const ys=Array.from({length:yTicks+1},(_,i)=>pt+chartH*(1-i/yTicks));
+  return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H},
+    ys.map((yy,i)=>h('line',{key:'g'+i,x1:pl,x2:W-pr,y1:yy,y2:yy,stroke:'rgba(255,255,255,.05)',strokeWidth:1})),
+    ys.map((yy,i)=>svgTxt(pl-4,yy,Math.round(maxV*i/yTicks),{anchor:'end',size:8})),
+    series.map(s=>h('g',{key:s.k},
+      h('path',{d:data.map((d,i)=>`${i===0?'M':'L'}${x(i)},${y(d[s.k]||0)}`).join(' '),fill:'none',stroke:s.color,strokeWidth:2}),
+      data.map((d,i)=>h('circle',{key:i,cx:x(i),cy:y(d[s.k]||0),r:3,fill:s.color}))
+    )),
+    data.map((d,i)=>svgTxt(x(i),H-pb/2+4,d.label||'',{size:8})),
+    series.map((s,i)=>h('g',{key:s.k,transform:`translate(${pl+i*70},${H-2})`},h('circle',{cx:3,cy:-3,r:3,fill:s.color}),svgTxt(9,-3,s.name,{anchor:'start',size:8,fill:'rgba(255,255,255,.55)'})))
+  );
+}
+
+// Radar Chart
+function RadarChart({data,color='#00B4D8',height=180}){
+  const N=data.length;const cx=SVG_W/2,cy=height/2,r=Math.min(cx,cy)-28;
+  const angle=i=>(i/N)*2*Math.PI-Math.PI/2;
+  const px=(i,rr)=>cx+rr*Math.cos(angle(i));
+  const py=(i,rr)=>cy+rr*Math.sin(angle(i));
+  const circles=[0.25,0.5,0.75,1];
+  const maxV=Math.max(...data.map(d=>d.fm||5));
+  return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},
+    circles.map((f,ci)=>h('polygon',{key:ci,points:data.map((_,i)=>`${px(i,r*f)},${py(i,r*f)}`).join(' '),fill:'none',stroke:'rgba(255,255,255,.08)',strokeWidth:1})),
+    data.map((_,i)=>h('line',{key:'s'+i,x1:cx,y1:cy,x2:px(i,r),y2:py(i,r),stroke:'rgba(255,255,255,.06)',strokeWidth:1})),
+    h('polygon',{points:data.map((d,i)=>`${px(i,r*(d.s/maxV))},${py(i,r*(d.s/maxV))}`).join(' '),fill:color+'2e',stroke:color,strokeWidth:2}),
+    data.map((d,i)=>{
+      const lx=px(i,r+14),ly=py(i,r+14);
+      return h('g',{key:i},svgTxt(lx,ly-5,d.p||d.label,{size:8.5,fill:'rgba(255,255,255,.5)'}),svgTxt(lx,ly+5,d.s,{size:8,fill:color}));
+    })
+  );
+}
+
+// Pie / Donut Chart — vertical legend for 5+ slices
+function PieChart({data,inner=0,height=170}){
+  const hasMany=data.length>=5;
+  const cx=hasMany?SVG_W*0.42:SVG_W/2;
+  const cy=(height-18)/2;
+  const r=Math.min(cx,cy)-12;
+  const total=data.reduce((a,d)=>a+(d.v||0),0)||1;
+  let startAngle=-Math.PI/2;
+  const slices=data.map(d=>{
+    const sweep=((d.v||0)/total)*2*Math.PI;
+    const x1=cx+r*Math.cos(startAngle),y1=cy+r*Math.sin(startAngle);
+    const x2=cx+r*Math.cos(startAngle+sweep),y2=cy+r*Math.sin(startAngle+sweep);
+    const large=sweep>Math.PI?1:0;
+    const ir=r*inner,ix1=cx+ir*Math.cos(startAngle),iy1=cy+ir*Math.sin(startAngle);
+    const ix2=cx+ir*Math.cos(startAngle+sweep),iy2=cy+ir*Math.sin(startAngle+sweep);
+    const path=inner>0
+      ?`M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large},1 ${x2.toFixed(1)},${y2.toFixed(1)} L${ix2.toFixed(1)},${iy2.toFixed(1)} A${ir},${ir} 0 ${large},0 ${ix1.toFixed(1)},${iy1.toFixed(1)} Z`
+      :`M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`;
+    const mid=startAngle+sweep/2;
+    const lx=cx+(r*0.65)*Math.cos(mid),ly=cy+(r*0.65)*Math.sin(mid);
+    const pct=Math.round((d.v||0)/total*100);
+    startAngle+=sweep+0.015;
+    return{...d,path,lx,ly,pct};
+  });
+  return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},
+    slices.map((s,i)=>h('path',{key:i,d:s.path,fill:s.fill||s.color||'#00B4D8',stroke:'#0A1628',strokeWidth:2})),
+    slices.map((s,i)=>s.pct>6&&svgTxt(s.lx,s.ly,s.pct+'%',{size:8,fill:'#fff'})),
+    hasMany
+      ?slices.map((s,i)=>h('g',{key:'l'+i,transform:`translate(${SVG_W*0.86},${12+i*(height-24)/Math.max(data.length-1,1)})`},h('rect',{x:0,y:-5,width:7,height:7,fill:s.fill||s.color||'#00B4D8',rx:1}),svgTxt(10,0,(s.name||s.label||'').slice(0,11),{anchor:'start',size:8})))
+      :slices.map((s,i)=>h('g',{key:'l'+i,transform:`translate(${14+i*(SVG_W-28)/Math.max(data.length,1)},${height-10})`},h('rect',{x:0,y:-5,width:7,height:7,fill:s.fill||s.color||'#00B4D8',rx:1}),svgTxt(10,0,(s.name||s.label||'').slice(0,9),{anchor:'start',size:8})))
+  );
+}
+function Gauge({pct,color,size=100,label}){
+  const r=38,circ=2*Math.PI*r,dash=Math.min(pct/100,1)*circ;
+  const c=color||(pct>=80?'#4ADE80':pct>=60?'#FFD700':'#F87171');
+  return h('div',{className:'gauge-wrap',style:{width:size,height:size}},
+    h('svg',{viewBox:'0 0 100 100',width:size,height:size},
+      h('circle',{cx:50,cy:50,r,fill:'none',stroke:'rgba(255,255,255,.07)',strokeWidth:9}),
+      h('circle',{cx:50,cy:50,r,fill:'none',stroke:c,strokeWidth:9,
+        strokeDasharray:`${dash} ${circ}`,strokeLinecap:'round',
+        style:{transformOrigin:'center',transform:'rotate(-90deg)',transition:'stroke-dasharray .6s'}})),
+    h('div',{className:'gauge-label'},
+      h('span',{style:{fontSize:size*.18,fontWeight:700,fontFamily:'Rajdhani,sans-serif',color:c,lineHeight:1}},pct+'%'),
+      label&&h('span',{style:{fontSize:8,color:'rgba(255,255,255,.38)',marginTop:1}},label))
+  );
+}
+
+// Star rating display
+function Stars({v}){const c=v>=4?'#4ADE80':v>=3?'#FFD700':'#F87171';return h('span',{style:{color:c,fontSize:11,letterSpacing:'-1px'}},'★'.repeat(v||0)+'☆'.repeat(5-(v||0)));}
+function Bdg({v,cls}){
+  const vl=(v||'').toString().toLowerCase();
+  const c=cls||((['converted','visited','on track','on time','positive','completed','excellent'].some(x=>vl.includes(x)))?'bg':(['in progress','scheduled','at risk','late','neutral','rescheduled'].some(x=>vl.includes(x)))?'by':'br');
+  return h('span',{className:'badge '+c},v);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SEED DATA
+// ═══════════════════════════════════════════════════════════
+const SPS=['Rajesh Kumar','Priya Sharma','Amit Singh','Neha Patel','Vikram Rao'];
+const FIRMS=['Studio Aura','Design Matrix','Blueprint Co','Archform India','Vertex Architects','Space Lab'];
+const ARCHS=['Ar. Sunita Mehta','Ar. Ravi Pillai','Ar. Anjali Gupta','Ar. Deepak Sharma','Ar. Pooja Nair'];
+const SOURCES=['Website','Social Media','Google Ads','Referral','Email Campaign'];
+const INV_CATS=['Cold Calls','Existing Relationships','Events','Referrals'];
+const PURPOSES=['Product Enquiry','Purchase','After Sales','General Browse','Specification Review'];
+const TOPICS=['Glass Types & Properties','Solar Control Glass','Acoustic Glass','Safety Glass','Decorative Glass','Customer Handling'];
+const PARAMS_SW=['Cleanliness','Lighting','Display Arrangement','Ambience','Working Equipment','Safety'];
+const PARAMS_AU=['Compliance','Documentation','Safety','Display Standards','Customer Service'];
+const EXP_CATS=['Utilities','Maintenance','Hospitality','Marketing Materials','Miscellaneous'];
+const EXP_BUDS=[25000,15000,20000,30000,10000];
+const TYPES_FF=['New','Repeat','Referral','Walk-in'];
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const fd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const rdDate=(s,e)=>{const d=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));return fd(d);};
+const fmtM=v=>'₹'+Number(v).toLocaleString('en-IN');
+
+function genSeed(){
+  const months=[[new Date('2025-10-01'),new Date('2025-10-31')],[new Date('2025-11-01'),new Date('2025-11-30')],[new Date('2025-12-01'),new Date('2025-12-31')]];
+  const leads=[],archs=[],footfall=[],showroom=[],datamgmt=[],skills=[],archFb=[],expenses=[],audits=[],custFb=[];
+  let uid=0;const id=()=>++uid;
+  const NAMES=['Priya','Ankit','Ravi','Meena','Suresh','Deepa','Mohan','Sonal','Kiran','Varun'];
+  const SNAMES=['Sharma','Gupta','Kumar','Patel','Iyer','Nair','Singh','Mehta','Joshi','Shah'];
+  months.forEach(([s,e],mi)=>{
+    for(let i=0;i<24;i++){const cv=Math.random()>.38;leads.push({id:'l'+id(),date:rdDate(s,e),leadSource:pick(SOURCES),leadName:pick(NAMES)+' '+pick(SNAMES),contact:'+91 9'+rnd(100000000,999999999),status:cv?'Converted':pick(['Qualified','In Progress','Cold']),convertedToVisit:cv,salesperson:pick(SPS)});}
+    for(let i=0;i<20;i++){const v=Math.random()>.3;archs.push({id:'a'+id(),date:rdDate(s,e),architectName:pick(ARCHS),firmName:pick(FIRMS),invitationCategory:pick(INV_CATS),plannedDate:rdDate(s,new Date(e.getTime()+7*864e5)),actualDate:v?rdDate(s,e):null,status:v?'Visited':pick(['Scheduled','Pending','Rescheduled']),convertedToVisit:v,salesperson:pick(SPS)});}
+    for(let d=1;d<=31;d++){const dt=new Date(s.getFullYear(),s.getMonth(),d);if(dt>e)break;const cnt=rnd(3,11);for(let i=0;i<cnt;i++){const ti=rnd(9,17)+':00';footfall.push({id:'f'+id(),date:fd(dt),name:pick(NAMES)+' '+pick(SNAMES),contact:'+91 9'+rnd(100000000,999999999),customerType:pick(TYPES_FF),timeIn:ti,timeOut:(Math.min(parseInt(ti)+rnd(1,3),18))+':00',purpose:pick(PURPOSES),salesperson:pick(SPS)});}}
+    PARAMS_SW.forEach(p=>{for(let d=1;d<=31;d+=2){const dt=new Date(s.getFullYear(),s.getMonth(),d);if(dt>e||dt.getDay()===0)continue;showroom.push({id:'sw'+id(),date:fd(dt),parameter:p,score:rnd(6,10),remarks:rnd(0,3)?'All good':'Minor issue noted',checkedBy:'Sanju Gupta'});}});
+    for(let d=1;d<=31;d++){const dt=new Date(s.getFullYear(),s.getMonth(),d);if(dt>e||dt.getDay()===0)break;datamgmt.push({id:'dm'+id(),date:fd(dt),dueDate:fd(dt),submissionDate:fd(dt),reportType:'Daily Report',status:Math.random()>.18?'On Time':Math.random()>.5?'Late':'Missing',submittedBy:'Sanju Gupta'});}
+    for(let w=0;w<4;w++){const dt=new Date(s.getFullYear(),s.getMonth(),7*w+7);if(dt>e)break;datamgmt.push({id:'wm'+id(),date:fd(dt),dueDate:fd(dt),submissionDate:fd(dt),reportType:'Weekly MIS',status:Math.random()>.14?'On Time':'Late',submittedBy:'Sanju Gupta'});}
+    datamgmt.push({id:'mr'+id(),date:fd(new Date(s.getFullYear(),s.getMonth(),2)),dueDate:fd(new Date(s.getFullYear(),s.getMonth(),2)),submissionDate:fd(new Date(s.getFullYear(),s.getMonth(),rnd(2,4))),reportType:'Monthly Report',status:Math.random()>.2?'On Time':'Late',submittedBy:'Sanju Gupta'});
+    SPS.forEach((sp)=>{for(let i=0;i<rnd(1,3);i++){const sc=rnd(55,98);skills.push({id:'sk'+id(),date:rdDate(s,e),salesperson:sp,trainingTopic:pick(TOPICS),assessmentScore:sc,certification:sc>=75?'Completed':'In Progress',nextTrainingDue:rdDate(e,new Date(e.getTime()+30*864e5))});}});
+    for(let i=0;i<15;i++){const r=rnd(3,5);const cat=r>=4?'Positive':r===3?'Neutral':'Negative';archFb.push({id:'af'+id(),date:rdDate(s,e),name:pick(ARCHS),firmName:pick(FIRMS),rating:r,feedbackText:r>=4?'Excellent product knowledge and hospitality!':r===3?'Good visit, could be more organised.':'Needs improvement in response time.',category:cat,salesperson:pick(SPS),parameters:{productKnowledge:rnd(r-1,5),presentation:rnd(r-1,5),hospitality:rnd(r-1,5),overallExperience:r}});}
+    EXP_CATS.forEach((cat,ci)=>{const bud=EXP_BUDS[ci];const n=rnd(2,4);const pe=Math.floor(bud/n);for(let i=0;i<n;i++){const act=Math.floor(pe*(0.72+Math.random()*0.5));expenses.push({id:'ex'+id(),date:rdDate(s,e),category:cat,description:cat+' – entry '+(i+1),budgetAmount:pe,actualAmount:act,variance:pe-act,approvedBy:'Sanju Gupta'});}});
+    const auDate=rdDate(new Date(s.getFullYear(),s.getMonth(),8),new Date(s.getFullYear(),s.getMonth(),22));
+    PARAMS_AU.forEach(p=>{const sc=rnd(13,20);audits.push({id:'au'+id(),date:auDate,auditorName:pick(['Mr. Anil Verma','Ms. Rekha Nair','Mr. Suresh Pillai']),parameter:p,score:sc,maxScore:20,findings:sc<16?'Improvement needed':'-',actionTaken:sc<16?'Action initiated':'-'});});
+    const FB_POS=['Amazing showroom experience!','Excellent display and ambience.','Great hospitality and product knowledge.','Very impressed with glass variety.'];
+    const FB_NEU=['Good but response time could improve.','Average experience, staff helpful but busy.'];
+    const FB_NEG=['Needs improvement in staff attention.','Response time was very slow.'];
+    for(let i=0;i<30;i++){const r=rnd(3,5);custFb.push({id:'cf'+id(),date:rdDate(s,e),name:pick(NAMES)+' '+pick(SNAMES),contact:'+91 9'+rnd(100000000,999999999),rating:r,feedbackText:r>=4?pick(FB_POS):r===3?pick(FB_NEU):pick(FB_NEG),staffAttended:pick(SPS),parameters:{productDisplay:rnd(Math.max(r-1,1),5),staffBehavior:rnd(Math.max(r-1,1),5),responseTime:rnd(Math.max(r-2,1),5),solutionProvided:rnd(Math.max(r-1,1),5),overallExperience:r}});}
+  });
+  const AREAS=['Lead Generation','Conversion Rate','Revenue','Architect Visits','Customer NPS','Training Completion','Footfall','Follow-ups','New Accounts','Proposals Sent','Customer Retention','Repeat Visits','Events Attended','Product Demos','Collections'];
+  const salesPlans=SPS.map((sp,si)=>{const lines=Array.from({length:20},(_,i)=>{const tv=rnd(20,100);const av=Math.floor(tv*(0.58+Math.random()*0.62));const pct=Math.min(Math.round(av/tv*100),160);return{lineNo:i+1,targetArea:AREAS[i%AREAS.length],targetMetric:i%2===0?'Count':'Percentage',targetValue:tv,actualValue:av,achievementPct:pct,status:pct>=90?'On Track':pct>=70?'At Risk':'Below Target',remarks:pct>=90?'Excellent':pct>=70?'Needs attention':'Action required'};});return{id:'sp'+si,salespersonId:'SP00'+(si+1),salespersonName:sp,lines};});
+  return{leads,archs,footfall,showroom,datamgmt,skills,archFb,expenses,audits,custFb,salesPlans};
+}
+const SEED=genSeed();
+
+// ═══════════════════════════════════════════════════════════
+// SHARED UI COMPONENTS
+// ═══════════════════════════════════════════════════════════
+// ══ TOAST ══════════════════════════════════════════════════
+function Toast({msg,onDone}){
+  useEffect(()=>{if(!msg)return;const t=setTimeout(onDone,2500);return()=>clearTimeout(t);},[msg]);
+  if(!msg)return null;
+  return h('div',{className:'toast-wrap'},h('div',{className:'toast-msg'},msg));
+}
+
+// ══ CONFIRM DIALOG ═══════════════════════════════════════════
+function ConfirmDialog({onConfirm,onCancel}){
+  return h('div',{className:'mbg',onMouseDown:e=>e.target===e.currentTarget&&onCancel()},
+    h('div',{style:{background:'#0c1d38',borderRadius:14,border:'1px solid rgba(248,113,113,.32)',width:300,padding:'22px 22px',textAlign:'center',boxShadow:'0 24px 50px rgba(0,0,0,.6)'}},
+      h('div',{style:{fontSize:28,marginBottom:10}},'🗑'),
+      h('p',{style:{fontSize:13,fontWeight:600,color:'#fff',marginBottom:6}},'Delete this entry?'),
+      h('p',{style:{fontSize:9.5,color:'rgba(255,255,255,.42)',marginBottom:18,lineHeight:1.5}},'This action cannot be undone.'),
+      h('div',{style:{display:'flex',gap:8,justifyContent:'center'}},
+        h('button',{className:'btn-c',onClick:onCancel},'Cancel'),
+        h('button',{className:'btn-del',onClick:onConfirm},'🗑 Delete')
+      )
+    )
+  );
+}
+
+// ══ MODAL (add + edit) ════════════════════════════════════════
+function Modal({title,fields,onSubmit,onClose,editData}){
+  const[form,setForm]=useState(()=>{
+    if(editData)return fields.reduce((a,f)=>({...a,[f.n]:editData[f.n]!==undefined?String(editData[f.n]):(f.def||'')}),{});
+    return fields.reduce((a,f)=>({...a,[f.n]:f.def||''}),{});
+  });
+  const upd=(k,v)=>setForm(f=>({...f,[k]:v}));
+  useEffect(()=>{document.body.style.overflow='hidden';return()=>{document.body.style.overflow='';};},[]);
+  return h('div',{className:'mbg',onMouseDown:e=>e.target===e.currentTarget&&onClose()},
+    h('div',{className:'modal'},
+      h('div',{className:'m-hdr'},
+        h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+          h('span',{style:{fontSize:15}},editData?'✏️':'➕'),
+          h('p',null,editData?'Edit Entry':title)
+        ),
+        h('button',{className:'m-close',onClick:onClose},'×')
+      ),
+      h('div',{className:'m-body'},
+        ...fields.map(f=>h('div',{key:f.n,className:'mfield'+(f.full?' full':'')},
+          h('label',null,f.l+(f.req?' *':'')),
+          f.type==='select'
+            ?h('select',{value:form[f.n],onChange:e=>upd(f.n,e.target.value)},h('option',{value:''},'Select...'),f.opts.map(o=>h('option',{key:o,value:o},o)))
+            :h('input',{type:f.type||'text',value:form[f.n],onChange:e=>upd(f.n,e.target.value),min:f.min,max:f.max,placeholder:f.ph||''})
+        ))
+      ),
+      h('div',{className:'m-ftr'},
+        h('button',{className:'btn-c',onClick:onClose},'Cancel'),
+        h('button',{className:'btn-s',onClick:()=>onSubmit(form)},editData?'💾 Update':'💾 Save Entry')
+      )
+    )
+  );
+}
+
+// ══ useKpiState — manages modal/edit/confirm per KPI ══════════
+function useKpiState(col,add,upd,del,showToast){
+  const[modal,setModal]=useState(false);
+  const[editRow,setEditRow]=useState(null);
+  const[confirmId,setConfirmId]=useState(null);
+  const openAdd=()=>{setEditRow(null);setModal(true);};
+  const openEdit=row=>{setEditRow(row);setModal(true);};
+  const closeModal=()=>{setModal(false);setEditRow(null);};
+  const handleSubmit=(raw,transform)=>{
+    const processed=transform?transform(raw):raw;
+    if(editRow){upd(col,editRow.id,processed);showToast('✅ Entry updated!');}
+    else{add(col,processed);showToast('✅ Entry saved!');}
+    closeModal();
+  };
+  const handleDelete=id=>setConfirmId(id);
+  const confirmDelete=()=>{del(col,confirmId);setConfirmId(null);showToast('🗑 Entry deleted!');};
+  return{modal,editRow,confirmId,openAdd,openEdit,closeModal,handleSubmit,handleDelete,confirmDelete,cancelDelete:()=>setConfirmId(null)};
+}
+
+function DataTable({cols,rows,ps=10,onEdit,onDelete}){
+  const[page,setPage]=useState(0);
+  const[q,setQ]=useState('');
+  const filtered=useMemo(()=>q?rows.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q.toLowerCase()))):rows,[rows,q]);
+  const pages=Math.ceil(filtered.length/ps);
+  const visible=filtered.slice(page*ps,(page+1)*ps);
+  if(!rows||!rows.length)return h('div',{className:'empty'},'No data yet — click + Add to create entries.');
+  return h('div',null,
+    h('div',{className:'srch-row'},
+      h('input',{className:'srch',placeholder:'🔍 Search records...',value:q,onChange:e=>{setQ(e.target.value);setPage(0);}}),
+      h('span',{className:'rec-cnt'},filtered.length+' records')
+    ),
+    h('div',{className:'twrap'},
+      h('table',{className:'dt'},
+        h('thead',null,h('tr',null,...cols.map(c=>h('th',{key:c.k},c.l)),(onEdit||onDelete)?h('th',{key:'__a',style:{width:52}},''):null)),
+        h('tbody',null,...visible.map((row,i)=>h('tr',{key:row.id||i},
+          ...cols.map(c=>h('td',{key:c.k},c.r?c.r(row[c.k],row):(row[c.k]??'—'))),
+          (onEdit||onDelete)?h('td',{key:'__a'},h('div',{className:'row-act'},
+            onEdit&&h('button',{className:'act-btn act-edit',title:'Edit',onClick:()=>onEdit(row)},'✏️'),
+            onDelete&&h('button',{className:'act-btn act-del',title:'Delete',onClick:()=>onDelete(row.id)},'🗑')
+          )):null
+        )))
+      )
+    ),
+    pages>1&&h('div',{className:'pages'},
+      h('span',{style:{fontSize:8.5,color:'rgba(255,255,255,.28)'}},`Page ${page+1} / ${pages}`),
+      h('div',{style:{display:'flex',gap:3}},
+        h('button',{className:'pg',disabled:page===0,onClick:()=>setPage(p=>p-1)},'‹'),
+        Array.from({length:Math.min(pages,6)},(_,i)=>{const pg=pages<=6?i:Math.max(0,Math.min(page-2,pages-6))+i;return h('button',{key:pg,className:'pg'+(pg===page?' act':''),onClick:()=>setPage(pg)},pg+1);}),
+        h('button',{className:'pg',disabled:page===pages-1,onClick:()=>setPage(p=>p+1)},'›')
+      )
+    )
+  );
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// KPI 1 — Online Lead Conversion
+// ═══════════════════════════════════════════════════════════
+// ══ KPI CARD WRAPPER ════════════════════════════════════════
+function KCWrap({num,title,badge,children,canEdit,onAdd,defOpen=true,numColor}){
+  const[open,setOpen]=useState(defOpen);
+  return h('div',{className:'kc'},
+    h('div',{className:'kc-hdr',onClick:()=>setOpen(!open)},
+      h('div',{className:'kc-left'},
+        h('div',{className:'kc-num',style:numColor?{background:`linear-gradient(135deg,${numColor},${numColor}bb)`}:{}},num),
+        h('div',{className:'kc-title'},h('p',null,title),badge&&h('span',null,badge))
+      ),
+      h('div',{className:'kc-right'},
+        canEdit&&onAdd&&open&&h('button',{className:'add-btn',onClick:e=>{e.stopPropagation();onAdd();}},'+ Add'),
+        h('span',{className:'chev'},open?'▲':'▼')
+      )
+    ),
+    open&&h('div',{className:'kc-body ani-fade'},children)
+  );
+}
+
+
+function KPI1({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('leads',add,upd,del,showToast);
+  const total=data.length,conv=data.filter(l=>l.convertedToVisit).length,qual=data.filter(l=>l.status!=='Cold').length;
+  const rate=total?Math.round(conv/total*100):0;
+  const srcMap=data.reduce((a,l)=>{if(!a[l.leadSource])a[l.leadSource]={label:l.leadSource.slice(0,8),t:0,c:0};a[l.leadSource].t++;if(l.convertedToVisit)a[l.leadSource].c++;return a},{});
+  const srcData=Object.values(srcMap).map(s=>({label:s.label,total:s.t,conv:s.c}));
+  const cols=[{k:'date',l:'Date'},{k:'leadSource',l:'Source'},{k:'leadName',l:'Name'},{k:'status',l:'Status',r:v=>h(Bdg,{v})},{k:'convertedToVisit',l:'EC Visit',r:v=>v?'✅ Yes':'❌ No'},{k:'salesperson',l:'Salesperson'}];
+  return h(KCWrap,{num:'1',title:'Online Lead Conversion to EC Visit',badge:`${rate}% Conversion · ${total} Leads`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'sg sg3'},
+      [{n:'Total Leads',v:total,c:'#00B4D8'},{n:'Qualified',v:qual,c:'#4ADE80'},{n:'EC Visits',v:conv,c:'#FFD700'}].map(s=>h('div',{key:s.n,className:'sbox'},h('div',{className:'sval',style:{color:s.c}},s.v),h('div',{className:'slbl'},s.n)))
+    ),
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'LEAD FUNNEL'),
+        h(BarChart,{data:[{label:'Total',total:total},{label:'Qualified',total:qual},{label:'EC Visits',total:conv}],keys:['total'],colors:['#00B4D8'],labels:['Total','Qualified','EC Visits'],height:165})
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'TOTAL VS CONVERTED BY SOURCE'),
+        h(BarChart,{data:srcData,keys:['total','conv'],colors:['rgba(0,180,216,.3)','#00B4D8'],showLegend:true,labels:srcData.map(s=>s.label),height:165})
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Online Lead',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'leadSource',l:'Lead Source',type:'select',opts:SOURCES,req:true},
+      {n:'leadName',l:'Lead Name',req:true,ph:'Full name'},{n:'contact',l:'Contact',ph:'+91 ...'},
+      {n:'status',l:'Status',type:'select',opts:['Qualified','In Progress','Cold','Converted']},
+      {n:'convertedToVisit',l:'Converted to Visit?',type:'select',opts:['true','false']},
+      {n:'salesperson',l:'Salesperson',type:'select',opts:SPS}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,convertedToVisit:r.convertedToVisit==='true'})),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 2 — Architect Invitations
+// ═══════════════════════════════════════════════════════════
+function KPI2({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('archs',add,upd,del,showToast);
+  const cats=INV_CATS.map(cat=>{const it=data.filter(i=>i.invitationCategory===cat);return{label:cat.split(' ')[0],planned:it.length,visited:it.filter(i=>i.convertedToVisit).length};});
+  const totalV=data.filter(d=>d.convertedToVisit).length;
+  const cols=[{k:'date',l:'Date'},{k:'architectName',l:'Architect'},{k:'firmName',l:'Firm'},{k:'invitationCategory',l:'Category',r:v=>h(Bdg,{v,cls:'bb'})},{k:'status',l:'Status',r:v=>h(Bdg,{v})},{k:'salesperson',l:'Salesperson'}];
+  return h(KCWrap,{num:'2',title:'Architect Invitations — EC Visit Conversion',badge:`${data.length} Planned · ${totalV} Visited`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'sg sg4'},cats.map(c=>h('div',{key:c.label,className:'sbox'},
+      h('div',{className:'sval',style:{color:'#00B4D8'}},c.planned?Math.round(c.visited/c.planned*100)+'%':'0%'),
+      h('div',{className:'slbl'},c.label),
+      h('div',{style:{fontSize:8.5,color:'rgba(255,255,255,.3)',marginTop:2}},`${c.visited}/${c.planned} visited`)
+    ))),
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'PLANNED VS ACTUAL VISITS'),
+        h(BarChart,{data:cats,keys:['planned','visited'],colors:['rgba(0,180,216,.28)','#00B4D8'],labels:cats.map(c=>c.label),showLegend:true,height:165})
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'CONVERSION RATE BY CATEGORY'),
+        h('div',{style:{paddingTop:8}},cats.map(c=>{const rate=c.planned?Math.round(c.visited/c.planned*100):0;return h('div',{key:c.label,style:{marginBottom:11}},
+          h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:3}},h('span',{style:{fontSize:10,color:'rgba(255,255,255,.6)'}},c.label),h('span',{style:{fontSize:10,fontWeight:700,color:'#00B4D8'}},rate+'%')),
+          h('div',{className:'pbar'},h('div',{className:'pfill',style:{width:rate+'%',background:'#00B4D8'}}))
+        );}))
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Architect Invitation',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'architectName',l:'Architect Name',req:true},
+      {n:'firmName',l:'Firm Name',ph:'Architecture firm'},{n:'invitationCategory',l:'Category',type:'select',opts:INV_CATS},
+      {n:'plannedDate',l:'Planned Visit Date',type:'date'},{n:'status',l:'Status',type:'select',opts:['Scheduled','Visited','Pending','Rescheduled','Cancelled']},
+      {n:'salesperson',l:'Salesperson',type:'select',opts:SPS}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,convertedToVisit:r.status==='Visited'})),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 3 — Customer Footfall
+// ═══════════════════════════════════════════════════════════
+function KPI3({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('footfall',add,upd,del,showToast);
+  const typeMap=data.reduce((a,f)=>{a[f.customerType]=(a[f.customerType]||0)+1;return a},{});
+  const TC={New:'#00B4D8',Repeat:'#4ADE80',Referral:'#FFD700','Walk-in':'#F472B6'};
+  const trendMap=data.reduce((a,f)=>{a[f.date]=(a[f.date]||0)+1;return a},{});
+  const trend=Object.entries(trendMap).sort(([a],[b])=>a.localeCompare(b)).slice(-25).map(([d,v])=>({label:d.slice(8),v}));
+  const peakEntry=Object.entries(data.reduce((a,f)=>{if(f.timeIn){const hr=f.timeIn.split(':')[0];a[hr]=(a[hr]||0)+1;}return a},{})).sort(([,a],[,b])=>b-a)[0];
+  const cols=[{k:'date',l:'Date'},{k:'name',l:'Customer'},{k:'customerType',l:'Type',r:v=>h('span',{style:{color:TC[v]||'#fff',fontSize:9.5,fontWeight:600}},v)},{k:'timeIn',l:'Time In'},{k:'purpose',l:'Purpose'},{k:'salesperson',l:'Staff'}];
+  return h(KCWrap,{num:'3',title:'Customer Footfall Tracking',badge:`${data.length} Total · Peak: ${peakEntry?peakEntry[0]+':00':'—'}`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'sg sg4'},TYPES_FF.map(t=>h('div',{key:t,className:'sbox'},
+      h('div',{className:'sval',style:{color:TC[t]}},typeMap[t]||0),
+      h('div',{className:'slbl'},t),
+      h('div',{style:{fontSize:8,color:'rgba(255,255,255,.28)',marginTop:2}},data.length?Math.round((typeMap[t]||0)/data.length*100)+'%':'0%')
+    ))),
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'DAILY FOOTFALL TREND'),h(AreaChart,{data:trend,color:'#00B4D8',height:165})),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'VISITOR TYPE SPLIT'),
+        h(PieChart,{data:Object.entries(typeMap).map(([n,v])=>({name:n,v,fill:TC[n]||'#00B4D8'})),inner:.45,height:165})
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Footfall Entry',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'name',l:'Customer Name',ph:'Optional'},
+      {n:'contact',l:'Contact',ph:'+91 ...'},{n:'customerType',l:'Visitor Type',type:'select',opts:TYPES_FF},
+      {n:'timeIn',l:'Time In',type:'time'},{n:'timeOut',l:'Time Out',type:'time'},
+      {n:'purpose',l:'Purpose',type:'select',opts:PURPOSES},{n:'salesperson',l:'Staff',type:'select',opts:SPS}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,type:'customer'})),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 4 — Showroom Upkeep
+// ═══════════════════════════════════════════════════════════
+function KPI4({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('showroom',add,upd,del,showToast);
+  const avg=data.length?(data.reduce((a,s)=>a+s.score,0)/data.length).toFixed(1):0;
+  const radarData=PARAMS_SW.map(p=>{const it=data.filter(s=>s.parameter===p);const a=it.length?it.reduce((x,s)=>x+s.score,0)/it.length:0;return{p:p.split(' ')[0],s:parseFloat(a.toFixed(1)),fm:10};});
+  const trendMap=data.reduce((a,s)=>{if(!a[s.date])a[s.date]={t:0,c:0};a[s.date].t+=s.score;a[s.date].c++;return a},{});
+  const trend=Object.entries(trendMap).sort(([a],[b])=>a.localeCompare(b)).slice(-20).map(([d,v])=>({label:d.slice(8),v:parseFloat((v.t/v.c).toFixed(1))}));
+  const sc=v=>v>=8?'#4ADE80':v>=6?'#FFD700':'#F87171';
+  const cols=[{k:'date',l:'Date'},{k:'parameter',l:'Parameter'},{k:'score',l:'Score',r:v=>h('span',{style:{fontWeight:700,color:sc(v)}},v+'/10')},{k:'remarks',l:'Remarks'},{k:'checkedBy',l:'Checked By'}];
+  return h(KCWrap,{num:'4',title:'Showroom Upkeep & Maintenance Score',badge:`Overall: ${avg}/10`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'sg sg3',style:{marginBottom:11}},radarData.map(p=>h('div',{key:p.p,className:'sbox',style:{display:'flex',alignItems:'center',gap:8,textAlign:'left'}},
+      h('div',{style:{width:34,height:34,borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,fontSize:13,background:`${sc(p.s)}18`,color:sc(p.s),flexShrink:0}},p.s),
+      h('div',{style:{flex:1}},
+        h('div',{style:{fontSize:9.5,color:'rgba(255,255,255,.68)',marginBottom:3}},PARAMS_SW.find(pp=>pp.startsWith(p.p))||p.p),
+        h('div',{className:'pbar'},h('div',{className:'pfill',style:{width:(p.s*10)+'%',background:sc(p.s)}}))
+      )
+    ))),
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'PARAMETER RADAR'),h(RadarChart,{data:radarData,color:'#00B4D8',height:185})),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'DAILY AVG SCORE TREND'),
+        h(AreaChart,{data:trend,color:'#4ADE80',height:185,fill:true})
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Showroom Score',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'parameter',l:'Parameter',type:'select',opts:PARAMS_SW,req:true},
+      {n:'score',l:'Score (1–10)',type:'number',min:1,max:10,req:true},{n:'remarks',l:'Remarks',ph:'Brief notes'},
+      {n:'checkedBy',l:'Checked By',ph:'Manager name'}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,score:parseInt(r.score||0)})),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 5 — Data Management
+// ═══════════════════════════════════════════════════════════
+function KPI5({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('datamgmt',add,upd,del,showToast);
+  const onTime=data.filter(r=>r.status==='On Time').length;
+  const compliance=data.length?Math.round(onTime/data.length*100):0;
+  const byType=['Daily Report','Weekly MIS','Monthly Report'].map(t=>{const it=data.filter(r=>r.reportType===t);const ot=it.filter(r=>r.status==='On Time').length;return{label:t.split(' ')[0],total:it.length,onTime:ot,rate:it.length?Math.round(ot/it.length*100):0};});
+  const cols=[{k:'reportType',l:'Report Type'},{k:'dueDate',l:'Due Date'},{k:'submissionDate',l:'Submitted'},{k:'status',l:'Status',r:v=>h(Bdg,{v})},{k:'submittedBy',l:'Submitted By'}];
+  return h(KCWrap,{num:'5',title:'Data Management & MIS Circulation Hygiene',badge:`${compliance}% On-Time Compliance`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'sg sg3',style:{marginBottom:11}},byType.map(t=>h('div',{key:t.label,className:'sbox'},
+      h(Gauge,{pct:t.rate,size:80}),
+      h('div',{className:'slbl',style:{marginTop:5}},t.label),
+      h('div',{style:{fontSize:8,color:'rgba(255,255,255,.32)',marginTop:1}},`${t.onTime}/${t.total} on time`)
+    ))),
+    h('div',{className:'cbox',style:{marginBottom:11}},h('div',{className:'clbl'},'SUBMISSION STATUS BY REPORT TYPE'),
+      h(BarChart,{data:byType,keys:['total','onTime'],colors:['rgba(0,180,216,.2)','#4ADE80'],labels:byType.map(t=>t.label),showLegend:true,height:145})
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Report Submission',fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'reportType',l:'Report Type',type:'select',opts:['Daily Report','Weekly MIS','Monthly Report'],req:true},
+      {n:'dueDate',l:'Due Date',type:'date'},{n:'submissionDate',l:'Submission Date',type:'date'},
+      {n:'status',l:'Status',type:'select',opts:['On Time','Late','Missing']},{n:'submittedBy',l:'Submitted By',ph:'Name'}
+    ],editData:ks.editRow,onSubmit:d=>ks.handleSubmit(d,r=>{d}),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 6 — Presentation Skills
+// ═══════════════════════════════════════════════════════════
+function KPI6({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('skills',add,upd,del,showToast);
+  const spData=SPS.map(sp=>{const it=data.filter(s=>s.salesperson===sp);const avg=it.length?Math.round(it.reduce((a,s)=>a+s.assessmentScore,0)/it.length):0;return{label:sp.split(' ')[0],avg};});
+  const sc=v=>v>=80?'#4ADE80':v>=60?'#FFD700':'#F87171';
+  const cols=[{k:'date',l:'Date'},{k:'salesperson',l:'Salesperson'},{k:'trainingTopic',l:'Topic'},{k:'assessmentScore',l:'Score',r:v=>h('span',{style:{fontWeight:700,color:sc(v)}},v+'%')},{k:'certification',l:'Certification',r:v=>h(Bdg,{v:v||'Pending'})},{k:'nextTrainingDue',l:'Next Due'}];
+  return h(KCWrap,{num:'6',title:'Presentation Skills & Product Knowledge',badge:`${data.length} Sessions`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'cbox',style:{marginBottom:11}},h('div',{className:'clbl'},'ASSESSMENT SCORE BY SALESPERSON (Target: 80%)'),
+      h(BarChart,{data:spData,keys:['avg'],barColors:spData.map(s=>sc(s.avg)),refLine:80,labels:spData.map(s=>s.label),height:165})
+    ),
+    h('div',{className:'cbox',style:{marginBottom:11}},h('div',{className:'clbl'},'ASSESSMENT SCORE BY SALESPERSON'),
+      // Use HBar for clarity
+      h(HBarChart,{data:spData.map(s=>({name:s.label,v:s.avg})),height:150})
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Training Session',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'salesperson',l:'Salesperson',type:'select',opts:SPS,req:true},
+      {n:'trainingTopic',l:'Training Topic',ph:'e.g. Solar Control Glass'},{n:'assessmentScore',l:'Score (%)',type:'number',min:0,max:100},
+      {n:'certification',l:'Certification',type:'select',opts:['Completed','In Progress','Not Started']},{n:'nextTrainingDue',l:'Next Training Due',type:'date'}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,assessmentScore:parseInt(r.assessmentScore||0)})),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 7 — Architect Feedback / NPS
+// ═══════════════════════════════════════════════════════════
+function KPI7({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('archFb',add,upd,del,showToast);
+  const avgR=data.length?(data.reduce((a,f)=>a+f.rating,0)/data.length).toFixed(1):0;
+  const nps=Math.round(avgR*20);
+  const sentMap={Positive:data.filter(f=>f.category==='Positive').length,Neutral:data.filter(f=>f.category==='Neutral').length,Negative:data.filter(f=>f.category==='Negative').length};
+  const sentColors={Positive:'#4ADE80',Neutral:'#FFD700',Negative:'#F87171'};
+  const paramKeys=['productKnowledge','presentation','hospitality','overallExperience'];
+  const paramLabels=['Knowledge','Present.','Hospitality','Overall'];
+  const radarData=paramKeys.map((k,i)=>{const it=data.filter(f=>f.parameters&&f.parameters[k]);const a=it.length?it.reduce((x,f)=>x+f.parameters[k],0)/it.length:0;return{p:paramLabels[i],s:parseFloat(a.toFixed(1)),fm:5};});
+  const npsC=nps>=70?'#4ADE80':nps>=50?'#FFD700':'#F87171';
+  const cols=[{k:'date',l:'Date'},{k:'name',l:'Architect'},{k:'firmName',l:'Firm'},{k:'rating',l:'Rating',r:v=>h(Stars,{v})},{k:'feedbackText',l:'Feedback',r:v=>h('span',{style:{fontSize:9,color:'rgba(255,255,255,.5)',maxWidth:160,display:'inline-block',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},v)},{k:'category',l:'Sentiment',r:v=>h(Bdg,{v})},{k:'salesperson',l:'Salesperson'}];
+  return h(KCWrap,{num:'7',title:'Architect Footfall Feedback & NPS',badge:`NPS: ${nps} · ★ ${avgR}/5 Avg`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'cr cr2',style:{marginBottom:11}},
+      h('div',{className:'cbox',style:{display:'flex',alignItems:'center',gap:16}},
+        h('div',{style:{textAlign:'center',flexShrink:0}},
+          h(Gauge,{pct:nps,color:npsC,size:110}),
+          h('div',{style:{fontSize:9,color:'rgba(255,255,255,.38)',marginTop:4}},'Avg: '+avgR+'/5')
+        ),
+        h('div',{style:{flex:1}},
+          h('div',{className:'clbl',style:{marginBottom:8}},'SENTIMENT SPLIT'),
+          Object.entries(sentMap).map(([cat,cnt])=>h('div',{key:cat,style:{marginBottom:8}},
+            h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:3}},h('span',{style:{fontSize:9.5,color:'rgba(255,255,255,.58)'}},cat),h('span',{style:{fontSize:9.5,fontWeight:700,color:sentColors[cat]}},cnt)),
+            h('div',{className:'pbar'},h('div',{className:'pfill',style:{width:data.length?(cnt/data.length*100)+'%':'0%',background:sentColors[cat]}}))
+          ))
+        )
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'PARAMETER QUALITY RADAR'),
+        h(RadarChart,{data:radarData,color:'#FFD700',height:175})
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Architect Feedback',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'name',l:'Architect Name',req:true},
+      {n:'firmName',l:'Firm Name',ph:'Architecture firm'},{n:'rating',l:'Rating (1–5)',type:'number',min:1,max:5},
+      {n:'feedbackText',l:'Feedback Text',ph:'Enter feedback...',full:true},
+      {n:'category',l:'Sentiment',type:'select',opts:['Positive','Neutral','Negative']},{n:'salesperson',l:'Salesperson',type:'select',opts:SPS}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>{const rt=parseInt(r.rating||3);return{...r,rating:rt,type:'architect',parameters:{productKnowledge:rt,presentation:rt,hospitality:rt,overallExperience:rt}};}),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 8 — Expense Management
+// ═══════════════════════════════════════════════════════════
+function KPI8({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('expenses',add,upd,del,showToast);
+  const ECOLS=['#00B4D8','#4ADE80','#FFD700','#A78BFA','#F472B6'];
+  const catMap=data.reduce((a,e)=>{if(!a[e.category])a[e.category]={cat:e.category,bud:0,act:0};a[e.category].bud+=e.budgetAmount;a[e.category].act+=e.actualAmount;return a},{});
+  const catData=Object.values(catMap).map((c,i)=>({label:c.cat.split(' ')[0],budget:c.bud,actual:c.act,fill:ECOLS[i%5]}));
+  const totalB=catData.reduce((a,c)=>a+c.budget,0),totalA=catData.reduce((a,c)=>a+c.actual,0);
+  const cols=[{k:'date',l:'Date'},{k:'category',l:'Category'},{k:'description',l:'Description'},{k:'budgetAmount',l:'Budget',r:v=>fmtM(v)},{k:'actualAmount',l:'Actual',r:v=>fmtM(v)},{k:'variance',l:'Variance',r:v=>h('span',{style:{color:v>=0?'#4ADE80':'#F87171',fontWeight:600}},(v>=0?'+':'')+fmtM(v))},{k:'approvedBy',l:'Approved By'}];
+  return h(KCWrap,{num:'8',title:'Showroom Expense Management Score',badge:`${fmtM(totalA)} Spent / ${fmtM(totalB)} Budget`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'BUDGET UTILIZATION (DONUT)'),
+        h(PieChart,{data:catData.map(c=>({name:c.label,v:c.actual,fill:c.fill})),inner:.5,height:170})
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'BUDGET VS ACTUAL BY CATEGORY'),
+        h(BarChart,{data:catData,keys:['budget','actual'],colors:['rgba(255,255,255,.13)','#00B4D8'],labels:catData.map(c=>c.label),showLegend:true,height:170})
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Expense Entry',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'category',l:'Category',type:'select',opts:EXP_CATS,req:true},
+      {n:'description',l:'Description',ph:'Brief description',full:true},
+      {n:'budgetAmount',l:'Budget Amount (₹)',type:'number',req:true},{n:'actualAmount',l:'Actual Amount (₹)',type:'number',req:true},
+      {n:'approvedBy',l:'Approved By',ph:'Name'}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>{const b=parseFloat(r.budgetAmount||0),ac=parseFloat(r.actualAmount||0);return{...r,budgetAmount:b,actualAmount:ac,variance:b-ac};}),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 9 — Audit Score
+// ═══════════════════════════════════════════════════════════
+function KPI9({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('audits',add,upd,del,showToast);
+  const totalSc=data.reduce((a,s)=>a+s.score,0),totalMx=data.reduce((a,s)=>a+s.maxScore,0);
+  const overall=totalMx?Math.round(totalSc/totalMx*100):0;
+  const pMap=data.reduce((a,s)=>{if(!a[s.parameter])a[s.parameter]={p:s.parameter,sc:0,mx:0};a[s.parameter].sc+=s.score;a[s.parameter].mx+=s.maxScore;return a},{});
+  const pData=Object.values(pMap).map(p=>({label:p.p.split(' ').slice(0,2).join(' '),pct:Math.round(p.sc/p.mx*100)}));
+  const sc=v=>v>=80?'#4ADE80':v>=60?'#FFD700':'#F87171';
+  const cols=[{k:'date',l:'Audit Date'},{k:'auditorName',l:'Auditor'},{k:'parameter',l:'Parameter'},{k:'score',l:'Score',r:(v,r)=>h('span',{style:{fontWeight:700,color:sc(Math.round(v/r.maxScore*100))}},v+'/'+r.maxScore)},{k:'findings',l:'Findings'},{k:'actionTaken',l:'Action Taken'}];
+  return h(KCWrap,{num:'9',title:'Audit Score of Experience Center',badge:`Overall: ${overall}%`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox',style:{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:8}},
+        h('div',{className:'clbl',style:{alignSelf:'flex-start'}},'OVERALL AUDIT SCORE'),
+        h(Gauge,{pct:overall,size:130}),
+        h('div',{style:{fontSize:9,color:'rgba(255,255,255,.42)',marginTop:4}},`Score: ${totalSc} / ${totalMx} pts`)
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'SCORE BY PARAMETER'),
+        h('div',{style:{paddingTop:4}},pData.map(p=>h('div',{key:p.label,style:{marginBottom:10}},
+          h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:3}},h('span',{style:{fontSize:9.5,color:'rgba(255,255,255,.62)'}},p.label),h('span',{style:{fontSize:9.5,fontWeight:700,color:sc(p.pct)}},p.pct+'%')),
+          h('div',{className:'pbar'},h('div',{className:'pfill',style:{width:p.pct+'%',background:sc(p.pct)}}))
+        )))
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Audit Entry',editData:ks.editRow,fields:[
+      {n:'date',l:'Audit Date',type:'date',req:true},{n:'auditorName',l:'Auditor Name',req:true},
+      {n:'parameter',l:'Parameter',type:'select',opts:PARAMS_AU},{n:'score',l:'Score (0–20)',type:'number',min:0,max:20},
+      {n:'findings',l:'Findings',ph:'Key observations',full:true},{n:'actionTaken',l:'Action Taken',ph:'Steps initiated',full:true}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,score:parseInt(r.score||0),maxScore:20})),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 10 — Salesperson Performance Plan
+// ═══════════════════════════════════════════════════════════
+function KPI10({data,upd,showToast}){
+  const[sel,setSel]=useState(0);
+  const[editingLine,setEditingLine]=useState(null);
+  const[lineVals,setLineVals]=useState({actual:'',remarks:''});
+  const plan=data[sel];
+  const chartData=data.map(p=>({name:p.salespersonName,v:p.lines.length?Math.round(p.lines.reduce((a,l)=>a+l.achievementPct,0)/p.lines.length):0}));
+  const ac=v=>v>=90?'#4ADE80':v>=70?'#FFD700':'#F87171';
+  const startEdit=line=>{setEditingLine(line.lineNo);setLineVals({actual:String(line.actualValue),remarks:line.remarks});};
+  const cancelEdit=()=>{setEditingLine(null);setLineVals({actual:'',remarks:''});};
+  const saveLine=line=>{
+    const av=parseInt(lineVals.actual)||0;
+    const pct=Math.min(Math.round(av/line.targetValue*100),160);
+    const newLines=plan.lines.map(l=>l.lineNo!==line.lineNo?l:{...l,actualValue:av,achievementPct:pct,remarks:lineVals.remarks,status:pct>=90?'On Track':pct>=70?'At Risk':'Below Target'});
+    upd('salesPlans',plan.id,{lines:newLines});
+    showToast('✅ Line '+line.lineNo+' updated!');
+    cancelEdit();
+  };
+  return h(KCWrap,{num:'10',title:'Salesperson Performance Plan (20 Lines Each)',badge:`${data.length} Salespersons · Q4 2025`},
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'ACHIEVEMENT % — ALL SALESPERSONS'),
+        h(HBarChart,{data:chartData,height:170})
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'SELECT SALESPERSON'),
+        h('div',{style:{display:'flex',flexDirection:'column',gap:5}},data.map((p,i)=>{
+          const avg=Math.round(p.lines.reduce((a,l)=>a+l.achievementPct,0)/p.lines.length);
+          return h('div',{key:i,onClick:()=>setSel(i),style:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'9px 11px',borderRadius:9,cursor:'pointer',background:sel===i?'rgba(0,180,216,.13)':'rgba(255,255,255,.04)',border:`1px solid ${sel===i?'rgba(0,180,216,.32)':'rgba(255,255,255,.05)'}`}},
+            h('div',null,h('div',{style:{fontSize:11,fontWeight:500,color:'#fff'}},p.salespersonName),h('div',{style:{fontSize:8.5,color:'rgba(255,255,255,.32)',marginTop:1}},p.salespersonId+' · '+p.lines.length+' lines')),
+            h('div',{style:{textAlign:'right'}},h('div',{style:{fontSize:13,fontWeight:700,fontFamily:'Rajdhani,sans-serif',color:ac(avg)}},avg+'%'),h('div',{style:{fontSize:8,color:ac(avg),marginTop:1}},avg>=90?'On Track':avg>=70?'At Risk':'Below Target'))
+          );
+        }))
+      )
+    ),
+    plan&&h('div',null,
+      h('div',{className:'clbl',style:{marginBottom:7}},`PERFORMANCE LINES — ${plan.salespersonName.toUpperCase()}`),
+      h('div',{className:'twrap'},
+        h('table',{className:'dt'},
+          h('thead',null,h('tr',null,...['#','Target Area','Metric','Target','Actual','Achievement','Status','Remarks',''].map(hd=>h('th',{key:hd},hd)))),
+          h('tbody',null,...plan.lines.map(l=>{const isEditing=editingLine===l.lineNo;return h('tr',{key:l.lineNo,style:{background:isEditing?'rgba(0,180,216,.07)':''}},
+            h('td',null,h('span',{style:{opacity:.42,fontSize:8.5}},l.lineNo)),
+            h('td',null,l.targetArea),
+            h('td',null,l.targetMetric),
+            h('td',null,h('span',{style:{fontWeight:600,color:'rgba(255,255,255,.75)'}},l.targetValue)),
+            h('td',null,isEditing?h('input',{className:'ie-input',value:lineVals.actual,onChange:e=>setLineVals(v=>({...v,actual:e.target.value})),autoFocus:true}):h('span',{style:{fontWeight:600,color:'rgba(255,255,255,.75)'}},l.actualValue)),
+            h('td',null,h('div',{style:{display:'flex',alignItems:'center',gap:5}},
+              h('div',{style:{width:48,height:4,borderRadius:99,background:'rgba(255,255,255,.07)'}},h('div',{style:{height:'100%',borderRadius:99,width:Math.min(l.achievementPct,100)+'%',background:ac(l.achievementPct)}})),
+              h('span',{style:{fontSize:9,fontWeight:700,color:ac(l.achievementPct)}},l.achievementPct+'%')
+            )),
+            h('td',null,h(Bdg,{v:l.status})),
+            h('td',null,isEditing?h('input',{className:'ie-input',style:{width:100},value:lineVals.remarks,onChange:e=>setLineVals(v=>({...v,remarks:e.target.value}))}):h('span',{style:{fontSize:8.5,color:'rgba(255,255,255,.42)'}},l.remarks)),
+            h('td',null,isEditing
+              ?h('div',{style:{display:'flex',gap:4}},
+                  h('button',{className:'ie-save',onClick:()=>saveLine(l)},'💾'),
+                  h('button',{className:'ie-save',style:{background:'rgba(255,255,255,.1)'},onClick:cancelEdit},'✕')
+                )
+              :h('button',{className:'act-btn act-edit',title:'Edit this line',onClick:()=>startEdit(l)},'✏️')
+            )
+          );}))
+        )
+      )
+    )
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// KPI 11 — Customer Feedback
+// ═══════════════════════════════════════════════════════════
+function KPI11({data,add,upd,del,canEdit,showToast}){
+  const ks=useKpiState('custFb',add,upd,del,showToast);
+  const avgR=data.length?(data.reduce((a,f)=>a+f.rating,0)/data.length).toFixed(1):0;
+  const rDist=[5,4,3,2,1].map(r=>({r,cnt:data.filter(f=>f.rating===r).length}));
+  const paramKeys=['productDisplay','staffBehavior','responseTime','solutionProvided','overallExperience'];
+  const paramLabels=['Display','Staff','Response','Solution','Overall'];
+  const paramData=paramKeys.map((k,i)=>{const it=data.filter(f=>f.parameters&&f.parameters[k]);const a=it.length?it.reduce((x,f)=>x+f.parameters[k],0)/it.length:0;return{label:paramLabels[i],avg:parseFloat(a.toFixed(1))};});
+  const cols=[{k:'date',l:'Date'},{k:'name',l:'Customer'},{k:'rating',l:'Rating',r:v=>h(Stars,{v})},{k:'feedbackText',l:'Feedback',r:v=>h('span',{style:{fontSize:9,color:'rgba(255,255,255,.5)',maxWidth:170,display:'inline-block',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},v)},{k:'staffAttended',l:'Staff'}];
+  return h(KCWrap,{num:'11',title:'Customer Footfall Feedback & CSAT',badge:`★ ${avgR}/5 CSAT · ${data.length} Responses`,canEdit,onAdd:ks.openAdd},
+    h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},
+        h('div',{className:'clbl'},'STAR RATING DISTRIBUTION'),
+        h('div',{style:{marginBottom:11}},rDist.map(r=>h('div',{key:r.r,style:{display:'flex',alignItems:'center',gap:8,marginBottom:7}},
+          h('span',{style:{fontSize:9.5,color:'#FFD700',width:54,flexShrink:0,letterSpacing:'-1px'}},'★'.repeat(r.r)+'☆'.repeat(5-r.r)),
+          h('div',{className:'pbar',style:{flex:1}},h('div',{className:'pfill',style:{width:data.length?(r.cnt/data.length*100)+'%':'0%',background:'#FFD700'}})),
+          h('span',{style:{fontSize:9,color:'rgba(255,255,255,.36)',width:18,textAlign:'right'}},r.cnt)
+        ))),
+        h('div',{style:{textAlign:'center',padding:'11px',borderRadius:9,background:'rgba(255,215,0,.07)',border:'1px solid rgba(255,215,0,.17)'}},
+          h('div',{style:{fontSize:30,fontWeight:700,fontFamily:'Rajdhani,sans-serif',color:'#FFD700'}},'★ '+avgR),
+          h('div',{style:{fontSize:8.5,color:'rgba(255,255,255,.38)',marginTop:2}},'CSAT · '+data.length+' reviews')
+        )
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'PARAMETER SCORES (avg 1–5)'),
+        h(BarChart,{data:paramData,keys:['avg'],colors:['#FFD700'],labels:paramData.map(p=>p.label),height:200})
+      )
+    ),
+    h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canEdit?ks.handleDelete:null}),
+    ks.modal&&h(Modal,{title:'Add Customer Feedback',editData:ks.editRow,fields:[
+      {n:'date',l:'Date',type:'date',req:true},{n:'name',l:'Customer Name',ph:'Optional'},
+      {n:'contact',l:'Contact',ph:'+91 ...'},{n:'rating',l:'Rating (1–5)',type:'number',min:1,max:5,req:true},
+      {n:'feedbackText',l:'Feedback Text',ph:'Write feedback...',full:true},{n:'staffAttended',l:'Staff Attended',type:'select',opts:SPS}
+    ],onSubmit:d=>ks.handleSubmit(d,r=>{const rt=parseInt(r.rating||3);return{...r,rating:rt,type:'customer',parameters:{productDisplay:rt,staffBehavior:rt,responseTime:rt,solutionProvided:rt,overallExperience:rt}};}),onClose:ks.closeModal}),
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// ANALYTICS PANEL
+// ═══════════════════════════════════════════════════════════
+function Analytics({allData}){
+  const[tab,setTab]=useState('insights');
+  const monthly=[{label:'Oct',ff:285,leads:75,nps:72,audit:82},{label:'Nov',ff:312,leads:82,nps:78,audit:85},{label:'Dec',ff:341,leads:90,nps:81,audit:88}];
+  const pred=[...monthly,{label:'Jan*',ff:368,leads:96,nps:84,audit:89,pred:true}];
+  const spRanks=allData.salesPlans.map(p=>({n:p.salespersonName,avg:Math.round(p.lines.reduce((a,l)=>a+l.achievementPct,0)/p.lines.length)})).sort((a,b)=>b.avg-a.avg);
+  const ac=v=>v>=90?'#4ADE80':v>=70?'#FFD700':'#F87171';
+  const IS=[
+    {ico:'📈',ttl:'Footfall Growing +20% QoQ',txt:'Customer visits rose steadily 285→341 Oct–Dec. Peak hours are 11 AM–2 PM. Deploy extra staff during this window.',c:'g'},
+    {ico:'⚠️',ttl:'MIS Compliance Slipped in Dec',txt:'Weekly MIS on-time rate dropped to ~78% in December. Set automated Slack/email reminders at 9 AM Mondays.',c:'y'},
+    {ico:'⚡',ttl:'Referral Architects Convert Best',txt:'Referral-sourced architect invitations hit 73% conversion — highest across all categories. Expand this channel.',c:'b'},
+    {ico:'💰',ttl:'Hospitality Over Budget ₹12.4K',txt:'Hospitality spend exceeded Q4 budget by ₹12,400. Review monthly allocation and implement purchase orders.',c:'r'},
+    {ico:'✅',ttl:'Audit Score Up +6 Points QoQ',txt:'EC audit improved from 82% (Oct) to 88% (Dec). Safety & Display Standards show the strongest gains.',c:'g'},
+    {ico:'🏆',ttl:'Rajesh Kumar — Top Performer',txt:'Leads with 91% avg achievement across all 20 plan lines. Document & share best practices with the team.',c:'b'},
+  ];
+  const IS2={g:{bg:'rgba(74,222,128,.08)',br:'rgba(74,222,128,.18)'},y:{bg:'rgba(255,215,0,.08)',br:'rgba(255,215,0,.18)'},b:{bg:'rgba(0,180,216,.08)',br:'rgba(0,180,216,.18)'},r:{bg:'rgba(248,113,113,.08)',br:'rgba(248,113,113,.18)'}};
+  return h(KCWrap,{num:'🧠',title:'Analytics & AI-Powered Insights',badge:'Q4 2025 · Pattern analysis',numColor:'#FFD700'},
+    h('div',{className:'atabs'},
+      [['insights','🧠 Insights'],['comparative','📊 Comparative'],['predictive','🔮 Predictive'],['rankings','🏆 Rankings']].map(([id,lbl])=>
+        h('button',{key:id,className:'atab'+(tab===id?' act':''),onClick:()=>setTab(id)},lbl)
+      )
+    ),
+    tab==='insights'&&h('div',{className:'ins-grid'},IS.map((ins,i)=>h('div',{key:i,className:'ins-card',style:{background:IS2[ins.c].bg,border:`1px solid ${IS2[ins.c].br}`}},
+      h('div',{className:'ins-ico',style:{background:IS2[ins.c].br}},ins.ico),
+      h('div',null,h('div',{className:'ins-ttl'},ins.ttl),h('div',{className:'ins-txt'},ins.txt))
+    ))),
+    tab==='comparative'&&h('div',null,
+      h('div',{className:'cr cr2'},
+        h('div',{className:'cbox'},h('div',{className:'clbl'},'MONTHLY FOOTFALL'),h(BarChart,{data:monthly,keys:['ff'],colors:['#00B4D8'],height:155})),
+        h('div',{className:'cbox'},h('div',{className:'clbl'},'KPI MULTI-METRIC TREND'),
+          h(LineChart,{data:monthly,series:[{k:'nps',name:'NPS',color:'#FFD700'},{k:'audit',name:'Audit%',color:'#4ADE80'},{k:'leads',name:'Leads',color:'#A78BFA'}],height:155})
+        )
+      ),
+      h('div',{className:'twrap'},
+        h('table',{className:'dt'},
+          h('thead',null,h('tr',null,...['Metric','Oct 2025','Nov 2025','Dec 2025','QoQ Change'].map(hd=>h('th',{key:hd},hd)))),
+          h('tbody',null,...[{m:'Footfall',o:285,n:312,d:341},{m:'Online Leads',o:75,n:82,d:90},{m:'NPS Score',o:72,n:78,d:81},{m:'Audit Score',o:'82%',n:'85%',d:'88%'}].map(row=>{const chg=Math.round((parseFloat(row.d)-parseFloat(row.o))/parseFloat(row.o)*100);return h('tr',{key:row.m},h('td',null,h('span',{style:{fontWeight:600,color:'#fff'}},row.m)),h('td',null,row.o),h('td',null,row.n),h('td',null,h('span',{style:{fontWeight:600,color:'#fff'}},row.d)),h('td',null,h('span',{style:{color:chg>=0?'#4ADE80':'#F87171',fontWeight:600,fontSize:9}},(chg>=0?'↑ ':'↓ ')+Math.abs(chg)+'%')));})
+          )
+        )
+      )
+    ),
+    tab==='predictive'&&h('div',null,
+      h('div',{style:{padding:'9px 12px',borderRadius:10,background:'rgba(255,215,0,.07)',border:'1px solid rgba(255,215,0,.18)',marginBottom:12,fontSize:9.5,color:'rgba(255,255,255,.6)',lineHeight:1.55}},'🔮  Jan 2026 forecasts based on Q4 2025 linear regression. Confidence interval ±8%. Gold bar = prediction.'),
+      h('div',{className:'cr cr2'},
+        h('div',{className:'cbox'},h('div',{className:'clbl'},'FOOTFALL FORECAST (incl. Jan 2026)'),
+          h(BarChart,{data:pred,keys:['ff'],colors:pred.map(d=>d.pred?'#FFD700':'#00B4D8'),height:160})
+        ),
+        h('div',{className:'cbox'},h('div',{className:'clbl'},'JAN 2026 PREDICTIONS'),
+          h('div',{style:{display:'flex',flexDirection:'column',gap:8,paddingTop:6}},
+            [{l:'Forecast Footfall',v:'368',d:'+8%',c:'#00B4D8'},{l:'Projected Leads',v:'96',d:'+7%',c:'#4ADE80'},{l:'NPS Score',v:'84',d:'+4%',c:'#FFD700'},{l:'Audit Score',v:'89%',d:'+1%',c:'#A78BFA'}].map(p=>
+              h('div',{key:p.l,style:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'9px 11px',borderRadius:9,background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.05)'}},
+                h('span',{style:{fontSize:9.5,color:'rgba(255,255,255,.55)'}},p.l),
+                h('div',{style:{display:'flex',alignItems:'center',gap:7}},
+                  h('span',{style:{fontSize:14,fontWeight:700,fontFamily:'Rajdhani,sans-serif',color:p.c}},p.v),
+                  h('span',{style:{fontSize:8.5,padding:'1px 6px',borderRadius:99,background:p.c+'1e',color:p.c}},'↑ '+p.d)
+                )
+              )
+            )
+          )
+        )
+      )
+    ),
+    tab==='rankings'&&h('div',null,
+      h('div',{className:'clbl',style:{marginBottom:8}},'SALESPERSON ACHIEVEMENT RANKINGS'),
+      h('div',{style:{marginBottom:13}},spRanks.map((sp,i)=>h('div',{key:i,className:'sp-row',style:{border:`1px solid ${i===0?'rgba(255,215,0,.22)':'rgba(255,255,255,.05)'}`}},
+        h('div',{className:'sp-rnk',style:{background:i===0?'#FFD700':i===1?'#C0C0C0':i===2?'#CD7F32':'rgba(255,255,255,.1)',color:i<3?'#000':'rgba(255,255,255,.45)'}},i+1),
+        h('div',{style:{flex:1}},
+          h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:5}},h('span',{style:{fontSize:11,fontWeight:500,color:'#fff'}},sp.n),h('span',{style:{fontSize:13,fontWeight:700,fontFamily:'Rajdhani,sans-serif',color:ac(sp.avg)}},sp.avg+'%')),
+          h('div',{className:'pbar'},h('div',{className:'pfill',style:{width:sp.avg+'%',background:ac(sp.avg)}}))
+        ),
+        i===0&&h('span',{style:{fontSize:16,flexShrink:0}},'🏆')
+      ))),
+      h('div',{className:'clbl',style:{marginBottom:8}},'ACTION RECOMMENDATIONS'),
+      h('div',{className:'ins-grid'},
+        [{ico:'📅',txt:'Schedule refresher training for bottom performers (below 70%)',c:'y'},{ico:'📧',txt:'Send personalised thank-you notes to top 5 architects who visited in Dec',c:'b'},{ico:'💡',txt:'Review showroom lighting — scored lowest in Upkeep parameters this quarter',c:'r'},{ico:'📊',txt:'Dec Monthly MIS is due 2nd Jan — confirm on-time submission before 10 AM',c:'g'}].map((rec,i)=>
+          h('div',{key:i,className:'ins-card',style:{background:IS2[rec.c].bg,border:`1px solid ${IS2[rec.c].br}`}},h('div',{className:'ins-ico',style:{background:IS2[rec.c].br}},rec.ico),h('div',{className:'ins-txt',style:{fontSize:9.5}},rec.txt))
+        )
+      )
+    )
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// OVERVIEW CARDS
+// ═══════════════════════════════════════════════════════════
+function OverviewCards({stats}){
+  const cards=[
+    {ico:'👥',lbl:'Total Footfall',val:stats.footfall,sub:'All visitor types',c:'#00B4D8',tr:'+12%',up:true},
+    {ico:'📈',lbl:'Lead Conversion',val:stats.convRate+'%',sub:'Online leads',c:'#4ADE80',tr:'+5%',up:true},
+    {ico:'⭐',lbl:'NPS Score',val:stats.nps,sub:'Architect satisfaction',c:'#FFD700',tr:'-3%',up:false},
+    {ico:'📋',lbl:'Audit Score',val:stats.audit+'%',sub:'Compliance score',c:'#A78BFA',tr:'+8%',up:true},
+    {ico:'🏢',lbl:'Showroom Score',val:stats.showroom+'/10',sub:'Upkeep rating',c:'#FB923C',tr:'+2%',up:true},
+    {ico:'🎯',lbl:'Total Leads',val:stats.leads,sub:'All sources',c:'#F472B6',tr:'+15%',up:true},
+  ];
+  return h('div',{className:'ov-grid'},cards.map(c=>
+    h('div',{key:c.lbl,className:'ov-card'},
+      h('div',{className:'ov-glow',style:{background:`radial-gradient(circle,${c.c} 0%,transparent 70%)`}}),
+      h('div',{className:`ov-trend ${c.up?'tup':'tdn'}`},c.tr),
+      h('div',{className:'ov-ico',style:{background:c.c+'1a'}},c.ico),
+      h('div',{className:'ov-val',style:{color:c.c}},c.val),
+      h('div',{className:'ov-lbl'},c.lbl),
+      h('div',{className:'ov-sub'},c.sub)
+    )
+  ));
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOGIN SCREEN
+// ═══════════════════════════════════════════════════════════
+function Login({onLogin,onViewOnly}){
+  const[tab,setTab]=useState('email');
+  const[email,setEmail]=useState('sanju.gupta@aisglass.com');
+  const[pw,setPw]=useState('');
+  const[phone,setPhone]=useState('');
+  const[otpSent,setOtpSent]=useState(false);
+  const[otp,setOtp]=useState(['','','','','','']);
+  const[err,setErr]=useState('');
+  const[loading,setLoading]=useState(false);
+  const doLogin=()=>{setErr('');setLoading(true);setTimeout(()=>{setLoading(false);if(email==='sanju.gupta@aisglass.com'&&pw==='AISGlass@2025'){onLogin(email);}else{setErr('Invalid credentials. Use the demo credentials above.');}},700);};
+  const handleOtp=(v,i)=>{const n=[...otp];n[i]=v.slice(-1);setOtp(n);if(v&&i<5)document.getElementById('ob'+(i+1))?.focus();};
+  return h('div',{className:'login-bg'},
+    h('div',{className:'l-glow1'}),h('div',{className:'l-glow2'}),h('div',{className:'l-grid'}),
+    h('div',{className:'login-card ani-slide'},
+      h('div',{className:'l-logo'},
+        h('div',{className:'l-badge'},'AIS'),
+        h('h1',null,'AIS ',h('span',{style:{color:'#00B4D8'}},'Windows')),
+        h('p',null,'Experience Center KPI Dashboard')
+      ),
+      h('button',{className:'vo-btn',onClick:onViewOnly},
+        h('span',{className:'vo-btn-txt'},'👁  View Dashboard Without Login'),
+        h('span',{style:{color:'#FFD700',fontSize:15}},'→')
+      ),
+      h('div',{className:'ltab-bar'},
+        h('button',{className:'ltab'+(tab==='email'?' act':''),onClick:()=>{setTab('email');setErr('');}},'\u2709\ufe0f  Email Login'),
+        h('button',{className:'ltab'+(tab==='otp'?' act':''),onClick:()=>{setTab('otp');setErr('');}},'\ud83d\udcf1  OTP Login')
+      ),
+      err&&h('div',{className:'lerr'},err),
+      tab==='email'&&h('div',null,
+        h('div',{className:'demo-tip'},'Demo login:\nsanju.gupta@aisglass.com  /  AISGlass@2025'),
+        h('div',{className:'fwrap'},h('label',{className:'flbl'},'EMAIL ADDRESS'),h('span',{className:'fico'},'\u2709\ufe0f'),h('input',{className:'linput',type:'email',value:email,onChange:e=>setEmail(e.target.value),placeholder:'email@aisglass.com'})),
+        h('div',{className:'fwrap'},h('label',{className:'flbl'},'PASSWORD'),h('span',{className:'fico'},'\ud83d\udd12'),h('input',{className:'linput',type:'password',value:pw,onChange:e=>setPw(e.target.value),onKeyDown:e=>e.key==='Enter'&&doLogin(),placeholder:'Enter your password'})),
+        h('button',{className:'lbtn',onClick:doLogin,disabled:loading},loading?'\u23f3 Signing in...':'Sign In →')
+      ),
+      tab==='otp'&&h('div',null,
+        !otpSent
+          ?h('div',null,
+            h('div',{className:'fwrap'},h('label',{className:'flbl'},'MOBILE NUMBER'),h('span',{className:'fico'},'\ud83d\udcf1'),h('input',{className:'linput',value:phone,onChange:e=>setPhone(e.target.value.replace(/\D/g,'').slice(0,10)),placeholder:'10-digit mobile number'})),
+            h('button',{className:'lbtn',style:{opacity:phone.length===10?1:.45,cursor:phone.length===10?'pointer':'not-allowed'},onClick:()=>phone.length===10&&setOtpSent(true)},'Send OTP')
+          )
+          :h('div',null,
+            h('p',{style:{fontSize:8.5,color:'rgba(255,255,255,.35)',textAlign:'center',marginBottom:10}},'\u2705 Demo OTP sent to +91 '+phone+' — enter any 6 digits'),
+            h('div',{className:'otp-row'},otp.map((d,i)=>h('input',{key:i,id:'ob'+i,className:'obox',maxLength:1,value:d,onChange:e=>handleOtp(e.target.value,i)}))),
+            h('button',{className:'lbtn',onClick:()=>onLogin(phone,'otp')},'Verify & Login')
+          )
+      )
+    )
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// MAIN APP
+// ═══════════════════════════════════════════════════════════
+const NAV=[
+  {id:'dashboard',ico:'🏠',lbl:'Dashboard',sub:'Overview'},
+  {id:'kpi1',ico:'📊',lbl:'Lead Conversion',sub:'KPI 1'},
+  {id:'kpi2',ico:'🏛',lbl:'Architect Invitations',sub:'KPI 2'},
+  {id:'kpi3',ico:'👥',lbl:'Customer Footfall',sub:'KPI 3'},
+  {id:'kpi4',ico:'🏢',lbl:'Showroom Upkeep',sub:'KPI 4'},
+  {id:'kpi5',ico:'📋',lbl:'Data Management',sub:'KPI 5'},
+  {id:'kpi6',ico:'📚',lbl:'Presentation Skills',sub:'KPI 6'},
+  {id:'kpi7',ico:'⭐',lbl:'Architect Feedback',sub:'KPI 7'},
+  {id:'kpi8',ico:'💰',lbl:'Expense Management',sub:'KPI 8'},
+  {id:'kpi9',ico:'🎯',lbl:'Audit Score',sub:'KPI 9'},
+  {id:'kpi10',ico:'📈',lbl:'Sales Plan',sub:'KPI 10'},
+  {id:'kpi11',ico:'💬',lbl:'Customer Feedback',sub:'KPI 11'},
+  {id:'analytics',ico:'🧠',lbl:'Analytics & Insights',sub:'AI Insights'},
+];
+const TITLES={dashboard:'EC KPI Dashboard — Overview',kpi1:'KPI 1 — Online Lead Conversion to EC Visit',kpi2:'KPI 2 — Architect Invitations',kpi3:'KPI 3 — Customer Footfall Tracking',kpi4:'KPI 4 — Showroom Upkeep & Maintenance',kpi5:'KPI 5 — Data Management & MIS Hygiene',kpi6:'KPI 6 — Presentation Skills & Product Knowledge',kpi7:'KPI 7 — Architect Footfall Feedback & NPS',kpi8:'KPI 8 — Showroom Expense Management',kpi9:'KPI 9 — EC Audit Score',kpi10:'KPI 10 — Salesperson Performance Plan',kpi11:'KPI 11 — Customer Footfall Feedback',analytics:'Analytics & AI-Powered Insights'};
+const DR={'Oct 2025':{s:'2025-10-01',e:'2025-10-31'},'Nov 2025':{s:'2025-11-01',e:'2025-11-30'},'Dec 2025':{s:'2025-12-01',e:'2025-12-31'},'Q4 2025':{s:'2025-10-01',e:'2025-12-31'}};
+
+function App(){
+  const[screen,setScreen]=useState('login');
+  const[viewOnly,setViewOnly]=useState(false);
+  const[user,setUser]=useState(null);
+  const[page,setPage]=useState('dashboard');
+  const[slim,setSlim]=useState(false);
+  const[selDate,setSelDate]=useState('Q4 2025');
+  const[data,setData]=useState(SEED);
+
+    const[toast,setToast]=useState(null);
+  const showToast=useCallback(msg=>{setToast(msg);},[]);
+  const add=useCallback((col,rec)=>setData(prev=>({...prev,[col]:[...prev[col],{...rec,id:'n'+Date.now()}]})),[]);
+  const upd=useCallback((col,id,changes)=>setData(prev=>({...prev,[col]:prev[col].map(r=>r.id===id?{...r,...changes}:r)})),[]);
+  const del=useCallback((col,id)=>setData(prev=>({...prev,[col]:prev[col].filter(r=>r.id!==id)})),[]);
+  const fd=useCallback((items,field='date')=>{const r=DR[selDate];if(!r)return items;return items.filter(i=>(i[field]||'')>=r.s&&(i[field]||'')<=r.e);},[selDate]);
+
+  const stats=useMemo(()=>{
+    const ff=fd(data.footfall),lds=fd(data.leads);
+    const conv=lds.filter(l=>l.convertedToVisit).length;
+    const afb=fd(data.archFb);const avgR=afb.length?afb.reduce((a,f)=>a+f.rating,0)/afb.length:0;
+    const aus=data.audits;const auPct=aus.reduce((a,s)=>a+s.maxScore,0)?Math.round(aus.reduce((a,s)=>a+s.score,0)/aus.reduce((a,s)=>a+s.maxScore,0)*100):0;
+    const sw=fd(data.showroom);const swAvg=sw.length?(sw.reduce((a,s)=>a+s.score,0)/sw.length).toFixed(1):0;
+    return{footfall:ff.length,leads:lds.length,convRate:lds.length?Math.round(conv/lds.length*100):0,nps:Math.round(avgR*20),audit:auPct,showroom:swAvg};
+  },[data,fd]);
+
+  const canEdit=!viewOnly;
+  if(screen==='login')return h(Login,{onLogin:u=>{setUser(u);setScreen('app');setViewOnly(false);},onViewOnly:()=>{setScreen('app');setViewOnly(true);}});
+
+  const kpiProps={canEdit,add,upd,del,showToast};
+  const renderPage=()=>{
+    const fLeads=fd(data.leads),fArchs=fd(data.archs),fFF=fd(data.footfall),fSW=fd(data.showroom);
+    const fDM=fd(data.datamgmt,'dueDate'),fSk=fd(data.skills),fAF=fd(data.archFb);
+    const fEx=fd(data.expenses),fCF=fd(data.custFb);
+    if(page==='kpi1')return h(KPI1,{...kpiProps,data:fLeads});
+    if(page==='kpi2')return h(KPI2,{...kpiProps,data:fArchs});
+    if(page==='kpi3')return h(KPI3,{...kpiProps,data:fFF});
+    if(page==='kpi4')return h(KPI4,{...kpiProps,data:fSW});
+    if(page==='kpi5')return h(KPI5,{...kpiProps,data:fDM});
+    if(page==='kpi6')return h(KPI6,{...kpiProps,data:fSk});
+    if(page==='kpi7')return h(KPI7,{...kpiProps,data:fAF});
+    if(page==='kpi8')return h(KPI8,{...kpiProps,data:fEx});
+    if(page==='kpi9')return h(KPI9,{...kpiProps,data:data.audits});
+    if(page==='kpi10')return h(KPI10,{data:data.salesPlans,upd,showToast});
+    if(page==='kpi11')return h(KPI11,{...kpiProps,data:fCF});
+    if(page==='analytics')return h(Analytics,{allData:data});
+    return h('div',null,h(OverviewCards,{stats}),h(Analytics,{allData:data}),h(KPI1,{...kpiProps,data:fLeads}),h(KPI2,{...kpiProps,data:fArchs}),h(KPI3,{...kpiProps,data:fFF}),h(KPI4,{...kpiProps,data:fSW}),h(KPI5,{...kpiProps,data:fDM}),h(KPI6,{...kpiProps,data:fSk}),h(KPI7,{...kpiProps,data:fAF}),h(KPI8,{...kpiProps,data:fEx}),h(KPI9,{...kpiProps,data:data.audits}),h(KPI10,{data:data.salesPlans,upd,showToast}),h(KPI11,{...kpiProps,data:fCF}));
+  };
+
+  return h('div',{className:'app'},
+    toast&&h(Toast,{msg:toast,onDone:()=>setToast(null)}),
+    h('div',{className:'sb '+(slim?'slim':'wide')},
+      h('div',{className:'sb-logo'},
+        h('div',{className:'logo-pill'},'AIS'),
+        !slim&&h('div',{className:'logo-info'},h('p',null,'AIS Windows'),h('span',null,'EC KPI Dashboard')),
+        h('button',{className:'sb-toggle',title:slim?'Expand Sidebar':'Collapse Sidebar',onClick:()=>setSlim(!slim)},slim?'→':'←')
+      ),
+      viewOnly&&!slim&&h('div',{className:'vo-badge'},h('span',null,'👁 View Only Mode')),
+      h('div',{className:'sb-nav'},NAV.map(n=>h('button',{key:n.id,className:'nav-item'+(page===n.id?' act':''),onClick:()=>setPage(n.id)},
+        h('div',{className:'nav-ico'},n.ico),
+        !slim&&h('div',{className:'nav-txt'},h('p',null,n.lbl),h('span',null,n.sub))
+      ))),
+      h('div',{className:'sb-foot'},
+        h('button',{className:'nav-item',onClick:()=>{setScreen('login');setUser(null);setViewOnly(false);}},
+          h('div',{className:'nav-ico'},'🚪'),
+          !slim&&h('div',{className:'nav-txt'},h('p',null,viewOnly?'Back to Login':'Log Out'),h('span',null,viewOnly?'Sign in to edit':'EC Manager'))
+        )
+      )
+    ),
+    h('div',{className:'main'},
+      h('div',{className:'hdr'},
+        h('div',{className:'hdr-title'},h('p',null,TITLES[page]||'Dashboard'),h('span',null,'Gurugram Experience Center · AIS Windows Limited')),
+        h('div',{className:'hdr-sep'}),
+        h('div',{className:'date-strip'},['Oct 2025','Nov 2025','Dec 2025','Q4 2025'].map(d=>h('button',{key:d,className:'dp'+(selDate===d?' act':''),onClick:()=>setSelDate(d)},d))),
+        h('button',{className:'print-btn',onClick:()=>window.print()},'🖨 Print'),
+        viewOnly
+          ?h('div',{style:{display:'flex',alignItems:'center',gap:6,padding:'5px 9px',borderRadius:8,background:'rgba(255,215,0,.09)',border:'1px solid rgba(255,215,0,.2)'}},h('span',{style:{fontSize:9.5,fontWeight:600,color:'#FFD700'}},'👁 View Only'))
+          :h('div',{className:'hdr-user'},h('div',{className:'avatar'},user?user[0].toUpperCase():'S'),h('div',null,h('p',null,user?.includes('@')?user.split('@')[0]:'Sanju Gupta'),h('span',null,'EC Manager')))
+      ),
+      h('div',{className:'content'},renderPage(),h('div',{style:{height:28}}))
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(h(App,null));
+</script>
+</body>
+</html>
