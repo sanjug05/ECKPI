@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AIS Windows — Experience Center KPI Dashboard</title>
+<title>AIS Windows EC-KPI Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
+
 *{box-sizing:border-box;margin:0;padding:0}
 html,body,#root{height:100%;background:#0A1628;font-family:'DM Sans',sans-serif;color:#fff;overflow:hidden}
 ::-webkit-scrollbar{width:4px;height:4px}
@@ -229,16 +230,62 @@ select option{background:#0c1d38;color:#fff}
   .badge{border:1px solid #999!important}
   .toast-wrap{display:none!important}
 }
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;display:inline-block;margin-left:6px;animation:pulse 2s infinite}
+
 </style>
 </head>
 <body>
 <div id="root"></div>
+
+<!-- Firebase (module) — exposes window._fb -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, updateDoc, deleteDoc,
+  doc, onSnapshot, getDocs, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDav3rI7fTr8KrXYxvnz5LB82CgjRq4v20",
+  authDomain: "ais-showroom-dashboard.firebaseapp.com",
+  projectId: "ais-showroom-dashboard",
+  storageBucket: "ais-showroom-dashboard.firebasestorage.app",
+  messagingSenderId: "175667492150",
+  appId: "1:175667492150:web:cb124eb267b4689e6a2f97"
+};
+
+const _app  = initializeApp(firebaseConfig);
+const _db   = getFirestore(_app);
+const _auth = getAuth(_app);
+
+window._fb = {
+  db:_db, auth:_auth,
+  collection, addDoc, updateDoc, deleteDoc,
+  doc, onSnapshot, getDocs, serverTimestamp,
+  signInWithEmailAndPassword, onAuthStateChanged, signOut
+};
+window._fbReady = true;
+window.dispatchEvent(new Event('fbReady'));
+console.log('[Firebase] ais-showroom-dashboard ready');
+
+</script>
+
+<!-- React -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+
+<!-- App -->
 <script>
 'use strict';
 const {useState,useMemo,useCallback,useEffect}=React;
 const h=React.createElement;
+
 
 // ═══════════════════════════════════════════════════════════
 // PURE SVG CHART LIBRARY — no external dependencies
@@ -255,6 +302,7 @@ function gridLines(xs,ys){
 
 // Bar Chart (vertical)
 function BarChart({data,keys,colors,barColors,height=SVG_H,labels,showLegend,refLine}){
+  if(!data||!data.length)return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},h('text',{x:SVG_W/2,y:height/2,textAnchor:'middle',fontSize:10,fill:'rgba(255,255,255,.25)'},'No data yet'));
   const W=SVG_W,H=height,pl=PAD.l,pr=PAD.r,pt=PAD.t,pb=PAD.b;
   const maxV=Math.max(...data.flatMap(d=>keys.map(k=>d[k]||0)),1);
   const chartH=H-pt-pb,chartW=W-pl-pr;
@@ -291,6 +339,7 @@ function BarChart({data,keys,colors,barColors,height=SVG_H,labels,showLegend,ref
 
 // Horizontal Bar Chart
 function HBarChart({data,height=180}){
+  if(!data||!data.length)return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},h('text',{x:SVG_W/2,y:height/2,textAnchor:'middle',fontSize:10,fill:'rgba(255,255,255,.25)'},'No data yet'));
   const W=SVG_W,H=height,pl=60,pr=30,pt=8,pb=8;
   const maxV=Math.max(...data.map(d=>d.v||0),1);
   const rowH=(H-pt-pb)/data.length;
@@ -314,12 +363,13 @@ function HBarChart({data,height=180}){
 
 // Area / Line Chart
 function AreaChart({data,color='#00B4D8',height=SVG_H,fill=true}){
+  if(!data||!data.length)return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},h('text',{x:SVG_W/2,y:height/2,textAnchor:'middle',fontSize:10,fill:'rgba(255,255,255,.25)'},'No data yet'));
   const W=SVG_W,H=height,pl=PAD.l,pr=PAD.r,pt=PAD.t,pb=PAD.b;
   const maxV=Math.max(...data.map(d=>d.v||0),1);
   const chartH=H-pt-pb,chartW=W-pl-pr;
-  const pts=data.map((d,i)=>({x:pl+i*(chartW/(data.length-1||1)),y:pt+chartH*(1-(d.v/maxV))}));
-  const pathD=pts.map((p,i)=>`${i===0?'M':'L'}${p.x},${p.y}`).join(' ');
-  const areaD=pathD+` L${pts[pts.length-1].x},${pt+chartH} L${pts[0].x},${pt+chartH} Z`;
+  const pts=data.map((d,i)=>({x:pl+i*(chartW/(Math.max(data.length-1,1))),y:pt+chartH*(1-(d.v/maxV))}));
+  const pathD=pts.map((p,i)=>`${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const areaD=pathD+` L${pts[pts.length-1].x.toFixed(1)},${(pt+chartH).toFixed(1)} L${pts[0].x.toFixed(1)},${(pt+chartH).toFixed(1)} Z`;
   const gradId='ag'+Math.round(Math.random()*1e6);
   const yTicks=3;
   const ys=Array.from({length:yTicks+1},(_,i)=>pt+chartH*(1-i/yTicks));
@@ -337,6 +387,7 @@ function AreaChart({data,color='#00B4D8',height=SVG_H,fill=true}){
 
 // Multi-line Chart
 function LineChart({data,series,height=SVG_H}){
+  if(!data||!data.length)return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},h('text',{x:SVG_W/2,y:height/2,textAnchor:'middle',fontSize:10,fill:'rgba(255,255,255,.25)'},'No data yet'));
   const W=SVG_W,H=height,pl=PAD.l,pr=PAD.r,pt=PAD.t,pb=PAD.b;
   const allVals=data.flatMap(d=>series.map(s=>d[s.k]||0));
   const maxV=Math.max(...allVals,1);
@@ -359,6 +410,7 @@ function LineChart({data,series,height=SVG_H}){
 
 // Radar Chart
 function RadarChart({data,color='#00B4D8',height=180}){
+  if(!data||!data.length)return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},h('text',{x:SVG_W/2,y:height/2,textAnchor:'middle',fontSize:10,fill:'rgba(255,255,255,.25)'},'No data yet'));
   const N=data.length;const cx=SVG_W/2,cy=height/2,r=Math.min(cx,cy)-28;
   const angle=i=>(i/N)*2*Math.PI-Math.PI/2;
   const px=(i,rr)=>cx+rr*Math.cos(angle(i));
@@ -378,6 +430,7 @@ function RadarChart({data,color='#00B4D8',height=180}){
 
 // Pie / Donut Chart — vertical legend for 5+ slices
 function PieChart({data,inner=0,height=170}){
+  if(!data||!data.length)return h('svg',{viewBox:`0 0 ${SVG_W} ${height}`,width:'100%',height},h('text',{x:SVG_W/2,y:height/2,textAnchor:'middle',fontSize:10,fill:'rgba(255,255,255,.25)'},'No data yet'));
   const hasMany=data.length>=5;
   const cx=hasMany?SVG_W*0.42:SVG_W/2;
   const cy=(height-18)/2;
@@ -431,61 +484,287 @@ function Bdg({v,cls}){
   return h('span',{className:'badge '+c},v);
 }
 
-// ═══════════════════════════════════════════════════════════
-// SEED DATA
-// ═══════════════════════════════════════════════════════════
-const SPS=['Rajesh Kumar','Priya Sharma','Amit Singh','Neha Patel','Vikram Rao'];
-const FIRMS=['Studio Aura','Design Matrix','Blueprint Co','Archform India','Vertex Architects','Space Lab'];
-const ARCHS=['Ar. Sunita Mehta','Ar. Ravi Pillai','Ar. Anjali Gupta','Ar. Deepak Sharma','Ar. Pooja Nair'];
-const SOURCES=['Website','Social Media','Google Ads','Referral','Email Campaign'];
-const INV_CATS=['Cold Calls','Existing Relationships','Events','Referrals'];
-const PURPOSES=['Product Enquiry','Purchase','After Sales','General Browse','Specification Review'];
-const TOPICS=['Glass Types & Properties','Solar Control Glass','Acoustic Glass','Safety Glass','Decorative Glass','Customer Handling'];
-const PARAMS_SW=['Cleanliness','Lighting','Display Arrangement','Ambience','Working Equipment','Safety'];
-const PARAMS_AU=['Compliance','Documentation','Safety','Display Standards','Customer Service'];
-const EXP_CATS=['Utilities','Maintenance','Hospitality','Marketing Materials','Miscellaneous'];
-const EXP_BUDS=[25000,15000,20000,30000,10000];
-const TYPES_FF=['New','Repeat','Referral','Walk-in'];
-const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const pick=a=>a[Math.floor(Math.random()*a.length)];
-const fd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-const rdDate=(s,e)=>{const d=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));return fd(d);};
-const fmtM=v=>'₹'+Number(v).toLocaleString('en-IN');
 
-function genSeed(){
-  const months=[[new Date('2025-10-01'),new Date('2025-10-31')],[new Date('2025-11-01'),new Date('2025-11-30')],[new Date('2025-12-01'),new Date('2025-12-31')]];
-  const leads=[],archs=[],footfall=[],showroom=[],datamgmt=[],skills=[],archFb=[],expenses=[],audits=[],custFb=[];
-  let uid=0;const id=()=>++uid;
-  const NAMES=['Priya','Ankit','Ravi','Meena','Suresh','Deepa','Mohan','Sonal','Kiran','Varun'];
-  const SNAMES=['Sharma','Gupta','Kumar','Patel','Iyer','Nair','Singh','Mehta','Joshi','Shah'];
-  months.forEach(([s,e],mi)=>{
-    for(let i=0;i<24;i++){const cv=Math.random()>.38;leads.push({id:'l'+id(),date:rdDate(s,e),leadSource:pick(SOURCES),leadName:pick(NAMES)+' '+pick(SNAMES),contact:'+91 9'+rnd(100000000,999999999),status:cv?'Converted':pick(['Qualified','In Progress','Cold']),convertedToVisit:cv,salesperson:pick(SPS)});}
-    for(let i=0;i<20;i++){const v=Math.random()>.3;archs.push({id:'a'+id(),date:rdDate(s,e),architectName:pick(ARCHS),firmName:pick(FIRMS),invitationCategory:pick(INV_CATS),plannedDate:rdDate(s,new Date(e.getTime()+7*864e5)),actualDate:v?rdDate(s,e):null,status:v?'Visited':pick(['Scheduled','Pending','Rescheduled']),convertedToVisit:v,salesperson:pick(SPS)});}
-    for(let d=1;d<=31;d++){const dt=new Date(s.getFullYear(),s.getMonth(),d);if(dt>e)break;const cnt=rnd(3,11);for(let i=0;i<cnt;i++){const ti=rnd(9,17)+':00';footfall.push({id:'f'+id(),date:fd(dt),name:pick(NAMES)+' '+pick(SNAMES),contact:'+91 9'+rnd(100000000,999999999),customerType:pick(TYPES_FF),timeIn:ti,timeOut:(Math.min(parseInt(ti)+rnd(1,3),18))+':00',purpose:pick(PURPOSES),salesperson:pick(SPS)});}}
-    PARAMS_SW.forEach(p=>{for(let d=1;d<=31;d+=2){const dt=new Date(s.getFullYear(),s.getMonth(),d);if(dt>e||dt.getDay()===0)continue;showroom.push({id:'sw'+id(),date:fd(dt),parameter:p,score:rnd(6,10),remarks:rnd(0,3)?'All good':'Minor issue noted',checkedBy:'Sanju Gupta'});}});
-    for(let d=1;d<=31;d++){const dt=new Date(s.getFullYear(),s.getMonth(),d);if(dt>e||dt.getDay()===0)break;datamgmt.push({id:'dm'+id(),date:fd(dt),dueDate:fd(dt),submissionDate:fd(dt),reportType:'Daily Report',status:Math.random()>.18?'On Time':Math.random()>.5?'Late':'Missing',submittedBy:'Sanju Gupta'});}
-    for(let w=0;w<4;w++){const dt=new Date(s.getFullYear(),s.getMonth(),7*w+7);if(dt>e)break;datamgmt.push({id:'wm'+id(),date:fd(dt),dueDate:fd(dt),submissionDate:fd(dt),reportType:'Weekly MIS',status:Math.random()>.14?'On Time':'Late',submittedBy:'Sanju Gupta'});}
-    datamgmt.push({id:'mr'+id(),date:fd(new Date(s.getFullYear(),s.getMonth(),2)),dueDate:fd(new Date(s.getFullYear(),s.getMonth(),2)),submissionDate:fd(new Date(s.getFullYear(),s.getMonth(),rnd(2,4))),reportType:'Monthly Report',status:Math.random()>.2?'On Time':'Late',submittedBy:'Sanju Gupta'});
-    SPS.forEach((sp)=>{for(let i=0;i<rnd(1,3);i++){const sc=rnd(55,98);skills.push({id:'sk'+id(),date:rdDate(s,e),salesperson:sp,trainingTopic:pick(TOPICS),assessmentScore:sc,certification:sc>=75?'Completed':'In Progress',nextTrainingDue:rdDate(e,new Date(e.getTime()+30*864e5))});}});
-    for(let i=0;i<15;i++){const r=rnd(3,5);const cat=r>=4?'Positive':r===3?'Neutral':'Negative';archFb.push({id:'af'+id(),date:rdDate(s,e),name:pick(ARCHS),firmName:pick(FIRMS),rating:r,feedbackText:r>=4?'Excellent product knowledge and hospitality!':r===3?'Good visit, could be more organised.':'Needs improvement in response time.',category:cat,salesperson:pick(SPS),parameters:{productKnowledge:rnd(r-1,5),presentation:rnd(r-1,5),hospitality:rnd(r-1,5),overallExperience:r}});}
-    EXP_CATS.forEach((cat,ci)=>{const bud=EXP_BUDS[ci];const n=rnd(2,4);const pe=Math.floor(bud/n);for(let i=0;i<n;i++){const act=Math.floor(pe*(0.72+Math.random()*0.5));expenses.push({id:'ex'+id(),date:rdDate(s,e),category:cat,description:cat+' – entry '+(i+1),budgetAmount:pe,actualAmount:act,variance:pe-act,approvedBy:'Sanju Gupta'});}});
-    const auDate=rdDate(new Date(s.getFullYear(),s.getMonth(),8),new Date(s.getFullYear(),s.getMonth(),22));
-    PARAMS_AU.forEach(p=>{const sc=rnd(13,20);audits.push({id:'au'+id(),date:auDate,auditorName:pick(['Mr. Anil Verma','Ms. Rekha Nair','Mr. Suresh Pillai']),parameter:p,score:sc,maxScore:20,findings:sc<16?'Improvement needed':'-',actionTaken:sc<16?'Action initiated':'-'});});
-    const FB_POS=['Amazing showroom experience!','Excellent display and ambience.','Great hospitality and product knowledge.','Very impressed with glass variety.'];
-    const FB_NEU=['Good but response time could improve.','Average experience, staff helpful but busy.'];
-    const FB_NEG=['Needs improvement in staff attention.','Response time was very slow.'];
-    for(let i=0;i<30;i++){const r=rnd(3,5);custFb.push({id:'cf'+id(),date:rdDate(s,e),name:pick(NAMES)+' '+pick(SNAMES),contact:'+91 9'+rnd(100000000,999999999),rating:r,feedbackText:r>=4?pick(FB_POS):r===3?pick(FB_NEU):pick(FB_NEG),staffAttended:pick(SPS),parameters:{productDisplay:rnd(Math.max(r-1,1),5),staffBehavior:rnd(Math.max(r-1,1),5),responseTime:rnd(Math.max(r-2,1),5),solutionProvided:rnd(Math.max(r-1,1),5),overallExperience:r}});}
-  });
-  const AREAS=['Lead Generation','Conversion Rate','Revenue','Architect Visits','Customer NPS','Training Completion','Footfall','Follow-ups','New Accounts','Proposals Sent','Customer Retention','Repeat Visits','Events Attended','Product Demos','Collections'];
-  const salesPlans=SPS.map((sp,si)=>{const lines=Array.from({length:20},(_,i)=>{const tv=rnd(20,100);const av=Math.floor(tv*(0.58+Math.random()*0.62));const pct=Math.min(Math.round(av/tv*100),160);return{lineNo:i+1,targetArea:AREAS[i%AREAS.length],targetMetric:i%2===0?'Count':'Percentage',targetValue:tv,actualValue:av,achievementPct:pct,status:pct>=90?'On Track':pct>=70?'At Risk':'Below Target',remarks:pct>=90?'Excellent':pct>=70?'Needs attention':'Action required'};});return{id:'sp'+si,salespersonId:'SP00'+(si+1),salespersonName:sp,lines};});
-  return{leads,archs,footfall,showroom,datamgmt,skills,archFb,expenses,audits,custFb,salesPlans};
+// ═══════════════════════════════════════════════════════════
+// EC CONFIGURATION & USER ROLES
+// ═══════════════════════════════════════════════════════════
+const EC_CONFIG = {
+  'sanju.gupta@aisglass.com':   { role:'Admin',   ecs:['bangalore','delhi'],  name:'Sanju Gupta' },
+  'rajath.m@aisglass.com':      { role:'Manager', ecs:['bangalore'],           name:'Rajath M' },
+  'chikimiki.ahmed@aisglass.com':{ role:'Manager', ecs:['delhi'],              name:'Chikimiki Ahmed' },
+};
+const EC_LABELS = { bangalore:'Bangalore EC', delhi:'Delhi EC' };
+
+function getUserConfig(email) {
+  return EC_CONFIG[email] || { role:'Viewer', ecs:['bangalore','delhi'], name: email?.split('@')[0] || 'Viewer' };
 }
-const SEED=genSeed();
 
 // ═══════════════════════════════════════════════════════════
-// SHARED UI COMPONENTS
+// FIRESTORE DATA SERVICE
 // ═══════════════════════════════════════════════════════════
-// ══ TOAST ══════════════════════════════════════════════════
+const KPI_COLLECTION  = 'ec_kpi_data';
+const PLAN_COLLECTION = 'ec_sales_plans';
+
+// Subscribe to KPI data for given ecIds
+// Returns unsubscribe function
+function subscribeKpiData(ecIds, onData) {
+  const { db, collection, onSnapshot } = window._fb;
+  const col = collection(db, KPI_COLLECTION);
+  return onSnapshot(col, snap => {
+    const rows = [];
+    snap.forEach(d => {
+      const data = d.data();
+      if (ecIds.includes(data.ecId)) rows.push({ id: d.id, ...data });
+    });
+    onData(rows);
+  }, err => console.error('Firestore KPI error:', err));
+}
+
+function subscribePlanData(ecIds, onData) {
+  const { db, collection, onSnapshot } = window._fb;
+  const col = collection(db, PLAN_COLLECTION);
+  return onSnapshot(col, snap => {
+    const rows = [];
+    snap.forEach(d => {
+      const data = d.data();
+      if (ecIds.includes(data.ecId)) rows.push({ id: d.id, ...data });
+    });
+    onData(rows);
+  }, err => console.error('Firestore Plan error:', err));
+}
+
+async function fsAdd(colName, data) {
+  const { db, collection, addDoc, serverTimestamp } = window._fb;
+  return addDoc(collection(db, colName), {
+    ...data,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+}
+
+async function fsUpdate(colName, id, data) {
+  const { db, doc, updateDoc, serverTimestamp } = window._fb;
+  return updateDoc(doc(db, colName, id), { ...data, updatedAt: serverTimestamp() });
+}
+
+async function fsDelete(colName, id) {
+  const { db, doc, deleteDoc } = window._fb;
+  return deleteDoc(doc(db, colName, id));
+}
+
+async function fsCount(colName) {
+  const { db, collection, getDocs } = window._fb;
+  const snap = await getDocs(collection(db, colName));
+  return snap.size;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SEED DATA GENERATORS (per EC)
+// ═══════════════════════════════════════════════════════════
+const SPS_BLR = ['Rahul Nair','Priya Menon','Arun Kumar','Deepa Iyer','Karthik S'];
+const SPS_DEL = ['Rajesh Kumar','Priya Sharma','Amit Singh','Neha Patel','Vikram Rao'];
+// Generic SPS for KPI modal dropdowns (combined list, deduped)
+const SPS = [...new Set([...SPS_BLR, ...SPS_DEL])];
+const FIRMS = ['Studio Aura','Design Matrix','Blueprint Co','Archform India','Vertex Architects','Space Lab'];
+const ARCHS_BLR = ['Ar. Sunita Rao','Ar. Ravi Pillai','Ar. Anjali Kumar','Ar. Deepak Nair','Ar. Pooja Menon'];
+const ARCHS_DEL = ['Ar. Sunita Mehta','Ar. Ravi Sharma','Ar. Anjali Gupta','Ar. Deepak Singh','Ar. Pooja Verma'];
+const SOURCES  = ['Website','Social Media','Google Ads','Referral','Email Campaign'];
+const INV_CATS = ['Cold Calls','Existing Relationships','Events','Referrals'];
+const PURPOSES = ['Product Enquiry','Purchase','After Sales','General Browse','Specification Review'];
+const TOPICS   = ['Glass Types & Properties','Solar Control Glass','Acoustic Glass','Safety Glass','Decorative Glass','Customer Handling'];
+const PARAMS_SW = ['Cleanliness','Lighting','Display Arrangement','Ambience','Working Equipment','Safety'];
+const PARAMS_AU = ['Compliance','Documentation','Safety','Display Standards','Customer Service'];
+const EXP_CATS  = ['Utilities','Maintenance','Hospitality','Marketing Materials','Miscellaneous'];
+const EXP_BUDS  = [25000,15000,20000,30000,10000];
+const TYPES_FF  = ['New','Repeat','Referral','Walk-in'];
+const AREAS = ['Lead Generation','Conversion Rate','Revenue','Architect Visits','Customer NPS',
+               'Training Completion','Footfall','Follow-ups','New Accounts','Proposals Sent',
+               'Customer Retention','Repeat Visits','Events Attended','Product Demos','Collections'];
+
+const rnd  = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const pick = arr  => arr[Math.floor(Math.random()*arr.length)];
+const fdStr= d    => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const rdDate=(s,e) => { const d=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime())); return fdStr(d); };
+const fmtM = v    => '₹'+Number(v).toLocaleString('en-IN');
+
+async function seedEC(ecId, userEmail) {
+  const sps    = ecId==='bangalore' ? SPS_BLR : SPS_DEL;
+  const archs  = ecId==='bangalore' ? ARCHS_BLR : ARCHS_DEL;
+  // Bangalore is slightly lower traffic (new EC), Delhi is established
+  const leadMult  = ecId==='bangalore' ? 0.8 : 1.0;
+  const footMult  = ecId==='bangalore' ? 0.7 : 1.0;
+  const months = [
+    [new Date('2025-10-01'), new Date('2025-10-31')],
+    [new Date('2025-11-01'), new Date('2025-11-30')],
+    [new Date('2025-12-01'), new Date('2025-12-31')],
+  ];
+  const NAMES = ['Priya','Ankit','Ravi','Meena','Suresh','Deepa','Mohan','Sonal','Kiran','Varun'];
+  const SNAMES= ['Sharma','Gupta','Kumar','Patel','Iyer','Nair','Singh','Mehta','Joshi','Shah'];
+  const rows  = [];
+
+  months.forEach(([s,e]) => {
+    // KPI 1 — Leads
+    const lCount = Math.round(rnd(18,24)*leadMult);
+    for(let i=0;i<lCount;i++){
+      const cv=Math.random()>.38;
+      rows.push({ ecId, kpiType:'leads', date:rdDate(s,e),
+        leadSource:pick(SOURCES), leadName:pick(NAMES)+' '+pick(SNAMES),
+        contact:'+91 9'+rnd(1e8,9.9e8), status:cv?'Converted':pick(['Qualified','In Progress','Cold']),
+        convertedToVisit:cv, salesperson:pick(sps), createdBy:userEmail });
+    }
+    // KPI 2 — Architect invitations
+    for(let i=0;i<18;i++){
+      const v=Math.random()>.3;
+      rows.push({ ecId, kpiType:'archs', date:rdDate(s,e),
+        architectName:pick(archs), firmName:pick(FIRMS), invitationCategory:pick(INV_CATS),
+        plannedDate:rdDate(s,new Date(e.getTime()+7*864e5)),
+        actualDate:v?rdDate(s,e):null,
+        status:v?'Visited':pick(['Scheduled','Pending','Rescheduled']),
+        convertedToVisit:v, salesperson:pick(sps), createdBy:userEmail });
+    }
+    // KPI 3 — Footfall
+    for(let d=1;d<=31;d++){
+      const dt=new Date(s.getFullYear(),s.getMonth(),d);
+      if(dt>e) break;
+      const cnt=Math.round(rnd(3,11)*footMult);
+      for(let i=0;i<cnt;i++){
+        rows.push({ ecId, kpiType:'footfall', date:fdStr(dt),
+          name:pick(NAMES)+' '+pick(SNAMES), contact:'+91 9'+rnd(1e8,9.9e8),
+          customerType:pick(TYPES_FF), timeIn:rnd(9,17)+':00', timeOut:rnd(10,18)+':00',
+          purpose:pick(PURPOSES), salesperson:pick(sps), createdBy:userEmail });
+      }
+    }
+    // KPI 4 — Showroom scores
+    PARAMS_SW.forEach(param => {
+      for(let d=1;d<=31;d+=2){
+        const dt=new Date(s.getFullYear(),s.getMonth(),d);
+        if(dt>e||dt.getDay()===0) continue;
+        // Bangalore slightly lower scores (newer EC)
+        const sc = ecId==='bangalore' ? rnd(5,9) : rnd(6,10);
+        rows.push({ ecId, kpiType:'showroom', date:fdStr(dt), parameter:param,
+          score:sc, remarks:sc>=8?'All good':'Minor issue noted', checkedBy:pick(sps), createdBy:userEmail });
+      }
+    });
+    // KPI 5 — Data management
+    for(let d=1;d<=31;d++){
+      const dt=new Date(s.getFullYear(),s.getMonth(),d);
+      if(dt>e||dt.getDay()===0) break;
+      const compliance = ecId==='bangalore' ? 0.22 : 0.18;
+      rows.push({ ecId, kpiType:'datamgmt', date:fdStr(dt), dueDate:fdStr(dt), submissionDate:fdStr(dt),
+        reportType:'Daily Report', status:Math.random()>compliance?'On Time':Math.random()>.5?'Late':'Missing',
+        submittedBy:pick(sps), createdBy:userEmail });
+    }
+    for(let w=0;w<4;w++){
+      const dt=new Date(s.getFullYear(),s.getMonth(),7*w+7);
+      if(dt>e) break;
+      rows.push({ ecId, kpiType:'datamgmt', date:fdStr(dt), dueDate:fdStr(dt), submissionDate:fdStr(dt),
+        reportType:'Weekly MIS', status:Math.random()>.14?'On Time':'Late',
+        submittedBy:pick(sps), createdBy:userEmail });
+    }
+    rows.push({ ecId, kpiType:'datamgmt',
+      date:fdStr(new Date(s.getFullYear(),s.getMonth(),2)),
+      dueDate:fdStr(new Date(s.getFullYear(),s.getMonth(),2)),
+      submissionDate:fdStr(new Date(s.getFullYear(),s.getMonth(),rnd(2,4))),
+      reportType:'Monthly Report', status:Math.random()>.2?'On Time':'Late',
+      submittedBy:pick(sps), createdBy:userEmail });
+    // KPI 6 — Skills
+    sps.forEach(sp => {
+      for(let i=0;i<rnd(1,3);i++){
+        const sc=rnd(55,98);
+        rows.push({ ecId, kpiType:'skills', date:rdDate(s,e), salesperson:sp,
+          trainingTopic:pick(TOPICS), assessmentScore:sc,
+          certification:sc>=75?'Completed':'In Progress',
+          nextTrainingDue:rdDate(e,new Date(e.getTime()+30*864e5)), createdBy:userEmail });
+      }
+    });
+    // KPI 7 — Architect feedback
+    for(let i=0;i<15;i++){
+      const r=rnd(3,5); const cat=r>=4?'Positive':r===3?'Neutral':'Negative';
+      rows.push({ ecId, kpiType:'archFb', date:rdDate(s,e),
+        name:pick(archs), firmName:pick(FIRMS), rating:r,
+        feedbackText:r>=4?'Excellent product knowledge!':r===3?'Good visit, could be more organised.':'Needs improvement.',
+        category:cat, salesperson:pick(sps),
+        parameters:{productKnowledge:rnd(Math.max(r-1,1),5),presentation:rnd(Math.max(r-1,1),5),hospitality:rnd(Math.max(r-1,1),5),overallExperience:r},
+        createdBy:userEmail });
+    }
+    // KPI 8 — Expenses (Bangalore slightly different budget profile)
+    EXP_CATS.forEach((cat,ci) => {
+      const bud  = ecId==='bangalore' ? Math.round(EXP_BUDS[ci]*0.85) : EXP_BUDS[ci];
+      const n    = rnd(2,4);
+      const pe   = Math.floor(bud/n);
+      for(let i=0;i<n;i++){
+        const act=Math.floor(pe*(0.72+Math.random()*0.5));
+        rows.push({ ecId, kpiType:'expenses', date:rdDate(s,e), category:cat,
+          description:`${cat} – entry ${i+1}`, budgetAmount:pe, actualAmount:act,
+          variance:pe-act, approvedBy:pick(sps), createdBy:userEmail });
+      }
+    });
+    // KPI 9 — Audits
+    const auDate=rdDate(new Date(s.getFullYear(),s.getMonth(),8),new Date(s.getFullYear(),s.getMonth(),22));
+    PARAMS_AU.forEach(param => {
+      const sc = ecId==='bangalore' ? rnd(11,18) : rnd(13,20);
+      rows.push({ ecId, kpiType:'audits', date:auDate,
+        auditorName:pick(['Mr. Anil Verma','Ms. Rekha Nair','Mr. Suresh Pillai']),
+        parameter:param, score:sc, maxScore:20,
+        findings:sc<16?'Improvement needed':'-', actionTaken:sc<16?'Action initiated':'-',
+        createdBy:userEmail });
+    });
+    // KPI 11 — Customer feedback
+    const FBP=['Amazing showroom experience!','Excellent display and ambience.','Great hospitality!','Very impressed with the variety.'];
+    const FBN=['Good but response time could improve.','Average experience, staff helpful but busy.'];
+    const FBR=['Needs improvement in staff attention.','Response time was very slow.'];
+    const fbCount = Math.round(rnd(22,30)*footMult);
+    for(let i=0;i<fbCount;i++){
+      const r=rnd(3,5);
+      rows.push({ ecId, kpiType:'custFb', date:rdDate(s,e),
+        name:pick(NAMES)+' '+pick(SNAMES), contact:'+91 9'+rnd(1e8,9.9e8),
+        rating:r, feedbackText:r>=4?pick(FBP):r===3?pick(FBN):pick(FBR),
+        staffAttended:pick(sps), createdBy:userEmail,
+        parameters:{productDisplay:rnd(Math.max(r-1,1),5),staffBehavior:rnd(Math.max(r-1,1),5),responseTime:rnd(Math.max(r-2,1),5),solutionProvided:rnd(Math.max(r-1,1),5),overallExperience:r} });
+    }
+  });
+
+  console.log(`[Seed] Uploading ${rows.length} KPI records for ${ecId}...`);
+  const batchSize = 20;
+  for(let i=0; i<rows.length; i+=batchSize){
+    const batch = rows.slice(i, i+batchSize);
+    await Promise.all(batch.map(r => fsAdd(KPI_COLLECTION, r)));
+  }
+  console.log(`[Seed] ${ecId} KPI data done`);
+
+  // KPI 10 — Sales plans
+  const plans = sps.map((sp,si) => ({
+    ecId, salespersonId:`SP00${si+1}`, salespersonName:sp, createdBy:userEmail,
+    lines: Array.from({length:20},(_,i) => {
+      const tv=rnd(20,100), av=Math.floor(tv*(0.58+Math.random()*0.62));
+      const pct=Math.min(Math.round(av/tv*100),160);
+      return { lineNo:i+1, targetArea:AREAS[i%AREAS.length], targetMetric:i%2===0?'Count':'Percentage',
+               targetValue:tv, actualValue:av, achievementPct:pct,
+               status:pct>=90?'On Track':pct>=70?'At Risk':'Below Target',
+               remarks:pct>=90?'Excellent':pct>=70?'Needs attention':'Action required' };
+    })
+  }));
+  await Promise.all(plans.map(p => fsAdd(PLAN_COLLECTION, p)));
+  console.log(`[Seed] ${ecId} sales plans done`);
+}
+
+async function checkAndSeedIfEmpty(userEmail) {
+  try {
+    const count = await fsCount(KPI_COLLECTION);
+    if(count === 0){
+      console.log('[Seed] Collection empty — seeding both ECs...');
+      await seedEC('bangalore', userEmail);
+      await seedEC('delhi', userEmail);
+      console.log('[Seed] Complete!');
+    } else {
+      console.log(`[Seed] Collection has ${count} docs — skipping seed`);
+    }
+  } catch(e) {
+    console.warn('[Seed] Could not check/seed:', e.message);
+  }
+}
+
+
 function Toast({msg,onDone}){
   useEffect(()=>{if(!msg)return;const t=setTimeout(onDone,2500);return()=>clearTimeout(t);},[msg]);
   if(!msg)return null;
@@ -493,6 +772,7 @@ function Toast({msg,onDone}){
 }
 
 // ══ CONFIRM DIALOG ═══════════════════════════════════════════
+
 function ConfirmDialog({onConfirm,onCancel}){
   return h('div',{className:'mbg',onMouseDown:e=>e.target===e.currentTarget&&onCancel()},
     h('div',{style:{background:'#0c1d38',borderRadius:14,border:'1px solid rgba(248,113,113,.32)',width:300,padding:'22px 22px',textAlign:'center',boxShadow:'0 24px 50px rgba(0,0,0,.6)'}},
@@ -508,6 +788,7 @@ function ConfirmDialog({onConfirm,onCancel}){
 }
 
 // ══ MODAL (add + edit) ════════════════════════════════════════
+
 function Modal({title,fields,onSubmit,onClose,editData}){
   const[form,setForm]=useState(()=>{
     if(editData)return fields.reduce((a,f)=>({...a,[f.n]:editData[f.n]!==undefined?String(editData[f.n]):(f.def||'')}),{});
@@ -541,6 +822,7 @@ function Modal({title,fields,onSubmit,onClose,editData}){
 }
 
 // ══ useKpiState — manages modal/edit/confirm per KPI ══════════
+
 function useKpiState(col,add,upd,del,showToast){
   const[modal,setModal]=useState(false);
   const[editRow,setEditRow]=useState(null);
@@ -599,6 +881,7 @@ function DataTable({cols,rows,ps=10,onEdit,onDelete}){
 // KPI 1 — Online Lead Conversion
 // ═══════════════════════════════════════════════════════════
 // ══ KPI CARD WRAPPER ════════════════════════════════════════
+
 function KCWrap({num,title,badge,children,canEdit,onAdd,defOpen=true,numColor}){
   const[open,setOpen]=useState(defOpen);
   return h('div',{className:'kc'},
@@ -615,7 +898,6 @@ function KCWrap({num,title,badge,children,canEdit,onAdd,defOpen=true,numColor}){
     open&&h('div',{className:'kc-body ani-fade'},children)
   );
 }
-
 
 function KPI1({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('leads',add,upd,del,showToast);
@@ -651,6 +933,7 @@ function KPI1({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 2 — Architect Invitations
 // ═══════════════════════════════════════════════════════════
+
 function KPI2({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('archs',add,upd,del,showToast);
   const cats=INV_CATS.map(cat=>{const it=data.filter(i=>i.invitationCategory===cat);return{label:cat.split(' ')[0],planned:it.length,visited:it.filter(i=>i.convertedToVisit).length};});
@@ -687,6 +970,7 @@ function KPI2({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 3 — Customer Footfall
 // ═══════════════════════════════════════════════════════════
+
 function KPI3({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('footfall',add,upd,del,showToast);
   const typeMap=data.reduce((a,f)=>{a[f.customerType]=(a[f.customerType]||0)+1;return a},{});
@@ -721,6 +1005,7 @@ function KPI3({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 4 — Showroom Upkeep
 // ═══════════════════════════════════════════════════════════
+
 function KPI4({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('showroom',add,upd,del,showToast);
   const avg=data.length?(data.reduce((a,s)=>a+s.score,0)/data.length).toFixed(1):0;
@@ -756,6 +1041,7 @@ function KPI4({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 5 — Data Management
 // ═══════════════════════════════════════════════════════════
+
 function KPI5({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('datamgmt',add,upd,del,showToast);
   const onTime=data.filter(r=>r.status==='On Time').length;
@@ -784,6 +1070,7 @@ function KPI5({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 6 — Presentation Skills
 // ═══════════════════════════════════════════════════════════
+
 function KPI6({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('skills',add,upd,del,showToast);
   const spData=SPS.map(sp=>{const it=data.filter(s=>s.salesperson===sp);const avg=it.length?Math.round(it.reduce((a,s)=>a+s.assessmentScore,0)/it.length):0;return{label:sp.split(' ')[0],avg};});
@@ -810,6 +1097,7 @@ function KPI6({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 7 — Architect Feedback / NPS
 // ═══════════════════════════════════════════════════════════
+
 function KPI7({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('archFb',add,upd,del,showToast);
   const avgR=data.length?(data.reduce((a,f)=>a+f.rating,0)/data.length).toFixed(1):0;
@@ -854,6 +1142,7 @@ function KPI7({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 8 — Expense Management
 // ═══════════════════════════════════════════════════════════
+
 function KPI8({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('expenses',add,upd,del,showToast);
   const ECOLS=['#00B4D8','#4ADE80','#FFD700','#A78BFA','#F472B6'];
@@ -884,6 +1173,7 @@ function KPI8({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 9 — Audit Score
 // ═══════════════════════════════════════════════════════════
+
 function KPI9({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('audits',add,upd,del,showToast);
   const totalSc=data.reduce((a,s)=>a+s.score,0),totalMx=data.reduce((a,s)=>a+s.maxScore,0);
@@ -919,6 +1209,7 @@ function KPI9({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 10 — Salesperson Performance Plan
 // ═══════════════════════════════════════════════════════════
+
 function KPI10({data,upd,showToast}){
   const[sel,setSel]=useState(0);
   const[editingLine,setEditingLine]=useState(null);
@@ -985,6 +1276,7 @@ function KPI10({data,upd,showToast}){
 // ═══════════════════════════════════════════════════════════
 // KPI 11 — Customer Feedback
 // ═══════════════════════════════════════════════════════════
+
 function KPI11({data,add,upd,del,canEdit,showToast}){
   const ks=useKpiState('custFb',add,upd,del,showToast);
   const avgR=data.length?(data.reduce((a,f)=>a+f.rating,0)/data.length).toFixed(1):0;
@@ -1024,6 +1316,7 @@ function KPI11({data,add,upd,del,canEdit,showToast}){
 // ═══════════════════════════════════════════════════════════
 // ANALYTICS PANEL
 // ═══════════════════════════════════════════════════════════
+
 function Analytics({allData}){
   const[tab,setTab]=useState('insights');
   const monthly=[{label:'Oct',ff:285,leads:75,nps:72,audit:82},{label:'Nov',ff:312,leads:82,nps:78,audit:85},{label:'Dec',ff:341,leads:90,nps:81,audit:88}];
@@ -1108,6 +1401,7 @@ function Analytics({allData}){
 // ═══════════════════════════════════════════════════════════
 // OVERVIEW CARDS
 // ═══════════════════════════════════════════════════════════
+
 function OverviewCards({stats}){
   const cards=[
     {ico:'👥',lbl:'Total Footfall',val:stats.footfall,sub:'All visitor types',c:'#00B4D8',tr:'+12%',up:true},
@@ -1132,24 +1426,47 @@ function OverviewCards({stats}){
 // ═══════════════════════════════════════════════════════════
 // LOGIN SCREEN
 // ═══════════════════════════════════════════════════════════
-function Login({onLogin,onViewOnly}){
-  const[tab,setTab]=useState('email');
-  const[email,setEmail]=useState('sanju.gupta@aisglass.com');
-  const[pw,setPw]=useState('');
-  const[phone,setPhone]=useState('');
-  const[otpSent,setOtpSent]=useState(false);
-  const[otp,setOtp]=useState(['','','','','','']);
-  const[err,setErr]=useState('');
-  const[loading,setLoading]=useState(false);
-  const doLogin=()=>{setErr('');setLoading(true);setTimeout(()=>{setLoading(false);if(email==='sanju.gupta@aisglass.com'&&pw==='AISGlass@2025'){onLogin(email);}else{setErr('Invalid credentials. Use the demo credentials above.');}},700);};
+
+
+// ═══════════════════════════════════════════════════════════
+// LOGIN — Firebase Auth
+// ═══════════════════════════════════════════════════════════
+function Login({onLogin, onViewOnly}) {
+  const[tab,setTab]   = useState('email');
+  const[email,setEmail]= useState('');
+  const[pw,setPw]     = useState('');
+  const[phone,setPhone]= useState('');
+  const[otpSent,setOtpSent]= useState(false);
+  const[otp,setOtp]   = useState(['','','','','','']);
+  const[err,setErr]   = useState('');
+  const[loading,setLoading]= useState(false);
+
+  const doLogin = async () => {
+    setErr(''); setLoading(true);
+    try {
+      const { auth, signInWithEmailAndPassword } = window._fb;
+      const cred = await signInWithEmailAndPassword(auth, email.trim(), pw);
+      onLogin(cred.user);
+    } catch(e) {
+      const msg = e.code==='auth/user-not-found'?'User not found.'
+                : e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'Wrong password.'
+                : e.code==='auth/invalid-email'?'Invalid email format.'
+                : e.code==='auth/too-many-requests'?'Too many attempts. Try later.'
+                : `Login failed: ${e.message}`;
+      setErr(msg);
+    }
+    setLoading(false);
+  };
+
   const handleOtp=(v,i)=>{const n=[...otp];n[i]=v.slice(-1);setOtp(n);if(v&&i<5)document.getElementById('ob'+(i+1))?.focus();};
+
   return h('div',{className:'login-bg'},
     h('div',{className:'l-glow1'}),h('div',{className:'l-glow2'}),h('div',{className:'l-grid'}),
     h('div',{className:'login-card ani-slide'},
       h('div',{className:'l-logo'},
         h('div',{className:'l-badge'},'AIS'),
         h('h1',null,'AIS ',h('span',{style:{color:'#00B4D8'}},'Windows')),
-        h('p',null,'Experience Center KPI Dashboard')
+        h('p',null,'EC-KPI Dashboard')
       ),
       h('button',{className:'vo-btn',onClick:onViewOnly},
         h('span',{className:'vo-btn-txt'},'👁  View Dashboard Without Login'),
@@ -1161,29 +1478,87 @@ function Login({onLogin,onViewOnly}){
       ),
       err&&h('div',{className:'lerr'},err),
       tab==='email'&&h('div',null,
-        h('div',{className:'demo-tip'},'Demo login:\nsanju.gupta@aisglass.com  /  AISGlass@2025'),
-        h('div',{className:'fwrap'},h('label',{className:'flbl'},'EMAIL ADDRESS'),h('span',{className:'fico'},'\u2709\ufe0f'),h('input',{className:'linput',type:'email',value:email,onChange:e=>setEmail(e.target.value),placeholder:'email@aisglass.com'})),
-        h('div',{className:'fwrap'},h('label',{className:'flbl'},'PASSWORD'),h('span',{className:'fico'},'\ud83d\udd12'),h('input',{className:'linput',type:'password',value:pw,onChange:e=>setPw(e.target.value),onKeyDown:e=>e.key==='Enter'&&doLogin(),placeholder:'Enter your password'})),
-        h('button',{className:'lbtn',onClick:doLogin,disabled:loading},loading?'\u23f3 Signing in...':'Sign In →')
+        h('div',{className:'demo-tip'},'Authorised users: sanju.gupta · rajath.m · chikimiki.ahmed @aisglass.com'),
+        h('div',{className:'fwrap'},
+          h('label',{className:'flbl'},'EMAIL ADDRESS'),
+          h('span',{className:'fico'},'\u2709\ufe0f'),
+          h('input',{className:'linput',type:'email',value:email,onChange:e=>setEmail(e.target.value),onKeyDown:e=>e.key==='Enter'&&doLogin(),placeholder:'name@aisglass.com'})
+        ),
+        h('div',{className:'fwrap'},
+          h('label',{className:'flbl'},'PASSWORD'),
+          h('span',{className:'fico'},'\ud83d\udd12'),
+          h('input',{className:'linput',type:'password',value:pw,onChange:e=>setPw(e.target.value),onKeyDown:e=>e.key==='Enter'&&doLogin(),placeholder:'Your password'})
+        ),
+        h('button',{className:'lbtn',onClick:doLogin,disabled:loading},
+          loading?'\u23f3 Signing in...':'Sign In →')
       ),
       tab==='otp'&&h('div',null,
         !otpSent
           ?h('div',null,
-            h('div',{className:'fwrap'},h('label',{className:'flbl'},'MOBILE NUMBER'),h('span',{className:'fico'},'\ud83d\udcf1'),h('input',{className:'linput',value:phone,onChange:e=>setPhone(e.target.value.replace(/\D/g,'').slice(0,10)),placeholder:'10-digit mobile number'})),
-            h('button',{className:'lbtn',style:{opacity:phone.length===10?1:.45,cursor:phone.length===10?'pointer':'not-allowed'},onClick:()=>phone.length===10&&setOtpSent(true)},'Send OTP')
-          )
+              h('div',{className:'fwrap'},h('label',{className:'flbl'},'MOBILE NUMBER'),h('span',{className:'fico'},'\ud83d\udcf1'),h('input',{className:'linput',value:phone,onChange:e=>setPhone(e.target.value.replace(/\D/g,'').slice(0,10)),placeholder:'10-digit mobile number'})),
+              h('button',{className:'lbtn',style:{opacity:phone.length===10?1:.45},onClick:()=>phone.length===10&&setOtpSent(true)},'Send OTP')
+            )
           :h('div',null,
-            h('p',{style:{fontSize:8.5,color:'rgba(255,255,255,.35)',textAlign:'center',marginBottom:10}},'\u2705 Demo OTP sent to +91 '+phone+' — enter any 6 digits'),
-            h('div',{className:'otp-row'},otp.map((d,i)=>h('input',{key:i,id:'ob'+i,className:'obox',maxLength:1,value:d,onChange:e=>handleOtp(e.target.value,i)}))),
-            h('button',{className:'lbtn',onClick:()=>onLogin(phone,'otp')},'Verify & Login')
-          )
+              h('p',{style:{fontSize:8.5,color:'rgba(255,255,255,.35)',textAlign:'center',marginBottom:10}},'\u2705 Demo OTP sent to +91 '+phone+' — enter any 6 digits'),
+              h('div',{className:'otp-row'},otp.map((d,i)=>h('input',{key:i,id:'ob'+i,className:'obox',maxLength:1,value:d,onChange:e=>handleOtp(e.target.value,i)}))),
+              h('button',{className:'lbtn',onClick:()=>alert('OTP login requires mobile setup — please use email.')},'Verify & Login')
+            )
       )
     )
   );
 }
 
+
+
 // ═══════════════════════════════════════════════════════════
-// MAIN APP
+// EC TAB BAR
+// ═══════════════════════════════════════════════════════════
+function ECTabBar({userConfig, currentEc, setCurrentEc}) {
+  if(!userConfig) return null;
+  const {ecs, role} = userConfig;
+
+  // Single EC — just show a label
+  if(ecs.length === 1) {
+    return h('div',{style:{
+      padding:'6px 16px', background:'rgba(0,180,216,.08)',
+      borderBottom:'1px solid rgba(0,180,216,.12)',
+      display:'flex', alignItems:'center', gap:8
+    }},
+      h('span',{style:{fontSize:10,color:'rgba(0,180,216,.7)',fontWeight:600}},'\ud83c\udfe2'),
+      h('span',{style:{fontSize:10,fontWeight:600,color:'#00B4D8'}},EC_LABELS[ecs[0]]+' Experience Center'),
+      h('span',{style:{fontSize:9,color:'rgba(255,255,255,.3)',marginLeft:6}},role)
+    );
+  }
+
+  // Admin — show tabs
+  const tabs = [
+    ...ecs.map(ec => ({ id:ec, label:'\ud83c\udfe2 '+EC_LABELS[ec] })),
+    { id:'combined', label:'\ud83d\udcca Combined View' }
+  ];
+
+  return h('div',{style:{
+    display:'flex', alignItems:'center', gap:4, padding:'6px 16px',
+    background:'rgba(0,0,0,.2)', borderBottom:'1px solid rgba(255,255,255,.06)',
+    overflowX:'auto'
+  }},
+    h('span',{style:{fontSize:9,color:'rgba(255,255,255,.35)',marginRight:4,whiteSpace:'nowrap',flexShrink:0}},'EC VIEW:'),
+    tabs.map(t => h('button',{key:t.id,
+      onClick:()=>setCurrentEc(t.id),
+      style:{
+        padding:'4px 12px', borderRadius:7, border:'none', cursor:'pointer',
+        fontSize:10, fontWeight:600, whiteSpace:'nowrap',
+        background: currentEc===t.id ? 'linear-gradient(135deg,#00B4D8,#0096C7)' : 'rgba(255,255,255,.06)',
+        color: currentEc===t.id ? '#fff' : 'rgba(255,255,255,.5)',
+        transition:'all .15s', fontFamily:'inherit'
+      }
+    }, t.label))
+  );
+}
+
+
+
+// ═══════════════════════════════════════════════════════════
+// APP — Firebase-powered with multi-EC support
 // ═══════════════════════════════════════════════════════════
 const NAV=[
   {id:'dashboard',ico:'🏠',lbl:'Dashboard',sub:'Overview'},
@@ -1200,93 +1575,358 @@ const NAV=[
   {id:'kpi11',ico:'💬',lbl:'Customer Feedback',sub:'KPI 11'},
   {id:'analytics',ico:'🧠',lbl:'Analytics & Insights',sub:'AI Insights'},
 ];
-const TITLES={dashboard:'EC KPI Dashboard — Overview',kpi1:'KPI 1 — Online Lead Conversion to EC Visit',kpi2:'KPI 2 — Architect Invitations',kpi3:'KPI 3 — Customer Footfall Tracking',kpi4:'KPI 4 — Showroom Upkeep & Maintenance',kpi5:'KPI 5 — Data Management & MIS Hygiene',kpi6:'KPI 6 — Presentation Skills & Product Knowledge',kpi7:'KPI 7 — Architect Footfall Feedback & NPS',kpi8:'KPI 8 — Showroom Expense Management',kpi9:'KPI 9 — EC Audit Score',kpi10:'KPI 10 — Salesperson Performance Plan',kpi11:'KPI 11 — Customer Footfall Feedback',analytics:'Analytics & AI-Powered Insights'};
-const DR={'Oct 2025':{s:'2025-10-01',e:'2025-10-31'},'Nov 2025':{s:'2025-11-01',e:'2025-11-30'},'Dec 2025':{s:'2025-12-01',e:'2025-12-31'},'Q4 2025':{s:'2025-10-01',e:'2025-12-31'}};
 
-function App(){
-  const[screen,setScreen]=useState('login');
-  const[viewOnly,setViewOnly]=useState(false);
-  const[user,setUser]=useState(null);
-  const[page,setPage]=useState('dashboard');
-  const[slim,setSlim]=useState(false);
-  const[selDate,setSelDate]=useState('Q4 2025');
-  const[data,setData]=useState(SEED);
+const TITLES={
+  dashboard:'EC-KPI Dashboard — Overview',
+  kpi1:'KPI 1 — Online Lead Conversion',kpi2:'KPI 2 — Architect Invitations',
+  kpi3:'KPI 3 — Customer Footfall',kpi4:'KPI 4 — Showroom Upkeep',
+  kpi5:'KPI 5 — Data Management',kpi6:'KPI 6 — Presentation Skills',
+  kpi7:'KPI 7 — Architect Feedback',kpi8:'KPI 8 — Expense Management',
+  kpi9:'KPI 9 — Audit Score',kpi10:'KPI 10 — Sales Plan',
+  kpi11:'KPI 11 — Customer Feedback',analytics:'Analytics & AI Insights'
+};
 
-    const[toast,setToast]=useState(null);
-  const showToast=useCallback(msg=>{setToast(msg);},[]);
-  const add=useCallback((col,rec)=>setData(prev=>({...prev,[col]:[...prev[col],{...rec,id:'n'+Date.now()}]})),[]);
-  const upd=useCallback((col,id,changes)=>setData(prev=>({...prev,[col]:prev[col].map(r=>r.id===id?{...r,...changes}:r)})),[]);
-  const del=useCallback((col,id)=>setData(prev=>({...prev,[col]:prev[col].filter(r=>r.id!==id)})),[]);
-  const fd=useCallback((items,field='date')=>{const r=DR[selDate];if(!r)return items;return items.filter(i=>(i[field]||'')>=r.s&&(i[field]||'')<=r.e);},[selDate]);
+const DR={
+  'Oct 2025':{s:'2025-10-01',e:'2025-10-31'},
+  'Nov 2025':{s:'2025-11-01',e:'2025-11-30'},
+  'Dec 2025':{s:'2025-12-01',e:'2025-12-31'},
+  'Q4 2025':{s:'2025-10-01',e:'2025-12-31'}
+};
 
-  const stats=useMemo(()=>{
-    const ff=fd(data.footfall),lds=fd(data.leads);
-    const conv=lds.filter(l=>l.convertedToVisit).length;
-    const afb=fd(data.archFb);const avgR=afb.length?afb.reduce((a,f)=>a+f.rating,0)/afb.length:0;
-    const aus=data.audits;const auPct=aus.reduce((a,s)=>a+s.maxScore,0)?Math.round(aus.reduce((a,s)=>a+s.score,0)/aus.reduce((a,s)=>a+s.maxScore,0)*100):0;
-    const sw=fd(data.showroom);const swAvg=sw.length?(sw.reduce((a,s)=>a+s.score,0)/sw.length).toFixed(1):0;
-    return{footfall:ff.length,leads:lds.length,convRate:lds.length?Math.round(conv/lds.length*100):0,nps:Math.round(avgR*20),audit:auPct,showroom:swAvg};
-  },[data,fd]);
+function App() {
+  // ── Auth state ──────────────────────────────────────────
+  const[fbUser,  setFbUser]   = useState(null);   // Firebase user object
+  const[authReady,setAuthReady]= useState(false);  // Auth listener attached
+  const[viewOnly,setViewOnly]  = useState(false);
+  const[screen,  setScreen]   = useState('loading'); // 'loading'|'login'|'app'
 
-  const canEdit=!viewOnly;
-  if(screen==='login')return h(Login,{onLogin:u=>{setUser(u);setScreen('app');setViewOnly(false);},onViewOnly:()=>{setScreen('app');setViewOnly(true);}});
+  // ── EC state ────────────────────────────────────────────
+  const[currentEc,setCurrentEc]= useState(null);
+  const userConfig = fbUser ? getUserConfig(fbUser.email) : null;
 
-  const kpiProps={canEdit,add,upd,del,showToast};
-  const renderPage=()=>{
-    const fLeads=fd(data.leads),fArchs=fd(data.archs),fFF=fd(data.footfall),fSW=fd(data.showroom);
-    const fDM=fd(data.datamgmt,'dueDate'),fSk=fd(data.skills),fAF=fd(data.archFb);
-    const fEx=fd(data.expenses),fCF=fd(data.custFb);
-    if(page==='kpi1')return h(KPI1,{...kpiProps,data:fLeads});
-    if(page==='kpi2')return h(KPI2,{...kpiProps,data:fArchs});
-    if(page==='kpi3')return h(KPI3,{...kpiProps,data:fFF});
-    if(page==='kpi4')return h(KPI4,{...kpiProps,data:fSW});
-    if(page==='kpi5')return h(KPI5,{...kpiProps,data:fDM});
-    if(page==='kpi6')return h(KPI6,{...kpiProps,data:fSk});
-    if(page==='kpi7')return h(KPI7,{...kpiProps,data:fAF});
-    if(page==='kpi8')return h(KPI8,{...kpiProps,data:fEx});
-    if(page==='kpi9')return h(KPI9,{...kpiProps,data:data.audits});
-    if(page==='kpi10')return h(KPI10,{data:data.salesPlans,upd,showToast});
-    if(page==='kpi11')return h(KPI11,{...kpiProps,data:fCF});
-    if(page==='analytics')return h(Analytics,{allData:data});
-    return h('div',null,h(OverviewCards,{stats}),h(Analytics,{allData:data}),h(KPI1,{...kpiProps,data:fLeads}),h(KPI2,{...kpiProps,data:fArchs}),h(KPI3,{...kpiProps,data:fFF}),h(KPI4,{...kpiProps,data:fSW}),h(KPI5,{...kpiProps,data:fDM}),h(KPI6,{...kpiProps,data:fSk}),h(KPI7,{...kpiProps,data:fAF}),h(KPI8,{...kpiProps,data:fEx}),h(KPI9,{...kpiProps,data:data.audits}),h(KPI10,{data:data.salesPlans,upd,showToast}),h(KPI11,{...kpiProps,data:fCF}));
+  // ── Data state (from Firestore) ──────────────────────────
+  const[rawKpi,  setRawKpi]   = useState([]);
+  const[rawPlans,setRawPlans] = useState([]);
+  const[loadingData,setLoadingData]= useState(false);
+
+  // ── UI state ─────────────────────────────────────────────
+  const[page,    setPage]     = useState('dashboard');
+  const[slim,    setSlim]     = useState(false);
+  const[selDate, setSelDate]  = useState('Q4 2025');
+  const[toast,   setToast]    = useState(null);
+
+  const showToast = useCallback(msg => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 2600);
+  }, []);
+
+  // ── Firebase Auth listener ────────────────────────────────
+  useEffect(() => {
+    let unsubAuth = null;
+
+    function init() {
+      if(!window._fb) { setTimeout(init, 100); return; }
+      const { auth, onAuthStateChanged } = window._fb;
+      unsubAuth = onAuthStateChanged(auth, user => {
+        setFbUser(user);
+        setAuthReady(true);
+        if(user) {
+          const cfg = getUserConfig(user.email);
+          setCurrentEc(cfg.ecs[0]);
+          setScreen('app');
+          setViewOnly(false);
+        } else {
+          setScreen('login');
+        }
+      });
+    }
+
+    // Try immediately (module may already be loaded)
+    if(window._fbReady) {
+      init();
+    } else {
+      // Listen for the fbReady event
+      window.addEventListener('fbReady', init, {once:true});
+      // Fallback: if module never fires (CSP, network), show login after 5s
+      const fallback = setTimeout(() => {
+        if(!authReady) { setAuthReady(true); setScreen('login'); }
+      }, 5000);
+      return () => {
+        clearTimeout(fallback);
+        window.removeEventListener('fbReady', init);
+        if(unsubAuth) unsubAuth();
+      };
+    }
+    return () => { if(unsubAuth) unsubAuth(); };
+  }, []);
+
+  // ── Subscribe Firestore data when EC changes ──────────────
+  useEffect(() => {
+    if(!currentEc && !viewOnly) return;
+    setLoadingData(true);
+
+    // Determine which ECs to fetch
+    const ecIds = currentEc === 'combined'
+      ? ['bangalore','delhi']
+      : viewOnly
+        ? ['bangalore','delhi']
+        : currentEc ? [currentEc] : ['bangalore','delhi'];
+
+    const unsubKpi  = subscribeKpiData(ecIds, rows => {
+      setRawKpi(rows);
+      setLoadingData(false);
+    });
+    const unsubPlan = subscribePlanData(ecIds, rows => setRawPlans(rows));
+
+    return () => { unsubKpi(); unsubPlan(); };
+  }, [currentEc, viewOnly]);
+
+  // ── First-load seed check (after auth, before rendering data) ──
+  useEffect(() => {
+    if(fbUser && !viewOnly) {
+      checkAndSeedIfEmpty(fbUser.email);
+    }
+  }, [fbUser]);
+
+  // ── Derive typed data collections from raw Firestore rows ──
+  const byType = useCallback((type) =>
+    rawKpi.filter(r => r.kpiType === type), [rawKpi]);
+
+  // ── Date filter ──────────────────────────────────────────
+  const fdate = useCallback((items, field='date') => {
+    const r = DR[selDate];
+    if(!r) return items;
+    return items.filter(i => (i[field]||'') >= r.s && (i[field]||'') <= r.e);
+  }, [selDate]);
+
+  // ── Stats ────────────────────────────────────────────────
+  const stats = useMemo(() => {
+    const ff  = fdate(byType('footfall'));
+    const lds = fdate(byType('leads'));
+    const conv= lds.filter(l=>l.convertedToVisit).length;
+    const afb = fdate(byType('archFb'));
+    const avgR= afb.length ? afb.reduce((a,f)=>a+f.rating,0)/afb.length : 0;
+    const aus = byType('audits');
+    const auPct=aus.reduce((a,s)=>a+s.maxScore,0)
+      ? Math.round(aus.reduce((a,s)=>a+s.score,0)/aus.reduce((a,s)=>a+s.maxScore,0)*100) : 0;
+    const sw  = fdate(byType('showroom'));
+    const swAvg=sw.length?(sw.reduce((a,s)=>a+s.score,0)/sw.length).toFixed(1):0;
+    return {
+      footfall: ff.length,
+      leads: lds.length,
+      convRate: lds.length ? Math.round(conv/lds.length*100) : 0,
+      nps: Math.round(avgR*20),
+      audit: auPct,
+      showroom: swAvg,
+    };
+  }, [rawKpi, fdate, selDate]);
+
+  // ── CRUD — Firestore-backed ──────────────────────────────
+  const add = useCallback(async (kpiType, rec) => {
+    const ecId = currentEc === 'combined' ? 'bangalore' : (currentEc || 'bangalore');
+    try {
+      await fsAdd(KPI_COLLECTION, {
+        ...rec, kpiType, ecId,
+        createdBy: fbUser?.email || 'viewer',
+      });
+    } catch(e) { showToast('❌ Save failed: '+e.message); }
+  }, [currentEc, fbUser]);
+
+  const upd = useCallback(async (colKey, id, changes) => {
+    try {
+      const colName = colKey==='salesPlans' ? PLAN_COLLECTION : KPI_COLLECTION;
+      await fsUpdate(colName, id, changes);
+    } catch(e) { showToast('❌ Update failed: '+e.message); }
+  }, []);
+
+  const del = useCallback(async (colKey, id) => {
+    try {
+      const colName = colKey==='salesPlans' ? PLAN_COLLECTION : KPI_COLLECTION;
+      await fsDelete(colName, id);
+    } catch(e) { showToast('❌ Delete failed: '+e.message); }
+  }, []);
+
+  // ── Logout ────────────────────────────────────────────────
+  const logout = useCallback(async () => {
+    try { await window._fb.signOut(window._fb.auth); } catch(e) {}
+    setFbUser(null); setViewOnly(false); setCurrentEc(null);
+    setRawKpi([]); setRawPlans([]); setScreen('login');
+  }, []);
+
+  // ── Screens ───────────────────────────────────────────────
+  if(screen === 'loading' || !authReady) {
+    return h('div',{style:{height:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'#0A1628'}},
+      h('div',{style:{width:52,height:52,borderRadius:14,background:'linear-gradient(135deg,#00B4D8,#0096C7)',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Rajdhani,sans-serif',fontWeight:700,fontSize:18,marginBottom:14,animation:'pulse 1.5s ease-in-out infinite'}},'AIS'),
+      h('p',{style:{fontSize:12,color:'rgba(255,255,255,.5)'}},'\u23f3 Connecting to AIS Windows EC-KPI...')
+    );
+  }
+
+  if(screen === 'login') {
+    return h(Login,{
+      onLogin: user => {
+        setFbUser(user);
+        const cfg = getUserConfig(user.email);
+        setCurrentEc(cfg.ecs[0]);
+        setScreen('app');
+        setViewOnly(false);
+      },
+      onViewOnly: () => {
+        setViewOnly(true);
+        setCurrentEc('combined');
+        setScreen('app');
+      }
+    });
+  }
+
+  // ── Main App Shell ────────────────────────────────────────
+  const canEdit = !viewOnly && !!fbUser;
+
+  // EC label for header
+  const ecLabel = currentEc==='combined' ? 'Combined View — Bangalore + Delhi'
+    : currentEc ? EC_LABELS[currentEc]+' Experience Center'
+    : 'AIS Windows';
+
+  const kpiProps = { canEdit, add, upd, del, showToast };
+
+  // Page renderer
+  const renderPage = () => {
+    const fL  = fdate(byType('leads'));
+    const fA  = fdate(byType('archs'));
+    const fFF = fdate(byType('footfall'));
+    const fSW = fdate(byType('showroom'));
+    const fDM = fdate(byType('datamgmt'), 'dueDate');
+    const fSk = fdate(byType('skills'));
+    const fAF = fdate(byType('archFb'));
+    const fEx = fdate(byType('expenses'));
+    const fCF = fdate(byType('custFb'));
+    const fAu = byType('audits');
+
+    if(loadingData) return h('div',{style:{padding:40,textAlign:'center',color:'rgba(255,255,255,.4)',fontSize:13}},
+      h('div',{style:{fontSize:28,marginBottom:12}},'⏳'),
+      h('p',null,'Loading Firestore data...')
+    );
+
+    const allData = {
+      salesPlans: rawPlans,
+      leads:fL, archs:fA, footfall:fFF, showroom:fSW,
+      datamgmt:fDM, skills:fSk, archFb:fAF, expenses:fEx, audits:fAu, custFb:fCF
+    };
+
+    if(page==='kpi1')  return h(KPI1,{...kpiProps,data:fL});
+    if(page==='kpi2')  return h(KPI2,{...kpiProps,data:fA});
+    if(page==='kpi3')  return h(KPI3,{...kpiProps,data:fFF});
+    if(page==='kpi4')  return h(KPI4,{...kpiProps,data:fSW});
+    if(page==='kpi5')  return h(KPI5,{...kpiProps,data:fDM});
+    if(page==='kpi6')  return h(KPI6,{...kpiProps,data:fSk});
+    if(page==='kpi7')  return h(KPI7,{...kpiProps,data:fAF});
+    if(page==='kpi8')  return h(KPI8,{...kpiProps,data:fEx});
+    if(page==='kpi9')  return h(KPI9,{...kpiProps,data:fAu});
+    if(page==='kpi10') return h(KPI10,{data:rawPlans,upd,showToast});
+    if(page==='kpi11') return h(KPI11,{...kpiProps,data:fCF});
+    if(page==='analytics') return h(Analytics,{allData});
+
+    // Dashboard — overview + all KPIs
+    return h('div',null,
+      h(OverviewCards,{stats}),
+      // Combined view banner
+      currentEc==='combined'&&h('div',{style:{padding:'10px 14px',marginBottom:12,borderRadius:10,background:'rgba(255,215,0,.08)',border:'1px solid rgba(255,215,0,.2)',fontSize:10,color:'rgba(255,215,0,.8)'}},
+        '📊 Combined View — showing aggregated data from Bangalore + Delhi ECs'
+      ),
+      h(Analytics,{allData}),
+      h(KPI1,{...kpiProps,data:fL}),
+      h(KPI2,{...kpiProps,data:fA}),
+      h(KPI3,{...kpiProps,data:fFF}),
+      h(KPI4,{...kpiProps,data:fSW}),
+      h(KPI5,{...kpiProps,data:fDM}),
+      h(KPI6,{...kpiProps,data:fSk}),
+      h(KPI7,{...kpiProps,data:fAF}),
+      h(KPI8,{...kpiProps,data:fEx}),
+      h(KPI9,{...kpiProps,data:fAu}),
+      h(KPI10,{data:rawPlans,upd,showToast}),
+      h(KPI11,{...kpiProps,data:fCF})
+    );
   };
 
   return h('div',{className:'app'},
-    toast&&h(Toast,{msg:toast,onDone:()=>setToast(null)}),
+    // Toast
+    toast && h(Toast,{msg:toast,onDone:()=>setToast(null)}),
+
+    // ── Sidebar ──────────────────────────────────────────
     h('div',{className:'sb '+(slim?'slim':'wide')},
       h('div',{className:'sb-logo'},
         h('div',{className:'logo-pill'},'AIS'),
-        !slim&&h('div',{className:'logo-info'},h('p',null,'AIS Windows'),h('span',null,'EC KPI Dashboard')),
-        h('button',{className:'sb-toggle',title:slim?'Expand Sidebar':'Collapse Sidebar',onClick:()=>setSlim(!slim)},slim?'→':'←')
+        !slim && h('div',{className:'logo-info'},
+          h('p',null,'AIS Windows'),
+          h('span',null,'EC-KPI Dashboard')
+        ),
+        h('button',{
+          className:'sb-toggle',
+          title: slim?'Expand Sidebar':'Collapse Sidebar',
+          onClick:()=>setSlim(!slim)
+        }, slim?'→':'←')
       ),
       viewOnly&&!slim&&h('div',{className:'vo-badge'},h('span',null,'👁 View Only Mode')),
-      h('div',{className:'sb-nav'},NAV.map(n=>h('button',{key:n.id,className:'nav-item'+(page===n.id?' act':''),onClick:()=>setPage(n.id)},
-        h('div',{className:'nav-ico'},n.ico),
-        !slim&&h('div',{className:'nav-txt'},h('p',null,n.lbl),h('span',null,n.sub))
-      ))),
+      h('div',{className:'sb-nav'},
+        NAV.map(n=>h('button',{key:n.id,className:'nav-item'+(page===n.id?' act':''),onClick:()=>setPage(n.id)},
+          h('div',{className:'nav-ico'},n.ico),
+          !slim&&h('div',{className:'nav-txt'},h('p',null,n.lbl),h('span',null,n.sub))
+        ))
+      ),
       h('div',{className:'sb-foot'},
-        h('button',{className:'nav-item',onClick:()=>{setScreen('login');setUser(null);setViewOnly(false);}},
+        h('button',{className:'nav-item',onClick:logout},
           h('div',{className:'nav-ico'},'🚪'),
-          !slim&&h('div',{className:'nav-txt'},h('p',null,viewOnly?'Back to Login':'Log Out'),h('span',null,viewOnly?'Sign in to edit':'EC Manager'))
+          !slim&&h('div',{className:'nav-txt'},
+            h('p',null, viewOnly?'Back to Login':'Log Out'),
+            h('span',null, viewOnly?'Sign in to edit':'EC Manager')
+          )
         )
       )
     ),
+
+    // ── Main ─────────────────────────────────────────────
     h('div',{className:'main'},
+      // Header
       h('div',{className:'hdr'},
-        h('div',{className:'hdr-title'},h('p',null,TITLES[page]||'Dashboard'),h('span',null,'Gurugram Experience Center · AIS Windows Limited')),
+        h('div',{className:'hdr-title'},
+          h('p',null, TITLES[page]||'Dashboard'),
+          h('span',null, ecLabel+' · AIS Windows Ltd')
+        ),
         h('div',{className:'hdr-sep'}),
-        h('div',{className:'date-strip'},['Oct 2025','Nov 2025','Dec 2025','Q4 2025'].map(d=>h('button',{key:d,className:'dp'+(selDate===d?' act':''),onClick:()=>setSelDate(d)},d))),
+        h('div',{className:'date-strip'},
+          ['Oct 2025','Nov 2025','Dec 2025','Q4 2025'].map(d=>
+            h('button',{key:d,className:'dp'+(selDate===d?' act':''),onClick:()=>setSelDate(d)},d)
+          )
+        ),
         h('button',{className:'print-btn',onClick:()=>window.print()},'🖨 Print'),
         viewOnly
-          ?h('div',{style:{display:'flex',alignItems:'center',gap:6,padding:'5px 9px',borderRadius:8,background:'rgba(255,215,0,.09)',border:'1px solid rgba(255,215,0,.2)'}},h('span',{style:{fontSize:9.5,fontWeight:600,color:'#FFD700'}},'👁 View Only'))
-          :h('div',{className:'hdr-user'},h('div',{className:'avatar'},user?user[0].toUpperCase():'S'),h('div',null,h('p',null,user?.includes('@')?user.split('@')[0]:'Sanju Gupta'),h('span',null,'EC Manager')))
+          ? h('div',{style:{display:'flex',alignItems:'center',gap:6,padding:'5px 9px',borderRadius:8,background:'rgba(255,215,0,.09)',border:'1px solid rgba(255,215,0,.2)'}},
+              h('span',{style:{fontSize:9.5,fontWeight:600,color:'#FFD700'}},'👁 View Only')
+            )
+          : fbUser && h('div',{className:'hdr-user'},
+              h('div',{className:'avatar'}, fbUser.email?.[0]?.toUpperCase()||'U'),
+              h('div',null,
+                h('p',null, getUserConfig(fbUser.email).name),
+                h('span',null, getUserConfig(fbUser.email).role)
+              )
+            )
       ),
-      h('div',{className:'content'},renderPage(),h('div',{style:{height:28}}))
+
+      // EC Tab Bar
+      h(ECTabBar,{
+        userConfig: viewOnly ? {ecs:['bangalore','delhi'],role:'Viewer'} : userConfig,
+        currentEc,
+        setCurrentEc
+      }),
+
+      // Content
+      h('div',{className:'content'}, renderPage(), h('div',{style:{height:28}}))
     )
   );
 }
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(h(App,null));
+
 </script>
 </body>
 </html>
