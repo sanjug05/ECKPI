@@ -283,6 +283,70 @@ select option{background:#0c1d38;color:#fff}
   .toast-wrap{display:none!important}
 }
 .print-mgmt-hdr{display:none}
+
+/* ═══ ACTION CENTER ══════════════════════════════════════════ */
+.action-center{border-radius:13px;margin-bottom:13px;overflow:hidden;border:1px solid rgba(255,255,255,.07)}
+.ac-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
+.ac-hdr-title{font-size:11px;font-weight:700;font-family:'Rajdhani',sans-serif;letter-spacing:.04em}
+.ac-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.ac-col{padding:11px 13px;border-right:1px solid rgba(255,255,255,.06)}
+.ac-col:last-child{border-right:none}
+.ac-col-title{font-size:8px;font-weight:700;letter-spacing:.08em;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,.05)}
+.ac-item{display:flex;align-items:flex-start;gap:7px;margin-bottom:7px;padding:6px 8px;border-radius:7px}
+.ac-item-val{font-size:10px;font-weight:700;font-family:'Rajdhani',sans-serif;white-space:nowrap}
+.ac-item-txt{font-size:8.5px;color:rgba(255,255,255,.55);line-height:1.45;margin-top:1px}
+.ac-empty{font-size:9px;color:rgba(255,255,255,.28);padding:8px 0;text-align:center}
+/* ═══ EXCEPTION FILTER BAR ═══════════════════════════════════ */
+.exc-bar{display:flex;align-items:center;gap:6px;padding:8px 0 4px;flex-wrap:wrap;margin-bottom:8px}
+.exc-label{font-size:8.5px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.06em;white-space:nowrap}
+.exc-chip{padding:4px 11px;border-radius:99px;font-size:9px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(255,255,255,.45);transition:all .13s;font-family:inherit;white-space:nowrap}
+.exc-chip:hover{background:rgba(255,255,255,.08);color:#fff}
+.exc-chip.act{background:rgba(248,113,113,.15);border-color:rgba(248,113,113,.4);color:#F87171}
+.exc-chip.act-all{background:rgba(0,180,216,.13);border-color:rgba(0,180,216,.35);color:#00B4D8}
+.exc-no-issues{padding:18px;border-radius:11px;border:1px solid rgba(74,222,128,.18);background:rgba(74,222,128,.06);text-align:center;margin-bottom:13px}
+/* ═══ FRESHNESS BADGES ═══════════════════════════════════════ */
+.fresh-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;font-weight:500;padding:2px 6px;border-radius:99px}
+.fresh-g{background:rgba(74,222,128,.12);color:#4ADE80;border:1px solid rgba(74,222,128,.22)}
+.fresh-y{background:rgba(255,215,0,.12);color:#FFD700;border:1px solid rgba(255,215,0,.22)}
+.fresh-r{background:rgba(248,113,113,.12);color:#F87171;border:1px solid rgba(248,113,113,.22)}
+.fresh-n{background:rgba(255,255,255,.06);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1)}
+.fresh-summary{display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:9px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);margin-bottom:10px;flex-wrap:wrap}
+.fresh-summary-lbl{font-size:8.5px;color:rgba(255,255,255,.36);font-weight:600;letter-spacing:.05em;margin-right:4px}
+/* ═══ DRILL-DOWN MODAL ════════════════════════════════════════ */
+.drill-btn{padding:3px 8px;border-radius:6px;border:1px solid rgba(0,180,216,.25);background:rgba(0,180,216,.08);color:rgba(0,180,216,.75);font-size:8px;font-weight:600;cursor:pointer;transition:all .13s;font-family:inherit;white-space:nowrap}
+.drill-btn:hover{background:rgba(0,180,216,.18);color:#00B4D8}
+.drill-section{padding:9px 13px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);margin-bottom:8px}
+.drill-section-lbl{font-size:8px;font-weight:700;color:rgba(255,255,255,.38);letter-spacing:.06em;margin-bottom:5px}
+.drill-section-val{font-size:14px;font-weight:700;font-family:'Rajdhani',sans-serif;color:#00B4D8;margin-bottom:2px}
+.drill-section-detail{font-size:9px;color:rgba(255,255,255,.55);line-height:1.5}
+/* ═══ NOTES PANEL ════════════════════════════════════════════ */
+.notes-panel{border-radius:13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);margin-bottom:13px;overflow:hidden}
+.notes-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
+.notes-hdr-title{font-size:11px;font-weight:700;font-family:'Rajdhani',sans-serif;letter-spacing:.04em}
+.note-item{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:flex-start;gap:9px}
+.note-item:last-child{border-bottom:none}
+.note-cat{font-size:7.5px;font-weight:700;padding:2px 6px;border-radius:99px;white-space:nowrap;flex-shrink:0}
+.note-text{font-size:10px;color:rgba(255,255,255,.72);line-height:1.5;flex:1}
+.note-meta{font-size:8px;color:rgba(255,255,255,.3);margin-top:3px}
+.note-empty{padding:18px;text-align:center;font-size:9.5px;color:rgba(255,255,255,.28)}
+/* ═══ MANAGEMENT FILTER BAR ══════════════════════════════════ */
+.mgmt-bar{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:12px;flex-wrap:wrap}
+.mgmt-bar-sep{width:1px;height:16px;background:rgba(255,255,255,.1);flex-shrink:0}
+.mgmt-bar-lbl{font-size:8.5px;color:rgba(255,255,255,.35);white-space:nowrap}
+.mgmt-bar-val{font-size:9px;font-weight:600;color:#00B4D8;white-space:nowrap}
+.mgmt-jump{padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(255,255,255,.5);font-size:8.5px;cursor:pointer;transition:all .13s;font-family:inherit;white-space:nowrap}
+.mgmt-jump:hover{background:rgba(255,255,255,.09);color:#fff}
+.mgmt-exc-tog{padding:3px 10px;border-radius:6px;border:1px solid rgba(248,113,113,.28);background:rgba(248,113,113,.08);color:rgba(248,113,113,.8);font-size:8.5px;cursor:pointer;transition:all .13s;font-family:inherit;white-space:nowrap}
+.mgmt-exc-tog.act{background:rgba(248,113,113,.2);color:#F87171;border-color:rgba(248,113,113,.5)}
+/* ═══ PREDICTIVE CARDS ═══════════════════════════════════════ */
+.pred-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.pred-card{border-radius:11px;padding:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.pred-card-lbl{font-size:8.5px;font-weight:600;color:rgba(255,255,255,.42);letter-spacing:.06em;margin-bottom:7px}
+.pred-next{font-size:26px;font-weight:700;font-family:'Rajdhani',sans-serif;line-height:1}
+.pred-trend{font-size:9px;font-weight:600;margin-top:4px;margin-bottom:5px}
+.pred-conf{font-size:8px;color:rgba(255,255,255,.35);margin-bottom:5px}
+.pred-sentence{font-size:9px;color:rgba(255,255,255,.5);line-height:1.5;border-top:1px solid rgba(255,255,255,.06);padding-top:6px;margin-top:4px}
+@media(max-width:768px){.ac-cols,.pred-grid{grid-template-columns:1fr}.ac-col{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}.ac-col:last-child{border-bottom:none}}
 </style>
 </head>
 <body>
@@ -432,13 +496,49 @@ const EC_CONFIG={'sanju.gupta@aisglass.com':{role:'Admin',ecs:['bangalore','delh
 const EC_LABELS={bangalore:'Bangalore EC',delhi:'Delhi EC'};
 function getUserConfig(email){return EC_CONFIG[email]||{role:'Viewer',ecs:[],name:email?.split('@')[0]||'Viewer'};}
 
-// ═══ FIRESTORE SERVICE ══════════════════════════════════════
 const KPI_COLLECTION='ec_kpi_data',PLAN_COLLECTION='ec_sales_plans';
-function subscribeKpiData(ecIds,onData){const{db,collection,onSnapshot}=window._fb;return onSnapshot(collection(db,KPI_COLLECTION),snap=>{const rows=[];snap.forEach(d=>{const data=d.data();if(ecIds.includes(data.ecId))rows.push({id:d.id,...data});});onData(rows);},err=>console.error('Firestore KPI error:',err));}
-function subscribePlanData(ecIds,onData){const{db,collection,onSnapshot}=window._fb;return onSnapshot(collection(db,PLAN_COLLECTION),snap=>{const rows=[];snap.forEach(d=>{const data=d.data();if(ecIds.includes(data.ecId))rows.push({id:d.id,...data});});onData(rows);},err=>console.error('Firestore Plan error:',err));}
-async function fsAdd(colName,data){const{db,collection,addDoc,serverTimestamp}=window._fb;return addDoc(collection(db,colName),{...data,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});}
-async function fsUpdate(colName,id,data){const{db,doc,updateDoc,serverTimestamp}=window._fb;return updateDoc(doc(db,colName,id),{...data,updatedAt:serverTimestamp()});}
-async function fsDelete(colName,id){const{db,doc,deleteDoc}=window._fb;return deleteDoc(doc(db,colName,id));}
+
+// ═══ RETRY LOGIC ══════════════════════════════════════════════
+async function retryOp(fn,attempts=3,delayMs=500){
+  for(let i=0;i<attempts;i++){
+    try{return await fn();}
+    catch(e){
+      if(i===attempts-1)throw e;
+      await new Promise(r=>setTimeout(r,delayMs*Math.pow(2,i)));
+    }
+  }
+}
+
+// ═══ FIRESTORE DATA SERVICE ══════════════════════════════════
+function subscribeKpiData(ecIds,onData){
+  const{db,collection,onSnapshot,query,limit,orderBy}=window._fb;
+  const col=collection(db,KPI_COLLECTION);
+  // Limit to 500 most-recent records to prevent excessive reads
+  const q=window._fb.query?window._fb.query(col,window._fb.limit(500)):col;
+  return onSnapshot(q,snap=>{
+    const rows=[];
+    snap.forEach(d=>{const data=d.data();if(ecIds.includes(data.ecId))rows.push({id:d.id,...data});});
+    onData(rows);
+  },err=>console.error('Firestore KPI error:',err));
+}
+function subscribePlanData(ecIds,onData){
+  const{db,collection,onSnapshot}=window._fb;
+  const col=collection(db,PLAN_COLLECTION);
+  return onSnapshot(col,snap=>{
+    const rows=[];
+    snap.forEach(d=>{const data=d.data();if(ecIds.includes(data.ecId))rows.push({id:d.id,...data});});
+    onData(rows);
+  },err=>console.error('Firestore Plan error:',err));
+}
+async function fsAdd(colName,data){
+  return retryOp(()=>{const{db,collection,addDoc,serverTimestamp}=window._fb;return addDoc(collection(db,colName),{...data,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});});
+}
+async function fsUpdate(colName,id,data){
+  return retryOp(()=>{const{db,doc,updateDoc,serverTimestamp}=window._fb;return updateDoc(doc(db,colName,id),{...data,updatedAt:serverTimestamp()});});
+}
+async function fsDelete(colName,id){
+  return retryOp(()=>{const{db,doc,deleteDoc}=window._fb;return deleteDoc(doc(db,colName,id));});
+}
 async function fsCount(colName){const{db,collection,getDocs}=window._fb;const snap=await getDocs(collection(db,colName));return snap.size;}
 
 // ═══ SEED DATA ═══════════════════════════════════════════════
@@ -457,7 +557,7 @@ const PARAMS_AU=['Compliance','Documentation','Safety','Display Standards','Cust
 const EXP_CATS=['Utilities','Maintenance','Hospitality','Marketing Materials','Miscellaneous'];
 const EXP_BUDS=[25000,15000,20000,30000,10000];
 const TYPES_FF=['New','Repeat','Referral','Walk-in'];
-const AREAS=['Lead Generation','Conversion Rate','Revenue','Architect Visits','Customer NPS','Training Completion','Footfall','Follow-ups','New Accounts','Proposals Sent','Customer Retention','Repeat Visits','Events Attended','Product Demos','Collections'];
+const AREAS=['Lead Generation','Conversion Rate','Revenue','Architect Visits','Customer Sat.','Training Completion','Footfall','Follow-ups','New Accounts','Proposals Sent','Customer Retention','Repeat Visits','Events Attended','Product Demos','Collections'];
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const pick=arr=>arr[Math.floor(Math.random()*arr.length)];
 const fdStr=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -519,7 +619,7 @@ function computeECMetrics(kpiRows,planRows,fdateFn){
   const filt=(type,field)=>fdateFn(kpiRows.filter(r=>r.kpiType===type),field||'date');
   const leads=filt('leads'),archs=filt('archs'),footfall=filt('footfall'),showroom=filt('showroom');
   const datamgmt=filt('datamgmt','dueDate'),skills=filt('skills'),archFb=filt('archFb'),expenses=filt('expenses');
-  const audits=kpiRows.filter(r=>r.kpiType==='audits'),custFb=filt('custFb');
+  const audits=filt('audits','date'),custFb=filt('custFb');
   const convLeads=leads.filter(l=>l.convertedToVisit).length,archVis=archs.filter(a=>a.convertedToVisit).length;
   const misOnTime=datamgmt.filter(r=>r.status==='On Time').length;
   const swAvg=showroom.length?showroom.reduce((a,s)=>a+s.score,0)/showroom.length:0;
@@ -533,7 +633,7 @@ function computeECMetrics(kpiRows,planRows,fdateFn){
     leadConv:leads.length?Math.round(convLeads/leads.length*100):0,totalLeads:leads.length,
     archConv:archs.length?Math.round(archVis/archs.length*100):0,footfall:footfall.length,
     showroom:parseFloat(swAvg.toFixed(1)),misComp:datamgmt.length?Math.round(misOnTime/datamgmt.length*100):0,
-    skills:skAvg,archNps:Math.round(afAvg*20),expPct:totalBud?Math.round(totalAct/totalBud*100):0,
+    skills:skAvg,archSat:Math.round(afAvg*20),expPct:totalBud?Math.round(totalAct/totalBud*100):0,
     audit:auMx?Math.round(auSc/auMx*100):0,csat:parseFloat(cfAvg.toFixed(1)),spPlanAvg:spAvg
   };
 }
@@ -561,9 +661,9 @@ function generateDataInsights(allData){
   // CSAT
   const cfA=cf.length?cf.reduce((a,f)=>a+(f.rating||0),0)/cf.length:null;
   if(cfA!==null){if(cfA<3.5)ins.push({ico:'\ud83d\udcac',ttl:`Customer CSAT Low: ${cfA.toFixed(1)}/5`,txt:`${cf.length} responses averaging ${cfA.toFixed(1)} stars. Focus on staff response time and solution quality.`,c:'r'});else if(cfA>=4.2)ins.push({ico:'\ud83d\udcac',ttl:`Customer CSAT Excellent: ${cfA.toFixed(1)}/5`,txt:`${cf.length} responses at ${cfA.toFixed(1)} stars. Share feedback highlights as team recognition.`,c:'g'});}
-  // Architect NPS
+  // Architect Sat.
   const afA=af.length?af.reduce((a,f)=>a+(f.rating||0),0)/af.length:null;
-  if(afA!==null){const nps=Math.round(afA*20);if(nps<50)ins.push({ico:'\u2b50',ttl:`Architect NPS Weak: ${nps}`,txt:`Below 50 NPS. Improve product demos and hospitality during architect visits.`,c:'y'});else if(nps>=75)ins.push({ico:'\u2b50',ttl:`Architect NPS Strong: ${nps}`,txt:`Architects highly satisfied. Leverage for referral invitations and network expansion.`,c:'g'});}
+  if(afA!==null){const satVal=Math.round(afA*20);if(satVal<50)ins.push({ico:'\u2b50',ttl:`Architect Sat. Weak: ${satVal}`,txt:`Below 50. Improve product demos and hospitality during architect visits.`,c:'y'});else if(satVal>=75)ins.push({ico:'\u2b50',ttl:`Architect Sat. Strong: ${satVal}`,txt:`Architects highly satisfied. Leverage for referral invitations and network expansion.`,c:'g'});}
   // Skills
   const skA=sk.length?Math.round(sk.reduce((a,s)=>a+(s.assessmentScore||0),0)/sk.length):null;
   if(skA!==null&&skA<70)ins.push({ico:'\ud83d\udcda',ttl:`Skills Below Target: ${skA}%`,txt:`Average ${skA}% (target 75%+). Schedule refresher training on product knowledge.`,c:'y'});
@@ -584,7 +684,378 @@ function generateDataInsights(allData){
   return ins.slice(0,8);
 }
 
+// ═══════════════════════════════════════════════════════════
+// MANAGEMENT HELPERS — thresholds, freshness, action center,
+//   drill-down, predictive, exception classification
+// ═══════════════════════════════════════════════════════════
+
+// Centralized thresholds
+const THR={
+  misComp:{crit:70,warn:90},csat:{crit:3.5,warn:4.2},sat:{crit:50,warn:75},
+  audit:{crit:70,warn:85},showroom:{crit:6,warn:8},planAvg:{crit:70,warn:90},
+  expPct:{crit:110,warn:95},leadConv:{crit:30,warn:50},archConv:{crit:50,warn:70}
+};
+
+const NOTES_COLLECTION='ec_mgmt_notes';
+
+// Freshness: returns {label, cls, days} from array of rows
+function computeFreshness(rows,field='date'){
+  if(!rows||!rows.length)return{label:'No data',cls:'fresh-n',days:999};
+  const dates=rows.map(r=>r[field]||'').filter(Boolean).sort();
+  const latest=dates[dates.length-1];
+  if(!latest)return{label:'No data',cls:'fresh-n',days:999};
+  const days=Math.floor((Date.now()-new Date(latest).getTime())/(864e5));
+  if(isNaN(days))return{label:'No data',cls:'fresh-n',days:999};
+  if(days===0)return{label:'Today',cls:'fresh-g',days:0};
+  if(days<=2)return{label:days+'d ago',cls:'fresh-g',days};
+  if(days<=7)return{label:days+'d ago',cls:'fresh-y',days};
+  if(days<=30)return{label:days+'d ago',cls:'fresh-r',days};
+  return{label:Math.floor(days/30)+'mo ago',cls:'fresh-r',days};
+}
+
+// Action center: classify all KPI data into critical / watchlist / wins
+function computeActionCenter(allData,prevStats){
+  const critical=[],watchlist=[],wins=[];
+  const {leads=[],datamgmt=[],custFb=[],archFb=[],audits=[],showroom=[],expenses=[],skills=[],footfall=[],archs=[],salesPlans=[]}=allData;
+
+  // MIS compliance
+  const dmOT=datamgmt.filter(r=>r.status==='On Time').length;
+  const dmc=datamgmt.length?Math.round(dmOT/datamgmt.length*100):null;
+  if(dmc!==null){
+    if(dmc<THR.misComp.crit)critical.push({ico:'\u26a0\ufe0f',lbl:'MIS Compliance',val:dmc+'%',txt:`Only ${dmOT}/${datamgmt.length} reports on time. Review submission discipline.`});
+    else if(dmc<THR.misComp.warn)watchlist.push({ico:'\ud83d\udcca',lbl:'MIS Compliance',val:dmc+'%',txt:'Compliance is acceptable but can improve to 90%+.'});
+    else wins.push({ico:'\u2705',lbl:'MIS Compliance',val:dmc+'%',txt:'Reports are being submitted on time consistently.'});
+  }
+
+  // CSAT
+  const cfA=custFb.length?custFb.reduce((a,f)=>a+(f.rating||0),0)/custFb.length:null;
+  if(cfA!==null){
+    if(cfA<THR.csat.crit)critical.push({ico:'\ud83d\udcac',lbl:'Customer CSAT',val:'\u2605'+cfA.toFixed(1),txt:`${custFb.length} responses averaging below 3.5. Address response time and solution quality.`});
+    else if(cfA<THR.csat.warn)watchlist.push({ico:'\ud83d\udcac',lbl:'Customer CSAT',val:'\u2605'+cfA.toFixed(1),txt:'CSAT is acceptable. Target 4.2+ by improving staff responsiveness.'});
+    else wins.push({ico:'\u2705',lbl:'Customer CSAT',val:'\u2605'+cfA.toFixed(1),txt:`Customers are highly satisfied across ${custFb.length} responses.`});
+  }
+
+  // Architect Sat
+  const afA=archFb.length?archFb.reduce((a,f)=>a+(f.rating||0),0)/archFb.length:null;
+  if(afA!==null){
+    const satV=Math.round(afA*20);
+    if(satV<THR.sat.crit)watchlist.push({ico:'\u2b50',lbl:'Architect Sat.',val:satV,txt:'Architect satisfaction needs improvement. Focus on hospitality and product demos.'});
+    else if(satV>=THR.sat.warn)wins.push({ico:'\u2b50',lbl:'Architect Sat.',val:satV,txt:'Architects are highly engaged. Leverage for referral campaigns.'});
+  }
+
+  // Audit
+  const auSc=audits.reduce((a,s)=>a+(s.score||0),0),auMx=audits.reduce((a,s)=>a+(s.maxScore||0),0);
+  if(auMx>0){
+    const auP=Math.round(auSc/auMx*100);
+    if(auP<THR.audit.crit)critical.push({ico:'\ud83c\udfaf',lbl:'Audit Score',val:auP+'%',txt:'Audit score is critically low. Immediate remediation of compliance gaps required.'});
+    else if(auP<THR.audit.warn)watchlist.push({ico:'\ud83c\udfaf',lbl:'Audit Score',val:auP+'%',txt:'Audit score is passing. Address remaining parameter gaps before next audit.'});
+    else wins.push({ico:'\u2705',lbl:'Audit Score',val:auP+'%',txt:'Audit compliance is strong and above threshold.'});
+  }
+
+  // Showroom
+  const swA=showroom.length?showroom.reduce((a,s)=>a+(s.score||0),0)/showroom.length:null;
+  if(swA!==null){
+    if(swA<THR.showroom.crit)critical.push({ico:'\ud83c\udfe2',lbl:'Showroom Score',val:swA.toFixed(1)+'/10',txt:'Showroom upkeep is below standard. Immediate attention to cleanliness and display.'});
+    else if(swA<THR.showroom.warn)watchlist.push({ico:'\ud83c\udfe2',lbl:'Showroom Score',val:swA.toFixed(1)+'/10',txt:'Showroom is acceptable but not excellent. Target 8+.'});
+    else wins.push({ico:'\u2705',lbl:'Showroom Score',val:swA.toFixed(1)+'/10',txt:'Showroom is well-maintained and above target.'});
+  }
+
+  // Lead conversion
+  const conv=leads.filter(l=>l.convertedToVisit).length;
+  const lcr=leads.length?Math.round(conv/leads.length*100):null;
+  if(lcr!==null){
+    if(lcr<THR.leadConv.crit)critical.push({ico:'\ud83d\udcc9',lbl:'Lead Conversion',val:lcr+'%',txt:`Only ${conv}/${leads.length} leads converted. Review follow-up process urgently.`});
+    else if(lcr>=THR.leadConv.warn)wins.push({ico:'\ud83d\udcc8',lbl:'Lead Conversion',val:lcr+'%',txt:'Lead-to-visit conversion is exceeding the 40% target.'});
+    else watchlist.push({ico:'\ud83d\udcc8',lbl:'Lead Conversion',val:lcr+'%',txt:'Conversion is in range but has room for growth. Improve follow-up cadence.'});
+  }
+
+  // Expenses
+  const tb=expenses.reduce((a,e)=>a+(e.budgetAmount||0),0),ta=expenses.reduce((a,e)=>a+(e.actualAmount||0),0);
+  if(tb>0){
+    const ep=Math.round(ta/tb*100);
+    if(ep>THR.expPct.crit)critical.push({ico:'\ud83d\udcb0',lbl:'Expenses',val:ep+'% of budget',txt:'Spending is over budget. Review categories and enforce approval controls.'});
+    else if(ep>THR.expPct.warn)watchlist.push({ico:'\ud83d\udcb0',lbl:'Expenses',val:ep+'% of budget',txt:'Spending is approaching budget ceiling. Monitor closely.'});
+  }
+
+  // Sales plans
+  if(salesPlans.length>0){
+    const spRnk=salesPlans.map(p=>({n:p.salespersonName,avg:p.lines&&p.lines.length?Math.round(p.lines.reduce((a,l)=>a+(l.achievementPct||0),0)/p.lines.length):0}));
+    const bottom=spRnk.filter(s=>s.avg<THR.planAvg.crit);
+    const top=spRnk.filter(s=>s.avg>=90);
+    if(bottom.length>0)watchlist.push({ico:'\ud83d\udcc5',lbl:'Plan Achievement',val:bottom.length+' below 70%',txt:bottom.map(s=>s.n.split(' ')[0]).join(', ')+' need coaching support.'});
+    if(top.length>0)wins.push({ico:'\ud83c\udfc6',lbl:'Top Performers',val:top.length+' on track',txt:top.map(s=>s.n.split(' ')[0]).join(', ')+' are hitting plan targets.'});
+  }
+
+  // Footfall vs prev
+  if(prevStats&&prevStats.footfall>0&&footfall.length>0){
+    const chg=Math.round((footfall.length-prevStats.footfall)/prevStats.footfall*100);
+    if(chg>10)wins.push({ico:'\ud83d\udc65',lbl:'Footfall Growth',val:'+'+chg+'% vs prev',txt:`Footfall improved by ${chg}% compared to the previous equivalent period.`});
+    else if(chg<-10)watchlist.push({ico:'\ud83d\udc65',lbl:'Footfall Decline',val:chg+'% vs prev',txt:'Footfall dropped vs previous period. Review outreach and events calendar.'});
+  }
+
+  return{critical:critical.slice(0,4),watchlist:watchlist.slice(0,4),wins:wins.slice(0,4)};
+}
+
+// Drill-down insight object for a specific KPI
+function kpiDrillDown(type,data){
+  if(!data||!data.length)return{title:'No Data',sections:[{lbl:'Status',val:'No data',detail:'No records found in the selected date range.'}]};
+  const n=data.length;
+  if(type==='leads'){
+    const conv=data.filter(l=>l.convertedToVisit).length;
+    const cr=n?Math.round(conv/n*100):0;
+    const srcMap=data.reduce((a,l)=>{if(!a[l.leadSource])a[l.leadSource]={t:0,c:0};a[l.leadSource].t++;if(l.convertedToVisit)a[l.leadSource].c++;return a},{});
+    const srcArr=Object.entries(srcMap).map(([src,v])=>({src,rate:v.t?Math.round(v.c/v.t*100):0}));
+    const best=srcArr.sort((a,b)=>b.rate-a.rate)[0];
+    const worst=srcArr.sort((a,b)=>a.rate-b.rate)[0];
+    return{title:'Lead Conversion Drill-Down',sections:[
+      {lbl:'Total Leads',val:n,detail:`${conv} converted to EC visits`},
+      {lbl:'Conversion Rate',val:cr+'%',detail:cr>=40?'Above 40% target — keep follow-up discipline':'Below 40% target — review qualification and follow-up'},
+      {lbl:'Best Source',val:best?best.src:'—',detail:best?best.rate+'% conversion rate from this source':'—'},
+      {lbl:'Weakest Source',val:worst&&worst.src!==best?.src?worst.src:'—',detail:worst&&worst.src!==best?.src?worst.rate+'% — consider reviewing this channel':''},
+      {lbl:'Next Action',val:null,detail:cr<30?'Escalate: implement 24h follow-up SLA for all new leads':cr<40?'Improve: coach salespersons on lead qualification criteria':'Maintain: share best practices across team'},
+    ]};
+  }
+  if(type==='datamgmt'){
+    const ot=data.filter(r=>r.status==='On Time').length,late=data.filter(r=>r.status==='Late').length,miss=data.filter(r=>r.status==='Missing').length;
+    const comp=n?Math.round(ot/n*100):0;
+    const typeWorst=['Daily Report','Weekly MIS','Monthly Report'].map(t=>{const it=data.filter(r=>r.reportType===t);return{t,rate:it.length?Math.round(it.filter(r=>r.status==='On Time').length/it.length*100):100};}).sort((a,b)=>a.rate-b.rate)[0];
+    return{title:'MIS Compliance Drill-Down',sections:[
+      {lbl:'Overall Compliance',val:comp+'%',detail:`${ot} on time, ${late} late, ${miss} missing`},
+      {lbl:'Weakest Report Type',val:typeWorst?typeWorst.t:'—',detail:typeWorst?typeWorst.rate+'% on-time rate — needs priority attention':''},
+      {lbl:'Late + Missing Count',val:late+miss,detail:'Each late submission creates reporting gaps for management review'},
+      {lbl:'Next Action',val:null,detail:comp<70?'Critical: implement mandatory daily sign-off check':comp<90?'Set automated deadline reminders 24h before due date':'Sustain current process — consider recognising top submitters'},
+    ]};
+  }
+  if(type==='custFb'){
+    const avgR=n?parseFloat((data.reduce((a,f)=>a+(f.rating||0),0)/n).toFixed(1)):0;
+    const neg=data.filter(f=>f.rating<=2).length;
+    const paramKeys=['productDisplay','staffBehavior','responseTime','solutionProvided'];
+    const paramAvgs=paramKeys.map(k=>{const it=data.filter(f=>f.parameters&&f.parameters[k]);return{k,avg:it.length?it.reduce((a,f)=>a+f.parameters[k],0)/it.length:0};});
+    const weakP=paramAvgs.sort((a,b)=>a.avg-b.avg)[0];
+    return{title:'Customer CSAT Drill-Down',sections:[
+      {lbl:'Average Rating',val:'\u2605'+avgR+'/5',detail:`${n} customer responses collected`},
+      {lbl:'Negative Responses',val:neg,detail:neg>0?neg+' customers rated 2 stars or below — follow up required':'No severely negative responses'},
+      {lbl:'Weakest Parameter',val:weakP?weakP.k.replace(/([A-Z])/g,' $1').trim():'—',detail:weakP?'Avg '+weakP.avg.toFixed(1)+'/5 — focus training on this area':''},
+      {lbl:'Next Action',val:null,detail:avgR<3.5?'Urgent: conduct customer callback campaign for all 1-2 star ratings':avgR<4.2?'Improve: train staff on response time and solution quality':'Recognise team and share positive feedback at next review meeting'},
+    ]};
+  }
+  if(type==='archFb'){
+    const avgR=n?parseFloat((data.reduce((a,f)=>a+(f.rating||0),0)/n).toFixed(1)):0;
+    const satV=Math.round(avgR*20);
+    const neg=data.filter(f=>f.category==='Negative').length;
+    return{title:'Architect Satisfaction Drill-Down',sections:[
+      {lbl:'Sat. Score',val:satV,detail:`From ${n} architect visits, avg rating ${avgR}/5`},
+      {lbl:'Negative Responses',val:neg,detail:neg>0?`${neg} architects had negative experience — review hosting process`:'No negative responses this period'},
+      {lbl:'Score Status',val:satV>=75?'Strong':satV>=50?'Adequate':'Weak',detail:satV>=75?'Leverage satisfied architects for referral invitations':satV>=50?'Improve hospitality and product knowledge demonstrations':'Critical — architect experience needs immediate redesign'},
+      {lbl:'Next Action',val:null,detail:'Personally follow up with all 3-star or below architects to understand pain points'},
+    ]};
+  }
+  if(type==='audits'){
+    const auSc=data.reduce((a,s)=>a+(s.score||0),0),auMx=data.reduce((a,s)=>a+(s.maxScore||0),0);
+    const auP=auMx?Math.round(auSc/auMx*100):0;
+    const pMap=data.reduce((a,s)=>{if(!a[s.parameter])a[s.parameter]={sc:0,mx:0};a[s.parameter].sc+=s.score;a[s.parameter].mx+=s.maxScore;return a},{});
+    const worst=Object.entries(pMap).map(([p,v])=>({p,pct:v.mx?Math.round(v.sc/v.mx*100):0})).sort((a,b)=>a.pct-b.pct)[0];
+    return{title:'Audit Score Drill-Down',sections:[
+      {lbl:'Overall Score',val:auP+'%',detail:`${auSc} / ${auMx} points`},
+      {lbl:'Weakest Parameter',val:worst?worst.p:'—',detail:worst?worst.pct+'% — prioritise corrective action here':''},
+      {lbl:'Score Status',val:auP>=85?'Strong':auP>=70?'Adequate':'Critical',detail:auP>=85?'Above benchmark — document best practices':auP>=70?'Passing — address remaining gaps':'Immediate action needed before next compliance review'},
+      {lbl:'Next Action',val:null,detail:auP<70?'Schedule emergency compliance review within 7 days':auP<85?'Close gaps in lowest 2 parameters before next audit':'Maintain standards and prepare documentation for annual review'},
+    ]};
+  }
+  if(type==='showroom'){
+    const avg=n?parseFloat((data.reduce((a,s)=>a+(s.score||0),0)/n).toFixed(1)):0;
+    const parMap=data.reduce((a,s)=>{if(!a[s.parameter])a[s.parameter]={t:0,sc:0};a[s.parameter].t++;a[s.parameter].sc+=s.score;return a},{});
+    const worst=Object.entries(parMap).map(([p,v])=>({p,avg:v.t?v.sc/v.t:0})).sort((a,b)=>a.avg-b.avg)[0];
+    return{title:'Showroom Upkeep Drill-Down',sections:[
+      {lbl:'Overall Avg Score',val:avg+'/10',detail:`Across ${n} parameter checks`},
+      {lbl:'Weakest Parameter',val:worst?worst.p:'—',detail:worst?worst.avg.toFixed(1)+'/10 average — immediate attention required':''},
+      {lbl:'Score Status',val:avg>=8?'Excellent':avg>=6?'Adequate':'Below Standard',detail:avg>=8?'Showroom is in excellent condition':avg>=6?'Meets basic standards — target 8+ for premium experience':'Customer experience is being impacted — escalate to EC Manager'},
+      {lbl:'Next Action',val:null,detail:avg<6?'Schedule daily inspection and corrective maintenance this week':avg<8?'Focus team effort on the 2 weakest parameters':'Share best practices with other ECs'},
+    ]};
+  }
+  if(type==='expenses'){
+    const tb=data.reduce((a,e)=>a+(e.budgetAmount||0),0),ta=data.reduce((a,e)=>a+(e.actualAmount||0),0);
+    const ep=tb?Math.round(ta/tb*100):0;
+    const catMap=data.reduce((a,e)=>{if(!a[e.category])a[e.category]={b:0,ac:0};a[e.category].b+=e.budgetAmount;a[e.category].ac+=e.actualAmount;return a},{});
+    const overCat=Object.entries(catMap).filter(([,v])=>v.b>0&&v.ac>v.b).map(([c,v])=>c+' (+\u20b9'+Math.abs(v.ac-v.b).toLocaleString('en-IN')+')').join(', ');
+    return{title:'Expense Management Drill-Down',sections:[
+      {lbl:'Total Utilisation',val:ep+'%',detail:'\u20b9'+ta.toLocaleString('en-IN')+' spent of \u20b9'+tb.toLocaleString('en-IN')+' budgeted'},
+      {lbl:'Over-Budget Categories',val:overCat||'None',detail:overCat?'These categories need purchase order review':'All categories within budget'},
+      {lbl:'Status',val:ep>110?'Over Budget':ep>95?'Near Limit':'Controlled',detail:ep>110?'Implement immediate spend freeze on non-critical categories':ep>95?'Monitor daily — close to budget ceiling':'Continue current discipline'},
+      {lbl:'Next Action',val:null,detail:ep>110?'Review each over-budget category with manager approval':'Confirm remaining budget is allocated to planned activities'},
+    ]};
+  }
+  if(type==='skills'){
+    const avg=n?Math.round(data.reduce((a,s)=>a+(s.assessmentScore||0),0)/n):0;
+    const below=data.filter(s=>s.assessmentScore<75).length;
+    const best=data.reduce((a,s)=>s.assessmentScore>a.score?{name:s.salesperson,score:s.assessmentScore}:a,{name:'',score:0});
+    return{title:'Skills & Training Drill-Down',sections:[
+      {lbl:'Team Avg Score',val:avg+'%',detail:`${n} training sessions recorded`},
+      {lbl:'Below 75% Threshold',val:below+' sessions',detail:below>0?'These sessions need repeat training scheduled':'All sessions met the 75% threshold'},
+      {lbl:'Top Performer',val:best.name||'—',detail:best.score?best.score+'% — share learning approach with team':''},
+      {lbl:'Next Action',val:null,detail:avg<65?'Schedule mandatory refresher training for all staff this month':avg<80?'Target weakest topic areas with focused 30-min sessions':'Advance to next product category training'},
+    ]};
+  }
+  if(type==='archs'){
+    const vis=data.filter(a=>a.convertedToVisit).length;
+    const acr=n?Math.round(vis/n*100):0;
+    const catMap=data.reduce((a,i)=>{if(!a[i.invitationCategory])a[i.invitationCategory]={t:0,v:0};a[i.invitationCategory].t++;if(i.convertedToVisit)a[i.invitationCategory].v++;return a},{});
+    const bestCat=Object.entries(catMap).map(([c,v])=>({c,rate:v.t?Math.round(v.v/v.t*100):0})).sort((a,b)=>b.rate-a.rate)[0];
+    return{title:'Architect Invitations Drill-Down',sections:[
+      {lbl:'Visit Conversion',val:acr+'%',detail:`${vis} of ${n} invited architects visited the EC`},
+      {lbl:'Best Category',val:bestCat?bestCat.c:'—',detail:bestCat?bestCat.rate+'% conversion — invest more here':''},
+      {lbl:'Pending Follow-ups',val:data.filter(a=>a.status==='Scheduled'||a.status==='Pending').length,detail:'These architects have confirmed interest but not visited yet'},
+      {lbl:'Next Action',val:null,detail:acr<50?'Personally call pending architects — offer exclusive product showcase':acr>=70?'Strong conversion — increase invitation volume this month':'Add personalised incentive for pending architect visits'},
+    ]};
+  }
+  if(type==='footfall'){
+    const newV=data.filter(f=>f.customerType==='New').length;
+    const np=n?Math.round(newV/n*100):0;
+    return{title:'Footfall Drill-Down',sections:[
+      {lbl:'Total Visits',val:n,detail:`${newV} new customers (${np}%), ${n-newV} repeat/referral`},
+      {lbl:'New Customer Rate',val:np+'%',detail:np>=40?'Healthy new customer acquisition':'Below 40% — increase outreach to new customer segments'},
+      {lbl:'Purpose Split',val:null,detail:['Product Enquiry','Purchase','After Sales'].map(p=>p+': '+data.filter(f=>f.purpose===p).length).join(' \u00b7 ')},
+      {lbl:'Next Action',val:null,detail:np<30?'Launch targeted outreach campaign to drive new customer visits':n<20?'Footfall is low — plan in-store event or promotion':'Maintain walk-in momentum and upsell during visits'},
+    ]};
+  }
+  return{title:'KPI Analysis',sections:[{lbl:'Records',val:n,detail:'Data recorded for selected period'}]};
+}
+
+// Linear trend prediction
+function computePrediction(monthly,key){
+  const vals=monthly.map(m=>m[key]||0);
+  const n=vals.length;
+  if(n===0)return null;
+  if(n===1)return{next:vals[0],trend:'flat',slope:0,conf:'low',n,last:vals[0]};
+  const xMean=(n-1)/2,yMean=vals.reduce((a,b)=>a+b,0)/n;
+  let num=0,den=0;
+  for(let i=0;i<n;i++){num+=(i-xMean)*(vals[i]-yMean);den+=(i-xMean)**2;}
+  const slope=den?num/den:0;
+  const intercept=yMean-slope*xMean;
+  const next=Math.max(0,Math.round(intercept+slope*n));
+  const trend=Math.abs(slope)<0.5?'flat':slope>0?'up':'down';
+  const conf=n<3?'low':n<5?'medium':'good';
+  return{next,trend,slope:parseFloat(slope.toFixed(1)),conf,n,last:vals[n-1]};
+}
+
+// Exception classification — returns items per filter category
+function classifyExceptions(allData){
+  const {leads=[],datamgmt=[],custFb=[],archFb=[],expenses=[],showroom=[],audits=[],skills=[],salesPlans=[]}=allData;
+  return{
+    'below-target':{
+      label:'Below Target',
+      empty:'All metrics are meeting targets.',
+      items:[
+        ...salesPlans.flatMap(p=>(p.lines||[]).filter(l=>l.achievementPct<70).slice(0,2).map(l=>({t:'Plan Line',lbl:p.salespersonName+' \u2014 '+l.targetArea,val:l.achievementPct+'%',c:'br'}))),
+        ...(leads.length&&Math.round(leads.filter(l=>l.convertedToVisit).length/leads.length*100)<30?[{t:'Lead Conv.',lbl:'Conversion below 30%',val:Math.round(leads.filter(l=>l.convertedToVisit).length/leads.length*100)+'%',c:'br'}]:[]),
+        ...(skills.length?skills.filter(s=>s.assessmentScore<65).map(s=>({t:'Skills',lbl:s.salesperson+' \u2014 '+s.trainingTopic,val:s.assessmentScore+'%',c:'by'})):[]),
+      ].slice(0,8)
+    },
+    'late-missing':{
+      label:'Late / Missing',
+      empty:'No late or missing reports found.',
+      items:datamgmt.filter(r=>r.status==='Late'||r.status==='Missing').map(r=>({t:r.reportType,lbl:r.dueDate||r.date||'—',val:r.status,c:r.status==='Missing'?'br':'by'})).slice(0,8)
+    },
+    'negative-feedback':{
+      label:'Negative Feedback',
+      empty:'No negative feedback found for this period.',
+      items:[
+        ...custFb.filter(f=>f.rating<=2).map(f=>({t:'CSAT',lbl:f.name||'Customer',val:'\u2605'+f.rating+'/5',c:'br'})),
+        ...archFb.filter(f=>f.category==='Negative').map(f=>({t:'Arch Fb',lbl:f.name||'Architect',val:'\u2605'+f.rating+'/5',c:'br'})),
+      ].slice(0,8)
+    },
+    'over-budget':{
+      label:'Over Budget',
+      empty:'All expense categories are within budget.',
+      items:expenses.filter(e=>e.actualAmount>e.budgetAmount).map(e=>({t:e.category,lbl:e.description||e.category,val:'+\u20b9'+Math.abs(e.actualAmount-e.budgetAmount).toLocaleString('en-IN'),c:'br'})).slice(0,8)
+    },
+    'low-scores':{
+      label:'Low Scores',
+      empty:'No scores below thresholds in this period.',
+      items:[
+        ...showroom.filter(s=>s.score<6).map(s=>({t:'Showroom',lbl:s.parameter+' \u2014 '+s.date,val:s.score+'/10',c:'br'})),
+        ...audits.filter(a=>a.maxScore?Math.round(a.score/a.maxScore*100)<70:false).map(a=>({t:'Audit',lbl:a.parameter,val:Math.round(a.score/a.maxScore*100)+'%',c:'br'})),
+        ...custFb.filter(f=>f.rating<3).map(f=>({t:'CSAT',lbl:f.name||'Customer',val:'\u2605'+f.rating,c:'by'})),
+      ].slice(0,8)
+    }
+  };
+}
+
+
 // ═══ TOAST ════════════════════════════════════════════════════
+// ═══ ERROR BOUNDARY ════════════════════════════════════════════
+class ErrorBoundary extends React.Component{
+  constructor(props){super(props);this.state={error:null};}
+  static getDerivedStateFromError(e){return{error:e};}
+  componentDidCatch(e,info){console.error('[ErrorBoundary]',e,info);}
+  render(){
+    if(this.state.error){
+      return React.createElement('div',{className:'err-boundary'},
+        React.createElement('div',{style:{fontSize:40,marginBottom:8}},'⚠️'),
+        React.createElement('h2',null,'Something went wrong'),
+        React.createElement('p',null,'An unexpected error occurred in the dashboard. This is usually caused by a data format issue or a browser compatibility problem.'),
+        React.createElement('p',{style:{fontSize:9,color:'rgba(255,255,255,.25)',marginTop:4,fontFamily:'monospace'}},String(this.state.error?.message||'').slice(0,120)),
+        React.createElement('button',{className:'btn-s',style:{marginTop:14},onClick:()=>{this.setState({error:null});window.location.reload();}},'🔄 Reload Dashboard')
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// ═══ VALIDATION HELPERS ═══════════════════════════════════════
+function validateField(field,val){
+  if(field.req&&(!val||!String(val).trim()))return 'Required field';
+  if(field.type==='date'&&val){const d=new Date(val);if(isNaN(d.getTime()))return 'Invalid date';}
+  if(field.type==='number'&&val!==''){
+    const n=parseFloat(val);
+    if(isNaN(n))return 'Must be a number';
+    if(field.min!==undefined&&n<field.min)return `Min value is ${field.min}`;
+    if(field.max!==undefined&&n>field.max)return `Max value is ${field.max}`;
+  }
+  return null;
+}
+function validateForm(fields,form){
+  const errs={};
+  fields.forEach(f=>{const e=validateField(f,form[f.n]);if(e)errs[f.n]=e;});
+  return errs;
+}
+
+// ═══ OFFLINE BANNER ════════════════════════════════════════════
+function OfflineBanner(){
+  return h('div',{className:'offline-banner'},
+    h('span',null,'📡'),
+    h('span',null,'You are offline. The dashboard shows cached data. Changes will sync when connection returns.')
+  );
+}
+
+// ═══ LOADING OVERLAY ═══════════════════════════════════════════
+function LoadingOverlay({show}){
+  if(!show)return null;
+  return h('div',{className:'loading-overlay'},
+    h('div',{style:{textAlign:'center'}},
+      h('div',{className:'loading-spin'}),
+      h('p',{style:{fontSize:10,color:'rgba(255,255,255,.42)',marginTop:12}},'\ud83d\udd04 Loading dashboard data...')
+    )
+  );
+}
+
+// ═══ SKELETON LOADER ═══════════════════════════════════════════
+function SkeletonCards(){
+  return h('div',{className:'ov-grid',style:{marginBottom:13}},
+    Array.from({length:6},(_,i)=>h('div',{key:i,className:'ov-card'},
+      h('div',{className:'skeleton skel-card'})
+    ))
+  );
+}
+
+// ═══ EMPTY RANGE WARNING ════════════════════════════════════════
+function EmptyRangeWarning({dateLabel}){
+  return h('div',{className:'range-warn'},
+    h('span',{style:{fontSize:16}},'📭'),
+    h('span',{style:{color:'rgba(255,255,255,.6)'}},`No records found for "${dateLabel}". Try a different date range or check that data has been entered for this period.`)
+  );
+}
+
 function Toast({msg,onDone}){
   useEffect(()=>{if(!msg)return;const t=setTimeout(onDone,2500);return()=>clearTimeout(t);},[msg]);
   if(!msg)return null;
@@ -592,11 +1063,12 @@ function Toast({msg,onDone}){
 }
 
 // ═══ CONFIRM DIALOG ═══════════════════════════════════════════
-function ConfirmDialog({onConfirm,onCancel}){
+function ConfirmDialog({onConfirm,onCancel,label}){
   return h('div',{className:'mbg',onMouseDown:e=>e.target===e.currentTarget&&onCancel()},
     h('div',{style:{background:'#0c1d38',borderRadius:14,border:'1px solid rgba(248,113,113,.32)',width:300,padding:'22px',textAlign:'center',boxShadow:'0 24px 50px rgba(0,0,0,.6)'}},
       h('div',{style:{fontSize:28,marginBottom:10}},'\ud83d\uddd1'),
       h('p',{style:{fontSize:13,fontWeight:600,color:'#fff',marginBottom:6}},'Delete this entry?'),
+      label&&h('p',{style:{fontSize:9.5,color:'#00B4D8',marginBottom:8,padding:'4px 8px',borderRadius:6,background:'rgba(0,180,216,.08)',border:'1px solid rgba(0,180,216,.18)'}},label),
       h('p',{style:{fontSize:9.5,color:'rgba(255,255,255,.42)',marginBottom:18,lineHeight:1.5}},'This action cannot be undone.'),
       h('div',{style:{display:'flex',gap:8,justifyContent:'center'}},
         h('button',{className:'btn-c',onClick:onCancel},'Cancel'),
@@ -642,8 +1114,17 @@ function Modal({title,fields,onSubmit,onClose,editData}){
     if(editData)return fields.reduce((a,f)=>({...a,[f.n]:editData[f.n]!==undefined?String(editData[f.n]):(f.def||'')}),{});
     return fields.reduce((a,f)=>({...a,[f.n]:f.def||''}),{});
   });
-  const upd=(k,v)=>setForm(f=>({...f,[k]:v}));
+  const[errs,setErrs]=useState({});
+  const[submitting,setSubmitting]=useState(false);
+  const upd=(k,v)=>{setForm(f=>({...f,[k]:v}));if(errs[k])setErrs(e=>({...e,[k]:null}));};
   useEffect(()=>{document.body.style.overflow='hidden';return()=>{document.body.style.overflow='';};},[]);
+  const handleSubmit=()=>{
+    if(submitting)return;
+    const newErrs=validateForm(fields,form);
+    if(Object.keys(newErrs).length>0){setErrs(newErrs);return;}
+    setSubmitting(true);
+    try{onSubmit(form);}finally{setTimeout(()=>setSubmitting(false),800);}
+  };
   return h('div',{className:'mbg',onMouseDown:e=>e.target===e.currentTarget&&onClose()},
     h('div',{className:'modal'},
       h('div',{className:'m-hdr'},
@@ -652,9 +1133,15 @@ function Modal({title,fields,onSubmit,onClose,editData}){
       ),
       h('div',{className:'m-body'},...fields.map(f=>h('div',{key:f.n,className:'mfield'+(f.full?' full':'')},
         h('label',{htmlFor:'mf-'+f.n},f.l+(f.req?' *':'')),
-        f.type==='select'?h('select',{id:'mf-'+f.n,value:form[f.n],onChange:e=>upd(f.n,e.target.value)},h('option',{value:''},'Select...'),f.opts.map(o=>h('option',{key:o,value:o},o))):h('input',{id:'mf-'+f.n,type:f.type||'text',value:form[f.n],onChange:e=>upd(f.n,e.target.value),min:f.min,max:f.max,placeholder:f.ph||''})
+        f.type==='select'
+          ?h('select',{id:'mf-'+f.n,className:errs[f.n]?'invalid':'',value:form[f.n],onChange:e=>upd(f.n,e.target.value)},h('option',{value:''},'Select...'),f.opts.map(o=>h('option',{key:o,value:o},o)))
+          :h('input',{id:'mf-'+f.n,className:errs[f.n]?'invalid':'',type:f.type||'text',value:form[f.n],onChange:e=>upd(f.n,e.target.value),min:f.min,max:f.max,placeholder:f.ph||''}),
+        errs[f.n]&&h('div',{className:'mfield-err'},'\u26a0 ',errs[f.n])
       ))),
-      h('div',{className:'m-ftr'},h('button',{className:'btn-c',onClick:onClose},'Cancel'),h('button',{className:'btn-s',onClick:()=>onSubmit(form)},editData?'\ud83d\udcbe Update':'\ud83d\udcbe Save Entry'))
+      h('div',{className:'m-ftr'},
+        h('button',{className:'btn-c',onClick:onClose},'Cancel'),
+        h('button',{className:'btn-s',disabled:submitting,style:{opacity:submitting?.6:1},onClick:handleSubmit},submitting?'\u23f3 Saving...':(editData?'\ud83d\udcbe Update':'\ud83d\udcbe Save Entry'))
+      )
     )
   );
 }
@@ -664,13 +1151,35 @@ function useKpiState(col,add,upd,del,showToast){
   const[modal,setModal]=useState(false);
   const[editRow,setEditRow]=useState(null);
   const[confirmId,setConfirmId]=useState(null);
+  const[confirmLabel,setConfirmLabel]=useState(null);
   const openAdd=()=>{setEditRow(null);setModal(true);};
   const openEdit=row=>{setEditRow(row);setModal(true);};
   const closeModal=()=>{setModal(false);setEditRow(null);};
-  const handleSubmit=(raw,transform)=>{const processed=transform?transform(raw):raw;if(editRow){upd(col,editRow.id,processed);showToast('\u2705 Entry updated!');}else{add(col,processed);showToast('\u2705 Entry saved!');}closeModal();};
-  const handleDelete=id=>setConfirmId(id);
-  const confirmDelete=()=>{del(col,confirmId);setConfirmId(null);showToast('\ud83d\uddd1 Entry deleted!');};
-  return{modal,editRow,confirmId,openAdd,openEdit,closeModal,handleSubmit,handleDelete,confirmDelete,cancelDelete:()=>setConfirmId(null)};
+  const handleSubmit=(raw,transform)=>{
+    const processed=transform?transform(raw):raw;
+    if(editRow){
+      upd(col,editRow.id,processed)
+        .then(()=>showToast('\u2705 Entry updated!'))
+        .catch(e=>showToast('\u274c Update failed: '+e.message));
+    } else {
+      add(col,processed)
+        .then(()=>showToast('\u2705 Entry saved!'))
+        .catch(e=>showToast('\u274c Save failed: '+e.message));
+    }
+    closeModal();
+  };
+  const handleDelete=row=>{
+    const lbl=row.date?`${row.kpiType||col} \u2014 ${row.date}`:`ID: ${row.id}`;
+    setConfirmLabel(lbl);setConfirmId(row.id);
+  };
+  const confirmDelete=()=>{
+    const id=confirmId;
+    setConfirmId(null);setConfirmLabel(null);
+    del(col,id)
+      .then(()=>showToast('\ud83d\uddd1 Entry deleted!'))
+      .catch(e=>showToast('\u274c Delete failed: '+e.message));
+  };
+  return{modal,editRow,confirmId,confirmLabel,openAdd,openEdit,closeModal,handleSubmit,handleDelete,confirmDelete,cancelDelete:()=>{setConfirmId(null);setConfirmLabel(null);}};
 }
 
 // ═══ DATA TABLE ═══════════════════════════════════════════════
@@ -690,7 +1199,7 @@ function DataTable({cols,rows,ps=10,onEdit,onDelete,csvName}){
       h('thead',null,h('tr',null,...cols.map(c=>h('th',{key:c.k},c.l)),(onEdit||onDelete)?h('th',{key:'__a',style:{width:52}},''):null)),
       h('tbody',null,...visible.map((row,i)=>h('tr',{key:row.id||i},
         ...cols.map(c=>h('td',{key:c.k},c.r?c.r(row[c.k],row):(row[c.k]??'\u2014'))),
-        (onEdit||onDelete)?h('td',{key:'__a'},h('div',{className:'row-act'},onEdit&&h('button',{className:'act-btn act-edit','aria-label':'Edit',title:'Edit',onClick:()=>onEdit(row)},'\u270f\ufe0f'),onDelete&&h('button',{className:'act-btn act-del','aria-label':'Delete',title:'Delete',onClick:()=>onDelete(row.id)},'\ud83d\uddd1'))):null
+        (onEdit||onDelete)?h('td',{key:'__a'},h('div',{className:'row-act'},onEdit&&h('button',{className:'act-btn act-edit','aria-label':'Edit',title:'Edit',onClick:()=>onEdit(row)},'\u270f\ufe0f'),onDelete&&h('button',{className:'act-btn act-del','aria-label':'Delete',title:'Delete',onClick:()=>onDelete(row)},'\ud83d\uddd1'))):null
       )))
     )),
     pages>1&&h('div',{className:'pages'},
@@ -705,15 +1214,20 @@ function DataTable({cols,rows,ps=10,onEdit,onDelete,csvName}){
 }
 
 // ═══ KPI CARD WRAPPER ══════════════════════════════════════════
-function KCWrap({num,title,badge,children,canEdit,canDelete,onAdd,defOpen=true,numColor}){
+function KCWrap({num,title,badge,children,canEdit,canDelete,onAdd,defOpen=true,numColor,freshness,getDrillDown}){
   const[open,setOpen]=useState(defOpen);
+  const[ddData,setDdData]=useState(null);
+  const handleDrill=e=>{e.stopPropagation();if(getDrillDown)setDdData(getDrillDown());};
   return h('div',{className:'kc'},
+    ddData&&h(DrillDownModal,{data:ddData,onClose:()=>setDdData(null)}),
     h('div',{className:'kc-hdr',onClick:()=>setOpen(!open)},
       h('div',{className:'kc-left'},
         h('div',{className:'kc-num',style:numColor?{background:`linear-gradient(135deg,${numColor},${numColor}bb)`}:{}},num),
         h('div',{className:'kc-title'},h('p',null,title),badge&&h('span',null,badge))
       ),
       h('div',{className:'kc-right'},
+        freshness&&h(FreshnessBadge,{freshness}),
+        getDrillDown&&open&&h('button',{className:'drill-btn','aria-label':'Drill-down insights',onClick:handleDrill},'\ud83d\udd0d Insight'),
         canEdit&&onAdd&&open&&h('button',{className:'add-btn','aria-label':'Add entry',onClick:e=>{e.stopPropagation();onAdd();}},'\u002b Add'),
         h('span',{className:'chev'},open?'\u25b2':'\u25bc')
       )
@@ -729,7 +1243,9 @@ function KPI1({data,add,upd,del,canEdit,canDelete,showToast}){
   const srcMap=data.reduce((a,l)=>{if(!a[l.leadSource])a[l.leadSource]={label:l.leadSource.slice(0,8),t:0,c:0};a[l.leadSource].t++;if(l.convertedToVisit)a[l.leadSource].c++;return a},{});
   const srcData=Object.values(srcMap).map(s=>({label:s.label,total:s.t,conv:s.c}));
   const cols=[{k:'date',l:'Date'},{k:'leadSource',l:'Source'},{k:'leadName',l:'Name'},{k:'status',l:'Status',r:v=>h(Bdg,{v})},{k:'convertedToVisit',l:'EC Visit',r:v=>v?'\u2705 Yes':'\u274c No'},{k:'salesperson',l:'Salesperson'}];
-  return h(KCWrap,{num:'1',title:'Online Lead Conversion to EC Visit',badge:`${rate}% Conversion \u00b7 ${total} Leads`,canEdit,onAdd:ks.openAdd},
+  const _fresh1=computeFreshness(data,'date');
+  const _dd1=()=>kpiDrillDown('leads',data);
+    return h(KCWrap,{num:'1',title:'Online Lead Conversion to EC Visit',badge:`${rate}% Conversion \u00b7 ${total} Leads`,canEdit,onAdd:ks.openAdd,freshness:_fresh1,getDrillDown:_dd1},
     h('div',{className:'sg sg3'},
       [{n:'Total Leads',v:total,c:'#00B4D8'},{n:'Qualified',v:qual,c:'#4ADE80'},{n:'EC Visits',v:conv,c:'#FFD700'}].map(s=>h('div',{key:s.n,className:'sbox'},h('div',{className:'sval',style:{color:s.c}},s.v),h('div',{className:'slbl'},s.n)))
     ),
@@ -745,7 +1261,7 @@ function KPI1({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'convertedToVisit',l:'Converted to Visit?',type:'select',opts:['true','false']},
       {n:'salesperson',l:'Salesperson',type:'select',opts:SPS}
     ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,convertedToVisit:r.convertedToVisit==='true'})),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
@@ -755,7 +1271,9 @@ function KPI2({data,add,upd,del,canEdit,canDelete,showToast}){
   const cats=INV_CATS.map(cat=>{const it=data.filter(i=>i.invitationCategory===cat);return{label:cat.split(' ')[0],planned:it.length,visited:it.filter(i=>i.convertedToVisit).length};});
   const totalV=data.filter(d=>d.convertedToVisit).length;
   const cols=[{k:'date',l:'Date'},{k:'architectName',l:'Architect'},{k:'firmName',l:'Firm'},{k:'invitationCategory',l:'Category',r:v=>h(Bdg,{v,cls:'bb'})},{k:'status',l:'Status',r:v=>h(Bdg,{v})},{k:'salesperson',l:'Salesperson'}];
-  return h(KCWrap,{num:'2',title:'Architect Invitations \u2014 EC Visit Conversion',badge:`${data.length} Planned \u00b7 ${totalV} Visited`,canEdit,onAdd:ks.openAdd},
+  const _fresh2=computeFreshness(data,'date');
+  const _dd2=()=>kpiDrillDown('archs',data);
+    return h(KCWrap,{num:'2',title:'Architect Invitations \u2014 EC Visit Conversion',badge:`${data.length} Planned \u00b7 ${totalV} Visited`,canEdit,onAdd:ks.openAdd,freshness:_fresh2,getDrillDown:_dd2},
     h('div',{className:'sg sg4'},cats.map(c=>h('div',{key:c.label,className:'sbox'},h('div',{className:'sval',style:{color:'#00B4D8'}},c.planned?Math.round(c.visited/c.planned*100)+'%':'0%'),h('div',{className:'slbl'},c.label),h('div',{style:{fontSize:8.5,color:'rgba(255,255,255,.3)',marginTop:2}},`${c.visited}/${c.planned} visited`)))),
     h('div',{className:'cr cr2'},
       h('div',{className:'cbox'},h('div',{className:'clbl'},'PLANNED VS ACTUAL VISITS'),h(BarChart,{data:cats,keys:['planned','visited'],colors:['rgba(0,180,216,.28)','#00B4D8'],labels:cats.map(c=>c.label),showLegend:true,height:165})),
@@ -773,7 +1291,7 @@ function KPI2({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'plannedDate',l:'Planned Visit Date',type:'date'},{n:'status',l:'Status',type:'select',opts:['Scheduled','Visited','Pending','Rescheduled','Cancelled']},
       {n:'salesperson',l:'Salesperson',type:'select',opts:SPS}
     ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,convertedToVisit:r.status==='Visited'})),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
@@ -786,7 +1304,9 @@ function KPI3({data,add,upd,del,canEdit,canDelete,showToast}){
   const trend=Object.entries(trendMap).sort(([a],[b])=>a.localeCompare(b)).slice(-25).map(([d,v])=>({label:d.slice(8),v}));
   const peakEntry=Object.entries(data.reduce((a,f)=>{if(f.timeIn){const hr=f.timeIn.split(':')[0];a[hr]=(a[hr]||0)+1;}return a},{})).sort(([,a],[,b])=>b-a)[0];
   const cols=[{k:'date',l:'Date'},{k:'name',l:'Customer'},{k:'customerType',l:'Type',r:v=>h('span',{style:{color:TC[v]||'#fff',fontSize:9.5,fontWeight:600}},v)},{k:'timeIn',l:'Time In'},{k:'purpose',l:'Purpose'},{k:'salesperson',l:'Staff'}];
-  return h(KCWrap,{num:'3',title:'Customer Footfall Tracking',badge:`${data.length} Total \u00b7 Peak: ${peakEntry?peakEntry[0]+':00':'\u2014'}`,canEdit,onAdd:ks.openAdd},
+  const _fresh3=computeFreshness(data,'date');
+  const _dd3=()=>kpiDrillDown('footfall',data);
+    return h(KCWrap,{num:'3',title:'Customer Footfall Tracking',badge:`${data.length} Total \u00b7 Peak: ${peakEntry?peakEntry[0]+':00':'\u2014'}`,canEdit,onAdd:ks.openAdd,freshness:_fresh3,getDrillDown:_dd3},
     h('div',{className:'sg sg4'},TYPES_FF.map(t=>h('div',{key:t,className:'sbox'},h('div',{className:'sval',style:{color:TC[t]}},typeMap[t]||0),h('div',{className:'slbl'},t),h('div',{style:{fontSize:8,color:'rgba(255,255,255,.28)',marginTop:2}},data.length?Math.round((typeMap[t]||0)/data.length*100)+'%':'0%')))),
     h('div',{className:'cr cr2'},
       h('div',{className:'cbox'},h('div',{className:'clbl'},'DAILY FOOTFALL TREND'),h(AreaChart,{data:trend,color:'#00B4D8',height:165})),
@@ -798,7 +1318,7 @@ function KPI3({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'customerType',l:'Visitor Type',type:'select',opts:TYPES_FF},{n:'timeIn',l:'Time In',type:'time'},{n:'timeOut',l:'Time Out',type:'time'},
       {n:'purpose',l:'Purpose',type:'select',opts:PURPOSES},{n:'salesperson',l:'Staff',type:'select',opts:SPS}
     ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,type:'customer'})),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
@@ -811,7 +1331,9 @@ function KPI4({data,add,upd,del,canEdit,canDelete,showToast}){
   const trend=Object.entries(trendMap).sort(([a],[b])=>a.localeCompare(b)).slice(-20).map(([d,v])=>({label:d.slice(8),v:parseFloat((v.t/v.c).toFixed(1))}));
   const sc=v=>v>=8?'#4ADE80':v>=6?'#FFD700':'#F87171';
   const cols=[{k:'date',l:'Date'},{k:'parameter',l:'Parameter'},{k:'score',l:'Score',r:v=>h('span',{style:{fontWeight:700,color:sc(v)}},v+'/10')},{k:'remarks',l:'Remarks'},{k:'checkedBy',l:'Checked By'}];
-  return h(KCWrap,{num:'4',title:'Showroom Upkeep & Maintenance Score',badge:`Overall: ${avg}/10`,canEdit,onAdd:ks.openAdd},
+  const _fresh4=computeFreshness(data,'date');
+  const _dd4=()=>kpiDrillDown('showroom',data);
+    return h(KCWrap,{num:'4',title:'Showroom Upkeep & Maintenance Score',badge:`Overall: ${avg}/10`,canEdit,onAdd:ks.openAdd,freshness:_fresh4,getDrillDown:_dd4},
     h('div',{className:'sg sg3',style:{marginBottom:11}},radarData.map(p=>h('div',{key:p.p,className:'sbox',style:{display:'flex',alignItems:'center',gap:8,textAlign:'left'}},
       h('div',{style:{width:34,height:34,borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,fontSize:13,background:`${sc(p.s)}18`,color:sc(p.s),flexShrink:0}},p.s),
       h('div',{style:{flex:1}},h('div',{style:{fontSize:9.5,color:'rgba(255,255,255,.68)',marginBottom:3}},PARAMS_SW.find(pp=>pp.startsWith(p.p))||p.p),h('div',{className:'pbar'},h('div',{className:'pfill',style:{width:(p.s*10)+'%',background:sc(p.s)}})))
@@ -825,7 +1347,7 @@ function KPI4({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'date',l:'Date',type:'date',req:true},{n:'parameter',l:'Parameter',type:'select',opts:PARAMS_SW,req:true},
       {n:'score',l:'Score (1-10)',type:'number',min:1,max:10,req:true},{n:'remarks',l:'Remarks',ph:'Brief notes'},{n:'checkedBy',l:'Checked By',ph:'Manager name'}
     ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,score:parseInt(r.score||0)})),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
@@ -835,7 +1357,9 @@ function KPI5({data,add,upd,del,canEdit,canDelete,showToast}){
   const onTime=data.filter(r=>r.status==='On Time').length,compliance=data.length?Math.round(onTime/data.length*100):0;
   const byType=['Daily Report','Weekly MIS','Monthly Report'].map(t=>{const it=data.filter(r=>r.reportType===t),ot=it.filter(r=>r.status==='On Time').length;return{label:t.split(' ')[0],total:it.length,onTime:ot,rate:it.length?Math.round(ot/it.length*100):0};});
   const cols=[{k:'reportType',l:'Report Type'},{k:'dueDate',l:'Due Date'},{k:'submissionDate',l:'Submitted'},{k:'status',l:'Status',r:v=>h(Bdg,{v})},{k:'submittedBy',l:'Submitted By'}];
-  return h(KCWrap,{num:'5',title:'Data Management & MIS Circulation Hygiene',badge:`${compliance}% On-Time Compliance`,canEdit,onAdd:ks.openAdd},
+  const _fresh5=computeFreshness(data,'dueDate');
+  const _dd5=()=>kpiDrillDown('datamgmt',data);
+    return h(KCWrap,{num:'5',title:'Data Management & MIS Circulation Hygiene',badge:`${compliance}% On-Time Compliance`,canEdit,onAdd:ks.openAdd,freshness:_fresh5,getDrillDown:_dd5},
     h('div',{className:'sg sg3',style:{marginBottom:11}},byType.map(t=>h('div',{key:t.label,className:'sbox'},h(Gauge,{pct:t.rate,size:80}),h('div',{className:'slbl',style:{marginTop:5}},t.label),h('div',{style:{fontSize:8,color:'rgba(255,255,255,.32)',marginTop:1}},`${t.onTime}/${t.total} on time`)))),
     h('div',{className:'cbox',style:{marginBottom:11}},h('div',{className:'clbl'},'SUBMISSION STATUS BY REPORT TYPE'),h(BarChart,{data:byType,keys:['total','onTime'],colors:['rgba(0,180,216,.2)','#4ADE80'],labels:byType.map(t=>t.label),showLegend:true,height:145})),
     h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canDelete?ks.handleDelete:null,csvName:'mis-compliance'}),
@@ -844,7 +1368,7 @@ function KPI5({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'dueDate',l:'Due Date',type:'date'},{n:'submissionDate',l:'Submission Date',type:'date'},
       {n:'status',l:'Status',type:'select',opts:['On Time','Late','Missing']},{n:'submittedBy',l:'Submitted By',ph:'Name'}
     ],editData:ks.editRow,onSubmit:d=>ks.handleSubmit(d,r=>r),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
@@ -854,7 +1378,9 @@ function KPI6({data,add,upd,del,canEdit,canDelete,showToast}){
   const spData=SPS.map(sp=>{const it=data.filter(s=>s.salesperson===sp),avg=it.length?Math.round(it.reduce((a,s)=>a+s.assessmentScore,0)/it.length):0;return{label:sp.split(' ')[0],avg};});
   const sc=v=>v>=80?'#4ADE80':v>=60?'#FFD700':'#F87171';
   const cols=[{k:'date',l:'Date'},{k:'salesperson',l:'Salesperson'},{k:'trainingTopic',l:'Topic'},{k:'assessmentScore',l:'Score',r:v=>h('span',{style:{fontWeight:700,color:sc(v)}},v+'%')},{k:'certification',l:'Certification',r:v=>h(Bdg,{v:v||'Pending'})},{k:'nextTrainingDue',l:'Next Due'}];
-  return h(KCWrap,{num:'6',title:'Presentation Skills & Product Knowledge',badge:`${data.length} Sessions`,canEdit,onAdd:ks.openAdd},
+  const _fresh6=computeFreshness(data,'date');
+  const _dd6=()=>kpiDrillDown('skills',data);
+    return h(KCWrap,{num:'6',title:'Presentation Skills & Product Knowledge',badge:`${data.length} Sessions`,canEdit,onAdd:ks.openAdd,freshness:_fresh6,getDrillDown:_dd6},
     h('div',{className:'cbox',style:{marginBottom:11}},h('div',{className:'clbl'},'ASSESSMENT SCORE BY SALESPERSON (Target: 80%)'),h(BarChart,{data:spData,keys:['avg'],barColors:spData.map(s=>sc(s.avg)),refLine:80,labels:spData.map(s=>s.label),height:165})),
     h('div',{className:'cbox',style:{marginBottom:11}},h('div',{className:'clbl'},'HORIZONTAL COMPARISON'),h(HBarChart,{data:spData.map(s=>({name:s.label,v:s.avg})),height:150})),
     h(DataTable,{cols,rows:data,onEdit:canEdit?ks.openEdit:null,onDelete:canDelete?ks.handleDelete:null,csvName:'skills-training'}),
@@ -863,7 +1389,7 @@ function KPI6({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'trainingTopic',l:'Training Topic',ph:'e.g. Solar Control Glass'},{n:'assessmentScore',l:'Score (%)',type:'number',min:0,max:100},
       {n:'certification',l:'Certification',type:'select',opts:['Completed','In Progress','Not Started']},{n:'nextTrainingDue',l:'Next Training Due',type:'date'}
     ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,assessmentScore:parseInt(r.assessmentScore||0)})),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
@@ -877,7 +1403,9 @@ function KPI7({data,add,upd,del,canEdit,canDelete,showToast}){
   const radarData=paramKeys.map((k,i)=>{const it=data.filter(f=>f.parameters&&f.parameters[k]),a=it.length?it.reduce((x,f)=>x+f.parameters[k],0)/it.length:0;return{p:paramLabels[i],s:parseFloat(a.toFixed(1)),fm:5};});
   const npsC=nps>=70?'#4ADE80':nps>=50?'#FFD700':'#F87171';
   const cols=[{k:'date',l:'Date'},{k:'name',l:'Architect'},{k:'firmName',l:'Firm'},{k:'rating',l:'Rating',r:v=>h(Stars,{v})},{k:'feedbackText',l:'Feedback',r:v=>h('span',{style:{fontSize:9,color:'rgba(255,255,255,.5)',maxWidth:160,display:'inline-block',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},v)},{k:'category',l:'Sentiment',r:v=>h(Bdg,{v})},{k:'salesperson',l:'Salesperson'}];
-  return h(KCWrap,{num:'7',title:'Architect Footfall Feedback & NPS',badge:`NPS: ${nps} (Promoters\u2212Detractors) \u00b7 \u2605 ${avgR}/5 Avg`,canEdit,onAdd:ks.openAdd},
+  const _fresh7=computeFreshness(data,'date');
+  const _dd7=()=>kpiDrillDown('archFb',data);
+    return h(KCWrap,{num:'7',title:'Architect Footfall Feedback & Sat.',badge:`Sat.: ${nps} (Promoters\u2212Detractors) \u00b7 \u2605 ${avgR}/5 Avg`,canEdit,onAdd:ks.openAdd,freshness:_fresh7,getDrillDown:_dd7},
     h('div',{className:'cr cr2',style:{marginBottom:11}},
       h('div',{className:'cbox',style:{display:'flex',alignItems:'center',gap:16}},
         h('div',{style:{textAlign:'center',flexShrink:0}},h(Gauge,{pct:nps,color:npsC,size:110}),h('div',{style:{fontSize:9,color:'rgba(255,255,255,.38)',marginTop:4}},'Avg: '+avgR+'/5')),
@@ -896,19 +1424,21 @@ function KPI7({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'rating',l:'Rating (1-5)',type:'number',min:1,max:5},{n:'feedbackText',l:'Feedback Text',ph:'Enter feedback...',full:true},
       {n:'category',l:'Sentiment',type:'select',opts:['Positive','Neutral','Negative']},{n:'salesperson',l:'Salesperson',type:'select',opts:SPS}
     ],onSubmit:d=>ks.handleSubmit(d,r=>{const rt=parseInt(r.rating||3);return{...r,rating:rt,type:'architect',parameters:{productKnowledge:rt,presentation:rt,hospitality:rt,overallExperience:rt}};}),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
 // ═══ KPI 8 — Expense Management ══════════════════════════════
-function KPI8({data,add,upd,del,canEdit,canDelete,showToast}){
+function KPI8({data,add,upd,del,canEdit,canDelete,canApproveExpense,showToast}){
   const ks=useKpiState('expenses',add,upd,del,showToast);
   const ECOLS=['#00B4D8','#4ADE80','#FFD700','#A78BFA','#F472B6'];
   const catMap=data.reduce((a,e)=>{if(!a[e.category])a[e.category]={cat:e.category,bud:0,act:0};a[e.category].bud+=e.budgetAmount;a[e.category].act+=e.actualAmount;return a},{});
   const catData=Object.values(catMap).map((c,i)=>({label:c.cat.split(' ')[0],budget:c.bud,actual:c.act,fill:ECOLS[i%5]}));
   const totalB=catData.reduce((a,c)=>a+c.budget,0),totalA=catData.reduce((a,c)=>a+c.actual,0);
   const cols=[{k:'date',l:'Date'},{k:'category',l:'Category'},{k:'description',l:'Description'},{k:'budgetAmount',l:'Budget',r:v=>fmtM(v)},{k:'actualAmount',l:'Actual',r:v=>fmtM(v)},{k:'variance',l:'Surplus/(Deficit)',r:v=>h('span',{style:{color:v>=0?'#4ADE80':'#F87171',fontWeight:600}},v>=0?'+ \u20b9'+Math.abs(v).toLocaleString('en-IN')+' Under':'\u2212 \u20b9'+Math.abs(v).toLocaleString('en-IN')+' Over')},{k:'approvedBy',l:'Approved By'}];
-  return h(KCWrap,{num:'8',title:'Showroom Expense Management Score',badge:`${fmtM(totalA)} Spent / ${fmtM(totalB)} Budget`,canEdit,onAdd:ks.openAdd},
+  const _fresh8=computeFreshness(data,'date');
+  const _dd8=()=>kpiDrillDown('expenses',data);
+    return h(KCWrap,{num:'8',title:'Showroom Expense Management Score',badge:`${fmtM(totalA)} Spent / ${fmtM(totalB)} Budget`,canEdit,onAdd:ks.openAdd,freshness:_fresh8,getDrillDown:_dd8},
     h('div',{className:'cr cr2'},
       h('div',{className:'cbox'},h('div',{className:'clbl'},'BUDGET UTILIZATION (DONUT)'),h(PieChart,{data:catData.map(c=>({name:c.label,v:c.actual,fill:c.fill})),inner:.5,height:170})),
       h('div',{className:'cbox'},h('div',{className:'clbl'},'BUDGET VS ACTUAL BY CATEGORY'),h(BarChart,{data:catData,keys:['budget','actual'],colors:['rgba(255,255,255,.13)','#00B4D8'],labels:catData.map(c=>c.label),showLegend:true,height:170}))
@@ -918,9 +1448,9 @@ function KPI8({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'date',l:'Date',type:'date',req:true},{n:'category',l:'Category',type:'select',opts:EXP_CATS,req:true},
       {n:'description',l:'Description',ph:'Brief description',full:true},
       {n:'budgetAmount',l:'Budget Amount',type:'number',req:true},{n:'actualAmount',l:'Actual Amount',type:'number',req:true},
-      {n:'approvedBy',l:'Approved By',ph:'Name'}
+      ...(canApproveExpense?[{n:'approvedBy',l:'Approved By',ph:'Name'}]:[])
     ],onSubmit:d=>ks.handleSubmit(d,r=>{const b=parseFloat(r.budgetAmount||0),ac=parseFloat(r.actualAmount||0);return{...r,budgetAmount:b,actualAmount:ac,variance:b-ac};}),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
@@ -932,7 +1462,9 @@ function KPI9({data,add,upd,del,canEdit,canDelete,showToast}){
   const pData=Object.values(pMap).map(p=>({label:p.p.split(' ').slice(0,2).join(' '),pct:Math.round(p.sc/p.mx*100)}));
   const sc=v=>v>=80?'#4ADE80':v>=60?'#FFD700':'#F87171';
   const cols=[{k:'date',l:'Audit Date'},{k:'auditorName',l:'Auditor'},{k:'parameter',l:'Parameter'},{k:'score',l:'Score',r:(v,r)=>h('span',{style:{fontWeight:700,color:sc(Math.round(v/r.maxScore*100))}},v+'/'+r.maxScore)},{k:'findings',l:'Findings'},{k:'actionTaken',l:'Action Taken'}];
-  return h(KCWrap,{num:'9',title:'Audit Score of Experience Center',badge:`Overall: ${overall}%`,canEdit,onAdd:ks.openAdd},
+  const _fresh9=computeFreshness(data,'date');
+  const _dd9=()=>kpiDrillDown('audits',data);
+    return h(KCWrap,{num:'9',title:'Audit Score of Experience Center',badge:`Overall: ${overall}%`,canEdit,onAdd:ks.openAdd,freshness:_fresh9,getDrillDown:_dd9},
     h('div',{className:'cr cr2'},
       h('div',{className:'cbox',style:{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:8}},
         h('div',{className:'clbl',style:{alignSelf:'flex-start'}},'OVERALL AUDIT SCORE'),h(Gauge,{pct:overall,size:130}),
@@ -951,21 +1483,39 @@ function KPI9({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'parameter',l:'Parameter',type:'select',opts:PARAMS_AU},{n:'score',l:'Score (0-20)',type:'number',min:0,max:20},
       {n:'findings',l:'Findings',ph:'Key observations',full:true},{n:'actionTaken',l:'Action Taken',ph:'Steps initiated',full:true}
     ],onSubmit:d=>ks.handleSubmit(d,r=>({...r,score:parseInt(r.score||0),maxScore:20})),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
   );
 }
 
 // ═══ KPI 10 — Sales Plans (IMPROVED) ═════════════════════════
-function KPI10({data,upd,showToast}){
+function KPI10({data,upd,showToast,canEditTargets}){
   const[sel,setSel]=useState(0);
   const[editingLine,setEditingLine]=useState(null);
   const[lineVals,setLineVals]=useState({actual:'',remarks:''});
   const[saveStatus,setSaveStatus]=useState(null);
+  const[isEditingTarget,setIsEditingTarget]=useState(null);
+  const[targetVal,setTargetVal]=useState('');
   const plan=data[sel];
   const chartData=data.map(p=>({name:p.salespersonName,v:p.lines&&p.lines.length?Math.round(p.lines.reduce((a,l)=>a+l.achievementPct,0)/p.lines.length):0}));
   const ac=v=>v>=90?'#4ADE80':v>=70?'#FFD700':'#F87171';
-  const startEdit=line=>{setEditingLine(line.lineNo);setLineVals({actual:String(line.actualValue),remarks:line.remarks||''}); };
+  const startEdit=line=>{
+    if(editingLine||isEditingTarget)return;
+    setEditingLine(line.lineNo);setLineVals({actual:String(line.actualValue),remarks:line.remarks||''});
+  };
   const cancelEdit=()=>{setEditingLine(null);setLineVals({actual:'',remarks:''});setSaveStatus(null);};
+  const startEditTarget=line=>{
+    if(editingLine||isEditingTarget)return;
+    setIsEditingTarget(line.lineNo);setTargetVal(String(line.targetValue));
+  };
+  const saveTarget=async line=>{
+    const tv=parseInt(targetVal);
+    if(isNaN(tv)||tv<0){showToast('\u26a0 Please enter a valid target value');return;}
+    const newPct=tv>0?Math.min(Math.round((line.actualValue/tv)*100),160):0;
+    const newLines=plan.lines.map(l=>l.lineNo!==line.lineNo?l:{...l,targetValue:tv,achievementPct:newPct,status:newPct>=90?'On Track':newPct>=70?'At Risk':'Below Target'});
+    try{await upd('salesPlans',plan.id,{lines:newLines});showToast('\u2705 Target updated!');}
+    catch(e){showToast('\u274c Save failed');}
+    setIsEditingTarget(null);setTargetVal('');
+  };
   const saveLine=async line=>{
     const avRaw=parseInt(lineVals.actual);
     if(isNaN(avRaw)||avRaw<0){showToast('\u26a0 Please enter a valid actual value');return;}
@@ -982,13 +1532,15 @@ function KPI10({data,upd,showToast}){
   const onTrack=plan?plan.lines.filter(l=>l.status==='On Track').length:0;
   const atRisk=plan?plan.lines.filter(l=>l.status==='At Risk').length:0;
   const below=plan?plan.lines.filter(l=>l.status==='Below Target').length:0;
-  return h(KCWrap,{num:'10',title:'Salesperson Performance Plan (20 Lines Each)',badge:`${data.length} Salespersons`},
+  const _fresh10=computeFreshness((data.flatMap?data.flatMap(p=>p.lines||[]):[]),'date');
+  const _dd10=()=>({title:'Sales Plan Drill-Down',sections:[{lbl:'Plans Loaded',val:data.length,detail:'Use the table below to review individual line achievement'}]});
+    return h(KCWrap,{num:'10',title:'Salesperson Performance Plan (20 Lines Each)',badge:`${data.length} Salespersons`,freshness:_fresh10,getDrillDown:_dd10},
     h('div',{className:'cr cr2'},
       h('div',{className:'cbox'},h('div',{className:'clbl'},'ACHIEVEMENT % \u2014 ALL SALESPERSONS'),h(HBarChart,{data:chartData,height:170})),
       h('div',{className:'cbox'},h('div',{className:'clbl'},'SELECT SALESPERSON'),
         h('div',{style:{display:'flex',flexDirection:'column',gap:5}},data.map((p,i)=>{
           const avg=p.lines&&p.lines.length?Math.round(p.lines.reduce((a,l)=>a+l.achievementPct,0)/p.lines.length):0;
-          return h('div',{key:i,role:'button',tabIndex:0,onClick:()=>{setSel(i);cancelEdit();},onKeyDown:e=>e.key==='Enter'&&setSel(i),
+          return h('div',{key:i,role:'button',tabIndex:0,onClick:()=>{setSel(i);cancelEdit();setIsEditingTarget(null);},onKeyDown:e=>e.key==='Enter'&&setSel(i),
             style:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'9px 11px',borderRadius:9,cursor:'pointer',
               background:sel===i?'rgba(0,180,216,.13)':'rgba(255,255,255,.04)',border:`1px solid ${sel===i?'rgba(0,180,216,.32)':'rgba(255,255,255,.05)'}`}},
             h('div',null,h('div',{style:{fontSize:11,fontWeight:500,color:'#fff'}},p.salespersonName),h('div',{style:{fontSize:8.5,color:'rgba(255,255,255,.32)',marginTop:1}},p.salespersonId+' \u00b7 '+(p.lines?p.lines.length:0)+' lines')),
@@ -1003,22 +1555,30 @@ function KPI10({data,upd,showToast}){
           h('div',{key:s.l,className:'sbox',style:{flex:1,padding:'8px 10px'}},h('div',{className:'sval',style:{color:s.c,fontSize:16}},s.v),h('div',{className:'slbl'},s.l))
         )
       ),
+      canEditTargets&&h('div',{style:{fontSize:8.5,color:'rgba(0,180,216,.55)',marginBottom:7,padding:'4px 8px',borderRadius:6,background:'rgba(0,180,216,.07)',display:'inline-block'}},'\u270e Admin: click any Target value to edit it'),
       h('div',{className:'clbl',style:{marginBottom:7}},`PERFORMANCE LINES \u2014 ${plan.salespersonName.toUpperCase()}`),
       h('div',{className:'twrap'},h('table',{className:'dt'},
         h('thead',null,h('tr',null,...['#','Target Area','Metric','Target','Actual','Achievement','Status','Remarks','Action'].map(hd=>h('th',{key:hd},hd)))),
         h('tbody',null,...(plan.lines||[]).map(l=>{
-          const isEditing=editingLine===l.lineNo,pctColor=ac(l.achievementPct);
-          return h('tr',{key:l.lineNo,style:{background:isEditing?'rgba(0,180,216,.07)':''}},
+          const isEditing=editingLine===l.lineNo,isTgtEditing=isEditingTarget===l.lineNo,pctColor=ac(l.achievementPct);
+          return h('tr',{key:l.lineNo,style:{background:isEditing||isTgtEditing?'rgba(0,180,216,.07)':''}},
             h('td',null,h('span',{style:{opacity:.42,fontSize:8.5}},l.lineNo)),
             h('td',null,l.targetArea),h('td',null,l.targetMetric),
-            h('td',null,h('span',{style:{fontWeight:600,color:'rgba(255,255,255,.75)'}},l.targetValue)),
+            h('td',null,isTgtEditing
+              ?h('input',{className:'ie-input','aria-label':'Target value',value:targetVal,onChange:e=>setTargetVal(e.target.value),autoFocus:true,type:'number',min:0})
+              :canEditTargets
+                ?h('span',{style:{fontWeight:600,color:'rgba(255,255,255,.75)',cursor:'pointer',borderBottom:'1px dashed rgba(0,180,216,.5)'},title:'Click to edit target',onClick:()=>startEditTarget(l)},l.targetValue)
+                :h('span',{style:{fontWeight:600,color:'rgba(255,255,255,.75)'}},l.targetValue)
+            ),
             h('td',null,isEditing?h('input',{className:'ie-input','aria-label':'Actual value',value:lineVals.actual,onChange:e=>setLineVals(v=>({...v,actual:e.target.value})),autoFocus:true,type:'number',min:0}):h('span',{style:{fontWeight:600,color:'rgba(255,255,255,.75)'}},l.actualValue)),
-            h('td',null,h('div',{style:{display:'flex',alignItems:'center',gap:5}},h('div',{style:{width:48,height:4,borderRadius:99,background:'rgba(255,255,255,.07)'}},h('div',{style:{height:'100%',borderRadius:99,width:Math.min(l.achievementPct,100)+'%',background:pctColor}})),h('span',{style:{fontSize:9,fontWeight:700,color:pctColor}},l.achievementPct+'%'),l.achievementPct>=160&&h('span',{style:{fontSize:8,marginLeft:3,color:'#FFD700'},title:'Exceeds 160% cap'},'\u26a1 Capped'))),
+            h('td',null,h('div',{style:{display:'flex',alignItems:'center',gap:5}},h('div',{style:{width:48,height:4,borderRadius:99,background:'rgba(255,255,255,.07)'}},h('div',{style:{height:'100%',borderRadius:99,width:Math.min(l.achievementPct,100)+'%',background:pctColor}})),h('span',{style:{fontSize:9,fontWeight:700,color:pctColor}},l.achievementPct+'%'),l.achievementPct>=160&&h('span',{style:{fontSize:8,marginLeft:3,color:'#FFD700',background:'rgba(255,215,0,0.12)',padding:'1px 4px',borderRadius:4},title:'Exceeds 160% cap'},'\u26a1 Cap'))),
             h('td',null,h(Bdg,{v:l.status})),
             h('td',null,isEditing?h('input',{className:'ie-input','aria-label':'Remarks',style:{width:100},value:lineVals.remarks,onChange:e=>setLineVals(v=>({...v,remarks:e.target.value}))}):h('span',{style:{fontSize:8.5,color:'rgba(255,255,255,.42)'}},l.remarks)),
             h('td',null,isEditing
-              ?h('div',{style:{display:'flex',gap:4}},h('button',{className:'ie-save','aria-label':'Save',onClick:()=>saveLine(l)},saveStatus==='saving'?'\u23f3':'\ud83d\udcbe'),h('button',{className:'ie-save',style:{background:'rgba(255,255,255,.1)'},'aria-label':'Cancel',onClick:cancelEdit},'\u2715'))
-              :h('button',{className:'act-btn act-edit','aria-label':'Edit line',title:'Edit',onClick:()=>startEdit(l)},'\u270f\ufe0f'))
+              ?h('div',{style:{display:'flex',gap:4}},h('button',{className:'ie-save','aria-label':'Save actual',onClick:()=>saveLine(l)},saveStatus==='saving'?'\u23f3':'\ud83d\udcbe'),h('button',{className:'ie-save',style:{background:'rgba(255,255,255,.1)'},'aria-label':'Cancel',onClick:cancelEdit},'\u2715'))
+              :isTgtEditing
+                ?h('div',{style:{display:'flex',gap:4}},h('button',{className:'ie-save','aria-label':'Save target',onClick:()=>saveTarget(l)},'\ud83d\udcbe'),h('button',{className:'ie-save',style:{background:'rgba(255,255,255,.1)'},'aria-label':'Cancel',onClick:()=>setIsEditingTarget(null)},'\u2715'))
+                :h('button',{className:'act-btn act-edit','aria-label':'Edit line',title:'Edit actual',onClick:()=>startEdit(l)},'\u270f\ufe0f'))
           );
         }))
       ))
@@ -1035,7 +1595,9 @@ function KPI11({data,add,upd,del,canEdit,canDelete,showToast}){
   const paramLabels=['Display','Staff','Response','Solution','Overall'];
   const paramData=paramKeys.map((k,i)=>{const it=data.filter(f=>f.parameters&&f.parameters[k]),a=it.length?it.reduce((x,f)=>x+f.parameters[k],0)/it.length:0;return{label:paramLabels[i],avg:parseFloat(a.toFixed(1))};});
   const cols=[{k:'date',l:'Date'},{k:'name',l:'Customer'},{k:'rating',l:'Rating',r:v=>h(Stars,{v})},{k:'feedbackText',l:'Feedback',r:v=>h('span',{style:{fontSize:9,color:'rgba(255,255,255,.5)',maxWidth:170,display:'inline-block',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},v)},{k:'staffAttended',l:'Staff'}];
-  return h(KCWrap,{num:'11',title:'Customer Footfall Feedback & CSAT',badge:`\u2605 ${avgR}/5 CSAT \u00b7 ${data.length} Responses`,canEdit,onAdd:ks.openAdd},
+  const _fresh11=computeFreshness(data,'date');
+  const _dd11=()=>kpiDrillDown('custFb',data);
+    return h(KCWrap,{num:'11',title:'Customer Footfall Feedback & CSAT',badge:`\u2605 ${avgR}/5 CSAT \u00b7 ${data.length} Responses`,canEdit,onAdd:ks.openAdd,freshness:_fresh11,getDrillDown:_dd11},
     h('div',{className:'cr cr2'},
       h('div',{className:'cbox'},h('div',{className:'clbl'},'STAR RATING DISTRIBUTION'),
         h('div',{style:{marginBottom:11}},rDist.map(r=>h('div',{key:r.r,style:{display:'flex',alignItems:'center',gap:8,marginBottom:7}},
@@ -1056,58 +1618,405 @@ function KPI11({data,add,upd,del,canEdit,canDelete,showToast}){
       {n:'rating',l:'Rating (1-5)',type:'number',min:1,max:5,req:true},{n:'feedbackText',l:'Feedback Text',ph:'Write feedback...',full:true},
       {n:'staffAttended',l:'Staff Attended',type:'select',opts:SPS}
     ],onSubmit:d=>ks.handleSubmit(d,r=>{const rt=parseInt(r.rating||3);return{...r,rating:rt,type:'customer',parameters:{productDisplay:rt,staffBehavior:rt,responseTime:rt,solutionProvided:rt,overallExperience:rt}};}),onClose:ks.closeModal}),
-    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete})
+    ks.confirmId&&h(ConfirmDialog,{onConfirm:ks.confirmDelete,onCancel:ks.cancelDelete,label:ks.confirmLabel})
+  );
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// NEW UI COMPONENTS
+// ═══════════════════════════════════════════════════════════
+
+// ─── Freshness Badge ──────────────────────────────────────
+// ─── ChartBox: wraps chart with print-fallback data table ─────
+function ChartBox({label,children,printData,printCols}){
+  return h('div',{className:'cbox'},
+    label&&h('div',{className:'clbl'},label),
+    children,
+    printData&&printData.length>0&&h('table',{className:'chart-print-table'},
+      h('thead',null,h('tr',null,(printCols||[]).map(c=>h('th',{key:c.k},c.l)))),
+      h('tbody',null,printData.map((row,i)=>h('tr',{key:i},(printCols||[]).map(c=>h('td',{key:c.k},row[c.k]!==undefined?row[c.k]:'—')))))
+    )
+  );
+}
+
+// ─── Export All KPI data as multiple CSVs zipped into one download ─
+function ExportAllBtn({allData,dateLabel}){
+  const handleExport=()=>{
+    const sections=[
+      {name:'leads',cols:[{k:'date',l:'Date'},{k:'leadSource',l:'Source'},{k:'leadName',l:'Name'},{k:'status',l:'Status'},{k:'convertedToVisit',l:'Converted'},{k:'salesperson',l:'Salesperson'}]},
+      {name:'footfall',cols:[{k:'date',l:'Date'},{k:'name',l:'Customer'},{k:'customerType',l:'Type'},{k:'purpose',l:'Purpose'},{k:'salesperson',l:'Staff'}]},
+      {name:'archs',cols:[{k:'date',l:'Date'},{k:'architectName',l:'Architect'},{k:'firmName',l:'Firm'},{k:'status',l:'Status'},{k:'invitationCategory',l:'Category'}]},
+      {name:'showroom',cols:[{k:'date',l:'Date'},{k:'parameter',l:'Parameter'},{k:'score',l:'Score'},{k:'remarks',l:'Remarks'}]},
+      {name:'datamgmt',cols:[{k:'reportType',l:'Type'},{k:'dueDate',l:'Due'},{k:'submissionDate',l:'Submitted'},{k:'status',l:'Status'}]},
+      {name:'skills',cols:[{k:'date',l:'Date'},{k:'salesperson',l:'Salesperson'},{k:'trainingTopic',l:'Topic'},{k:'assessmentScore',l:'Score'},{k:'certification',l:'Cert.'}]},
+      {name:'archFb',cols:[{k:'date',l:'Date'},{k:'name',l:'Architect'},{k:'rating',l:'Rating'},{k:'category',l:'Sentiment'},{k:'feedbackText',l:'Feedback'}]},
+      {name:'expenses',cols:[{k:'date',l:'Date'},{k:'category',l:'Category'},{k:'budgetAmount',l:'Budget'},{k:'actualAmount',l:'Actual'},{k:'variance',l:'Variance'}]},
+      {name:'audits',cols:[{k:'date',l:'Date'},{k:'parameter',l:'Parameter'},{k:'score',l:'Score'},{k:'maxScore',l:'Max'},{k:'findings',l:'Findings'}]},
+      {name:'custFb',cols:[{k:'date',l:'Date'},{k:'name',l:'Customer'},{k:'rating',l:'Rating'},{k:'feedbackText',l:'Feedback'}]},
+    ];
+    let combined='AIS Windows EC-KPI Export\nDate Range: '+dateLabel+'\nGenerated: '+new Date().toLocaleDateString('en-IN')+'\n\n';
+    sections.forEach(s=>{
+      const rows=allData[s.name]||[];
+      if(!rows.length)return;
+      combined+='=== '+s.name.toUpperCase()+' ('+rows.length+' records) ===\n';
+      combined+=s.cols.map(c=>c.l).join(',')+'\n';
+      combined+=rows.map(row=>s.cols.map(c=>'"'+String(row[c.k]!==undefined?row[c.k]:'').replace(/"/g,'""')+'"').join(',')).join('\n');
+      combined+='\n\n';
+    });
+    const blob=new Blob([combined],{type:'text/csv;charset=utf-8;'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download='AIS_EC_KPI_Export_'+dateLabel.replace(/\s/g,'_')+'.csv';a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+  };
+  return h('button',{className:'csv-btn',style:{padding:'6px 14px',fontSize:9.5},onClick:handleExport,'aria-label':'Export all KPI data'},'\u2b07 Export All KPIs');
+}
+
+function FreshnessBadge({freshness}){
+  if(!freshness)return null;
+  return h('span',{className:'fresh-badge '+freshness.cls},
+    freshness.cls==='fresh-g'?'\u25cf':freshness.cls==='fresh-y'?'\u25cf':'\u25cf',
+    ' ',freshness.label
+  );
+}
+
+// ─── Freshness Summary ────────────────────────────────────
+function FreshnessSummary({allData}){
+  const types=[
+    {k:'leads',label:'Leads',field:'date'},
+    {k:'archs',label:'Arch. Visits',field:'date'},
+    {k:'footfall',label:'Footfall',field:'date'},
+    {k:'showroom',label:'Showroom',field:'date'},
+    {k:'datamgmt',label:'MIS',field:'dueDate'},
+    {k:'skills',label:'Skills',field:'date'},
+    {k:'archFb',label:'Arch. Feedback',field:'date'},
+    {k:'expenses',label:'Expenses',field:'date'},
+    {k:'audits',label:'Audit',field:'date'},
+    {k:'custFb',label:'CSAT',field:'date'},
+  ];
+  const badges=types.map(t=>({...t,fr:computeFreshness(allData[t.k]||[],t.field)}));
+  const fresh=badges.filter(b=>b.fr.cls==='fresh-g').length;
+  const mod=badges.filter(b=>b.fr.cls==='fresh-y').length;
+  const stale=badges.filter(b=>b.fr.cls==='fresh-r'||b.fr.cls==='fresh-n').length;
+  return h('div',{className:'fresh-summary'},
+    h('span',{className:'fresh-summary-lbl'},'DATA FRESHNESS'),
+    h('span',{className:'fresh-badge fresh-g'},'\u25cf '+fresh+' Fresh'),
+    mod>0&&h('span',{className:'fresh-badge fresh-y'},'\u25cf '+mod+' Moderate'),
+    stale>0&&h('span',{className:'fresh-badge fresh-r'},'\u25cf '+stale+' Stale'),
+    h('span',{className:'mgmt-bar-sep'}),
+    badges.map(b=>h('span',{key:b.k,className:'fresh-badge '+b.fr.cls,title:b.label+': '+b.fr.label},b.label.split(' ')[0]))
+  );
+}
+
+// ─── Action Center ────────────────────────────────────────
+function ActionCenter({allData,prevStats}){
+  const{critical,watchlist,wins}=computeActionCenter(allData,prevStats);
+  const[open,setOpen]=useState(true);
+  const critC='rgba(248,113,113,',watchC='rgba(255,215,0,',winC='rgba(74,222,128,';
+  const colConf=[
+    {title:'\ud83d\udea8 Critical Now',items:critical,bg:critC+'.07)',br:critC+'.18)',tc:'#F87171',ec:'All clear \u2014 no critical issues in this period.'},
+    {title:'\ud83d\udc41 Watchlist',items:watchlist,bg:watchC+'.06)',br:watchC+'.15)',tc:'#FFD700',ec:'Nothing on the watchlist for this period.'},
+    {title:'\ud83d\udcaa Positive Highlights',items:wins,bg:winC+'.06)',br:winC+'.14)',tc:'#4ADE80',ec:'Keep recording data to surface wins.'},
+  ];
+  return h('div',{className:'action-center'},
+    h('div',{className:'ac-hdr'},
+      h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+        h('span',{style:{fontSize:14}},'\ud83d\udccc'),
+        h('span',{className:'ac-hdr-title'},'Weekly Action Center'),
+        critical.length>0&&h('span',{style:{fontSize:8,padding:'2px 7px',borderRadius:99,background:'rgba(248,113,113,.15)',color:'#F87171',fontWeight:700,border:'1px solid rgba(248,113,113,.3)'}},critical.length+' Critical')
+      ),
+      h('button',{onClick:()=>setOpen(!open),style:{background:'none',border:'none',color:'rgba(255,255,255,.35)',cursor:'pointer',fontSize:11}},open?'\u25b2':'\u25bc')
+    ),
+    open&&h('div',{className:'ac-cols'},
+      colConf.map((col,ci)=>h('div',{key:ci,className:'ac-col',style:{background:col.bg,borderColor:col.br}},
+        h('div',{className:'ac-col-title',style:{color:col.tc}},col.title),
+        col.items.length===0
+          ?h('div',{className:'ac-empty'},col.ec)
+          :col.items.map((item,i)=>h('div',{key:i,className:'ac-item',style:{background:col.bg,border:'1px solid '+col.br}},
+            h('span',{style:{fontSize:13,flexShrink:0}},item.ico),
+            h('div',null,
+              h('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:2}},
+                h('span',{className:'ac-item-val',style:{color:col.tc}},item.val),
+                h('span',{style:{fontSize:8.5,color:'rgba(255,255,255,.45)',fontWeight:600}},item.lbl)
+              ),
+              h('div',{className:'ac-item-txt'},item.txt)
+            )
+          ))
+      ))
+    )
+  );
+}
+
+// ─── Exception Filter Bar ─────────────────────────────────
+function ExceptionFilterBar({filter,onChange}){
+  const chips=[
+    {id:'all',lbl:'\u2b24 All'},
+    {id:'below-target',lbl:'\u25bc Below Target'},
+    {id:'late-missing',lbl:'\u23f0 Late / Missing'},
+    {id:'negative-feedback',lbl:'\ud83d\udc4e Negative Feedback'},
+    {id:'over-budget',lbl:'\ud83d\udcb8 Over Budget'},
+    {id:'low-scores',lbl:'\ud83d\udcc9 Low Scores'},
+  ];
+  return h('div',{className:'exc-bar'},
+    h('span',{className:'exc-label'},'EXCEPTION VIEW:'),
+    chips.map(c=>h('button',{key:c.id,className:'exc-chip'+(c.id==='all'&&filter==='all'?' act-all':filter===c.id?' act':''),onClick:()=>onChange(c.id)},c.lbl))
+  );
+}
+
+// ─── Exception View ───────────────────────────────────────
+function ExceptionView({filter,allData}){
+  const exc=classifyExceptions(allData);
+  const cat=exc[filter];
+  if(!cat)return null;
+  if(!cat.items||cat.items.length===0)return h('div',{className:'exc-no-issues'},
+    h('div',{style:{fontSize:24,marginBottom:8}},'\u2705'),
+    h('p',{style:{fontSize:12,fontWeight:600,color:'#4ADE80',marginBottom:4}},'No Issues Found'),
+    h('p',{style:{fontSize:9.5,color:'rgba(255,255,255,.45)'}},cat.empty)
+  );
+  return h('div',{className:'kc'},
+    h('div',{className:'kc-hdr',style:{cursor:'default'}},
+      h('div',{className:'kc-left'},
+        h('div',{className:'kc-num',style:{background:'linear-gradient(135deg,#F87171,#dc2626)'}},'\u26a0'),
+        h('div',{className:'kc-title'},h('p',null,cat.label+' — Exception Records'),h('span',null,cat.items.length+' items found'))
+      )
+    ),
+    h('div',{className:'kc-body'},
+      h('div',{className:'twrap'},
+        h('table',{className:'dt'},
+          h('thead',null,h('tr',null,h('th',null,'Type'),h('th',null,'Record'),h('th',null,'Value'),h('th',null,'Status'))),
+          h('tbody',null,cat.items.map((item,i)=>h('tr',{key:i},
+            h('td',null,h('span',{className:'badge bb'},item.t)),
+            h('td',null,item.lbl),
+            h('td',null,h('span',{style:{fontWeight:700,color:'#F87171'}},item.val)),
+            h('td',null,h('span',{className:'badge '+(item.c||'br')},item.c==='by'?'Warning':'Action Needed'))
+          )))
+        )
+      )
+    )
+  );
+}
+
+// ─── Management Filter Bar ────────────────────────────────
+function ManagementFilterBar({selDate,activeDateLabel,currentEc,exceptionFilter,setExceptionFilter,page,setPage,isAdmin}){
+  const hasExc=exceptionFilter!=='all';
+  return h('div',{className:'mgmt-bar'},
+    h('span',{className:'mgmt-bar-lbl'},'\ud83d\udcc5'),
+    h('span',{className:'mgmt-bar-val'},activeDateLabel),
+    h('span',{className:'mgmt-bar-sep'}),
+    h('span',{className:'mgmt-bar-lbl'},'\ud83c\udfe2'),
+    h('span',{className:'mgmt-bar-val'},currentEc==='combined'?'Both ECs':(currentEc==='bangalore'?'Bangalore EC':'Delhi EC')),
+    h('span',{className:'mgmt-bar-sep'}),
+    h('button',{className:'mgmt-exc-tog'+(hasExc?' act':''),onClick:()=>setExceptionFilter(hasExc?'all':'below-target')},'\u26a0 '+(hasExc?'Exception Mode ON':'Exception Mode')),
+    h('span',{className:'mgmt-bar-sep'}),
+    h('button',{className:'mgmt-jump',onClick:()=>setPage('dashboard')},'\ud83c\udfe0 Dashboard'),
+    h('button',{className:'mgmt-jump',onClick:()=>setPage('analytics')},'\ud83e\udde0 Analytics'),
+    isAdmin&&h('button',{className:'mgmt-jump',onClick:()=>setPage('compare')},'\u2696 Compare')
+  );
+}
+
+// ─── Drill-Down Modal ─────────────────────────────────────
+function DrillDownModal({data,onClose}){
+  if(!data)return null;
+  return h('div',{className:'mbg',onMouseDown:e=>e.target===e.currentTarget&&onClose()},
+    h('div',{style:{background:'#0c1d38',borderRadius:18,border:'1px solid rgba(0,180,216,.22)',width:'100%',maxWidth:520,maxHeight:'85vh',overflow:'hidden',boxShadow:'0 28px 60px rgba(0,0,0,.65)'}},
+      h('div',{className:'m-hdr'},
+        h('div',{style:{display:'flex',alignItems:'center',gap:8}},h('span',{style:{fontSize:15}},'\ud83d\udd0d'),h('p',null,data.title)),
+        h('button',{className:'m-close','aria-label':'Close',onClick:onClose},'\xd7')
+      ),
+      h('div',{style:{padding:'14px',overflowY:'auto',maxHeight:'calc(85vh - 58px)'}},
+        data.sections&&data.sections.map((s,i)=>h('div',{key:i,className:'drill-section'},
+          h('div',{className:'drill-section-lbl'},s.lbl.toUpperCase()),
+          s.val!=null&&h('div',{className:'drill-section-val'},s.val),
+          s.detail&&h('div',{className:'drill-section-detail'},s.detail)
+        ))
+      )
+    )
+  );
+}
+
+// ─── Notes Panel ──────────────────────────────────────────
+const NOTE_CATS=['Risk','Follow-up','Highlight','Review'];
+const NOTE_CAT_COLORS={Risk:'#F87171','Follow-up':'#FFD700',Highlight:'#4ADE80',Review:'#00B4D8'};
+
+function NotesPanel({notes,addNote,delNote,canDelete,userConfig,selDate,currentEc}){
+  const[open,setOpen]=useState(false);
+  const[showForm,setShowForm]=useState(false);
+  const[noteText,setNoteText]=useState('');
+  const[noteCat,setNoteCat]=useState('Review');
+  const filtered=notes.filter(n=>(!n.dateRange||n.dateRange===selDate)&&(!n.ecContext||n.ecContext===currentEc||n.ecContext==='combined'||currentEc==='combined'));
+  const handleAdd=()=>{
+    if(!noteText.trim())return;
+    addNote({text:noteText.trim(),date:new Date().toISOString().slice(0,10),author:userConfig?.name||'User',ecContext:currentEc,dateRange:selDate,category:noteCat});
+    setNoteText('');setShowForm(false);
+  };
+  return h('div',{className:'notes-panel'},
+    h('div',{className:'notes-hdr'},
+      h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+        h('span',{style:{fontSize:13}},'\ud83d\udcdd'),
+        h('span',{className:'notes-hdr-title'},'Manager Review Notes'),
+        filtered.length>0&&h('span',{style:{fontSize:8.5,padding:'2px 7px',borderRadius:99,background:'rgba(0,180,216,.12)',color:'#00B4D8',marginLeft:4}},filtered.length)
+      ),
+      h('div',{style:{display:'flex',gap:6}},
+        userConfig&&(userConfig.role==='Admin'||userConfig.role==='Manager')&&h('button',{className:'add-btn',style:{fontSize:8.5,padding:'4px 9px'},onClick:()=>setShowForm(v=>!v)},showForm?'\xd7 Cancel':'+ Add Note'),
+        h('button',{onClick:()=>setOpen(!open),style:{background:'none',border:'none',color:'rgba(255,255,255,.35)',cursor:'pointer',fontSize:11}},open?'\u25b2':'\u25bc')
+      )
+    ),
+    open&&h('div',null,
+      showForm&&h('div',{style:{padding:'12px 14px',borderBottom:'1px solid rgba(255,255,255,.06)',background:'rgba(0,180,216,.04)'}},
+        h('div',{style:{display:'flex',gap:8,marginBottom:8,alignItems:'flex-start'}},
+          h('textarea',{style:{flex:1,background:'rgba(255,255,255,.06)',border:'1px solid rgba(0,180,216,.3)',borderRadius:8,color:'#fff',fontSize:10.5,padding:'8px 10px',outline:'none',resize:'vertical',minHeight:60,fontFamily:'inherit'},placeholder:'Write your review note here...',value:noteText,onChange:e=>setNoteText(e.target.value)}),
+          h('div',{style:{display:'flex',flexDirection:'column',gap:6}},
+            h('select',{style:{background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',borderRadius:7,color:'#fff',fontSize:10,padding:'5px 7px',fontFamily:'inherit'},value:noteCat,onChange:e=>setNoteCat(e.target.value)},
+              NOTE_CATS.map(c=>h('option',{key:c,value:c},c))
+            ),
+            h('button',{className:'btn-s',style:{fontSize:10,padding:'6px 12px',whiteSpace:'nowrap'},onClick:handleAdd},'\ud83d\udcbe Save')
+          )
+        )
+      ),
+      filtered.length===0
+        ?h('div',{className:'note-empty'},'\ud83d\udcdd No notes for this period. Add notes during your weekly review meeting.')
+        :filtered.slice().reverse().map((n,i)=>h('div',{key:n.id||i,className:'note-item'},
+          h('span',{className:'note-cat',style:{background:(NOTE_CAT_COLORS[n.category]||'#00B4D8')+'1e',color:NOTE_CAT_COLORS[n.category]||'#00B4D8',border:'1px solid '+(NOTE_CAT_COLORS[n.category]||'#00B4D8')+'33'}},n.category||'Note'),
+          h('div',{style:{flex:1}},
+            h('div',{className:'note-text'},n.text),
+            h('div',{className:'note-meta'},n.author+' \u00b7 '+n.date+(n.ecContext&&n.ecContext!=='combined'?' \u00b7 '+(n.ecContext==='bangalore'?'BLR':'DEL'):''))
+          ),
+          canDelete&&h('button',{className:'act-btn act-del','aria-label':'Delete note',onClick:()=>delNote(n.id)},'\ud83d\uddd1')
+        ))
+    )
+  );
+}
+
+// ─── Predictive Tab Component ─────────────────────────────
+function PredictiveTab({monthly}){
+  if(!monthly||monthly.length===0)return h('div',{className:'empty'},'No historical data available yet for the selected filter. Record data across multiple months to enable forecasting.');
+  const metrics=[
+    {key:'ff',label:'Footfall',color:'#00B4D8',unit:'',fmt:v=>String(v)},
+    {key:'leads',label:'Online Leads',color:'#4ADE80',unit:'',fmt:v=>String(v)},
+    {key:'audit',label:'Audit Score',color:'#A78BFA',unit:'%',fmt:v=>v+'%'},
+    {key:'sat',label:'Architect Sat.',color:'#FFD700',unit:'',fmt:v=>String(v)},
+  ];
+  const trendIco=t=>t==='up'?'\u2197\ufe0f':t==='down'?'\u2198\ufe0f':'\u27a1\ufe0f';
+  const confLabel=c=>c==='good'?'Good confidence':c==='medium'?'Medium confidence':'Low confidence (need 3+ months)';
+  const confColor=c=>c==='good'?'#4ADE80':c==='medium'?'#FFD700':'rgba(255,255,255,.35)';
+  const sentence=(m,pred)=>{
+    if(!pred)return'Insufficient data.';
+    const dir=pred.trend==='up'?'increase to':'trend down to about';
+    const flat='remain around';
+    const word=pred.trend==='flat'?flat:dir;
+    return`If current trend continues, ${m.label} may ${word} ${m.fmt(pred.next)} next period.`;
+  };
+  return h('div',null,
+    h('div',{style:{padding:'9px 12px',borderRadius:10,background:'rgba(0,180,216,.06)',border:'1px solid rgba(0,180,216,.18)',marginBottom:12,fontSize:9.5,color:'rgba(255,255,255,.6)',lineHeight:1.6}},
+      '\ud83d\udd2e Forecasts use linear trend projection from '+monthly.length+' months of live data. More data improves confidence. Gold = predicted next period value.'
+    ),
+    h('div',{className:'pred-grid'},
+      metrics.map(m=>{
+        const pred=computePrediction(monthly,m.key);
+        if(!pred)return null;
+        const tc=pred.trend==='up'?'#4ADE80':pred.trend==='down'?'#F87171':'rgba(255,255,255,.5)';
+        return h('div',{key:m.key,className:'pred-card'},
+          h('div',{className:'pred-card-lbl'},m.label.toUpperCase()),
+          h('div',{style:{display:'flex',alignItems:'flex-end',gap:10,marginBottom:4}},
+            h('div',null,
+              h('div',{style:{fontSize:9,color:'rgba(255,255,255,.38)',marginBottom:2}},'CURRENT'),
+              h('div',{className:'pred-next',style:{color:m.color,fontSize:20}},m.fmt(pred.last))
+            ),
+            h('div',{style:{fontSize:18,color:'rgba(255,255,255,.2)',marginBottom:4}},'\u2192'),
+            h('div',null,
+              h('div',{style:{fontSize:9,color:'rgba(255,215,0,.7)',marginBottom:2}},'FORECAST'),
+              h('div',{className:'pred-next',style:{color:'#FFD700'}},m.fmt(pred.next))
+            )
+          ),
+          h('div',{className:'pred-trend',style:{color:tc}},trendIco(pred.trend)+' '+pred.trend.charAt(0).toUpperCase()+pred.trend.slice(1)+(pred.slope!==0?' ('+pred.slope+'/mo)':'')),
+          h('div',{className:'pred-conf',style:{color:confColor(pred.conf)}},'\u25a0 '+confLabel(pred.conf)+' \u00b7 '+pred.n+' data points'),
+          h('div',{className:'pred-sentence'},sentence(m,pred))
+        );
+      })
+    ),
+    monthly.length>=2&&h('div',{className:'cr cr2'},
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'FOOTFALL TREND + FORECAST'),
+        h(BarChart,{data:[...monthly,{label:'Next\u2192',ff:computePrediction(monthly,'ff')?.next||0,_pred:true}],keys:['ff'],colors:[...(monthly.map(()=>'#00B4D8')),'#FFD700'],height:160})
+      ),
+      h('div',{className:'cbox'},h('div',{className:'clbl'},'LEADS TREND + FORECAST'),
+        h(BarChart,{data:[...monthly,{label:'Next\u2192',leads:computePrediction(monthly,'leads')?.next||0}],keys:['leads'],colors:[...(monthly.map(()=>'#4ADE80')),'#FFD700'],height:160})
+      )
+    )
   );
 }
 
 // ═══ ANALYTICS ════════════════════════════════════════════════
 function Analytics({allData}){
   const[tab,setTab]=useState('insights');
-  const monthly=[{label:'Oct',ff:285,leads:75,nps:72,audit:82},{label:'Nov',ff:312,leads:82,nps:78,audit:85},{label:'Dec',ff:341,leads:90,nps:81,audit:88}];
-  const pred=[...monthly,{label:'Jan*',ff:368,leads:96,nps:84,audit:89,pred:true}];
   const spRanks=(allData.salesPlans||[]).map(p=>({n:p.salespersonName,avg:p.lines&&p.lines.length?Math.round(p.lines.reduce((a,l)=>a+l.achievementPct,0)/p.lines.length):0})).sort((a,b)=>b.avg-a.avg);
   const ac=v=>v>=90?'#4ADE80':v>=70?'#FFD700':'#F87171';
   const IS=generateDataInsights(allData);
   const IS2={g:{bg:'rgba(74,222,128,.08)',br:'rgba(74,222,128,.18)'},y:{bg:'rgba(255,215,0,.08)',br:'rgba(255,215,0,.18)'},b:{bg:'rgba(0,180,216,.08)',br:'rgba(0,180,216,.18)'},r:{bg:'rgba(248,113,113,.08)',br:'rgba(248,113,113,.18)'}};
-  const compRows=[{m:'Footfall',o:285,n:312,d:341},{m:'Online Leads',o:75,n:82,d:90},{m:'NPS Score',o:72,n:78,d:81},{m:'Audit Score',o:82,n:85,d:88}];
-  const compCols=[{k:'m',l:'Metric'},{k:'o',l:'Oct 2025'},{k:'n',l:'Nov 2025'},{k:'d',l:'Dec 2025'}];
-  return h(KCWrap,{num:'\ud83e\udde0',title:'Analytics & Insights',badge:'Q4 2025 \u00b7 Live pattern analysis',numColor:'#FFD700'},
+
+  // FIX 12a — Build monthly aggregation from live Firestore data
+  const monthly=useMemo(()=>{
+    const allRows=[...(allData.leads||[]),...(allData.footfall||[]),...(allData.archs||[]),...(allData.audits||[]),...(allData.showroom||[]),...(allData.custFb||[]),...(allData.archFb||[])];
+    const months=[...new Set(allRows.map(r=>(r.date||'').slice(0,7)).filter(Boolean))].sort();
+    return months.map(ym=>{
+      const lbl=new Date(ym+'-15').toLocaleDateString('en-IN',{month:'short',year:'2-digit'}).replace(' ','\u00a0');
+      const fRows=(allData.footfall||[]).filter(r=>(r.date||'').startsWith(ym));
+      const lRows=(allData.leads||[]).filter(r=>(r.date||'').startsWith(ym));
+      const afRows=(allData.archFb||[]).filter(r=>(r.date||'').startsWith(ym));
+      const auRows=(allData.audits||[]).filter(r=>(r.date||'').startsWith(ym));
+      const satVal=afRows.length?Math.round(afRows.reduce((a,f)=>a+(f.rating||0),0)/afRows.length*20):0;
+      const auSc=auRows.reduce((a,s)=>a+(s.score||0),0),auMx=auRows.reduce((a,s)=>a+(s.maxScore||0),0);
+      return{label:lbl,ff:fRows.length,leads:lRows.length,sat:satVal,audit:auMx?Math.round(auSc/auMx*100):0};
+    });
+  },[allData]);
+
+  // FIX 12d+e — Dynamic compRows and compCols from last 3 months of live data
+  const compRows=useMemo(()=>{
+    if(monthly.length<1)return[];
+    const last3=monthly.slice(-3);
+    const g=(m,k)=>m?m[k]||0:0;
+    return[
+      {m:'Footfall',o:g(last3[0],'ff'),n:g(last3[1],'ff'),d:g(last3[2],'ff')},
+      {m:'Online Leads',o:g(last3[0],'leads'),n:g(last3[1],'leads'),d:g(last3[2],'leads')},
+      {m:'Sat. Score',o:g(last3[0],'sat'),n:g(last3[1],'sat'),d:g(last3[2],'sat')},
+      {m:'Audit Score',o:g(last3[0],'audit'),n:g(last3[1],'audit'),d:g(last3[2],'audit')},
+    ];
+  },[monthly]);
+  const compCols=useMemo(()=>{
+    const last3=monthly.slice(-3);
+    return[{k:'m',l:'Metric'},{k:'o',l:last3[0]?last3[0].label:'M1'},{k:'n',l:last3[1]?last3[1].label:'M2'},{k:'d',l:last3[2]?last3[2].label:'M3'}];
+  },[monthly]);
+
+  return h(KCWrap,{num:'\ud83e\udde0',title:'Analytics & Insights',badge:'Live data \u00b7 Pattern analysis',numColor:'#FFD700'},
     h('div',{className:'atabs'},[['insights','\ud83e\udde0 Insights'],['comparative','\ud83d\udcca Comparative'],['predictive','\ud83d\udd2e Predictive'],['rankings','\ud83c\udfc6 Rankings']].map(([id,lbl])=>h('button',{key:id,className:'atab'+(tab===id?' act':''),onClick:()=>setTab(id)},lbl))),
     tab==='insights'&&h('div',null,
       h('div',{style:{fontSize:9,color:'rgba(255,255,255,.35)',marginBottom:10,padding:'6px 10px',borderRadius:7,background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.06)'}},'💡 Insights are auto-generated from your actual KPI data for the selected date range.'),
       h('div',{className:'ins-grid'},IS.map((ins,i)=>h('div',{key:i,className:'ins-card',style:{background:IS2[ins.c].bg,border:`1px solid ${IS2[ins.c].br}`}},h('div',{className:'ins-ico',style:{background:IS2[ins.c].br}},ins.ico),h('div',null,h('div',{className:'ins-ttl'},ins.ttl),h('div',{className:'ins-txt'},ins.txt)))))
     ),
     tab==='comparative'&&h('div',null,
-      h('div',{className:'cr cr2'},
-        h('div',{className:'cbox'},h('div',{className:'clbl'},'MONTHLY FOOTFALL'),h(BarChart,{data:monthly,keys:['ff'],colors:['#00B4D8'],height:155})),
-        h('div',{className:'cbox'},h('div',{className:'clbl'},'KPI MULTI-METRIC TREND'),h(LineChart,{data:monthly,series:[{k:'nps',name:'NPS',color:'#FFD700'},{k:'audit',name:'Audit%',color:'#4ADE80'},{k:'leads',name:'Leads',color:'#A78BFA'}],height:155}))
-      ),
-      h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}},
-        h('span',{style:{fontSize:9,color:'rgba(255,255,255,.4)'}},'Q4 2025 Monthly Comparison'),
-        h('button',{className:'csv-btn','aria-label':'Export CSV',onClick:()=>downloadCSV(compRows,compCols,'q4-comparison')},'\u2b07 Export CSV')
-      ),
-      h('div',{className:'twrap'},h('table',{className:'dt'},
-        h('thead',null,h('tr',null,...['Metric','Oct 2025','Nov 2025','Dec 2025','QoQ Change'].map(hd=>h('th',{key:hd},hd)))),
-        h('tbody',null,...compRows.map(row=>{const chg=Math.round((parseFloat(row.d)-parseFloat(row.o))/parseFloat(row.o)*100);return h('tr',{key:row.m},h('td',null,h('span',{style:{fontWeight:600,color:'#fff'}},row.m)),h('td',null,row.o),h('td',null,row.n),h('td',null,h('span',{style:{fontWeight:600,color:'#fff'}},row.d)),h('td',null,h('span',{style:{color:chg>=0?'#4ADE80':'#F87171',fontWeight:600,fontSize:9}},(chg>=0?'\u2191 ':'\u2193 ')+Math.abs(chg)+'%')));})
+      monthly.length===0
+        ?h('div',{className:'empty'},'No data recorded for the selected date range yet.')
+        :h('div',null,
+          h('div',{className:'cr cr2'},
+            h('div',{className:'cbox'},h('div',{className:'clbl'},'MONTHLY FOOTFALL (LIVE)'),h(BarChart,{data:monthly,keys:['ff'],colors:['#00B4D8'],height:155})),
+            h('div',{className:'cbox'},h('div',{className:'clbl'},'KPI MULTI-METRIC TREND (LIVE)'),h(LineChart,{data:monthly,series:[{k:'sat',name:'Sat. Score',color:'#FFD700'},{k:'audit',name:'Audit%',color:'#4ADE80'},{k:'leads',name:'Leads',color:'#A78BFA'}],height:155}))
+          ),
+          h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}},
+            h('span',{style:{fontSize:9,color:'rgba(255,255,255,.4)'}},monthly.length+' months of live data'),
+            h('button',{className:'csv-btn','aria-label':'Export CSV',onClick:()=>downloadCSV(compRows,compCols,'monthly-comparison')},'\u2b07 Export CSV')
+          ),
+          compRows.length>0&&h('div',{className:'twrap'},h('table',{className:'dt'},
+            h('thead',null,h('tr',null,...compCols.map(c=>h('th',{key:c.k},c.l)),h('th',null,'QoQ Change'))),
+            h('tbody',null,...compRows.map(row=>{
+              // FIX 12f — guard against division by zero in QoQ
+              const chg=row.o&&!isNaN(row.o)?Math.round((parseFloat(row.d)-parseFloat(row.o))/Math.abs(parseFloat(row.o))*100):0;
+              return h('tr',{key:row.m},h('td',null,h('span',{style:{fontWeight:600,color:'#fff'}},row.m)),h('td',null,row.o),h('td',null,row.n),h('td',null,h('span',{style:{fontWeight:600,color:'#fff'}},row.d)),h('td',null,h('span',{style:{color:chg>=0?'#4ADE80':'#F87171',fontWeight:600,fontSize:9}},(chg>=0?'\u2191 ':'\u2193 ')+Math.abs(chg)+'%')));
+            }))
+          ))
         )
-      ))
     ),
-    tab==='predictive'&&h('div',null,
-      h('div',{style:{padding:'9px 12px',borderRadius:10,background:'rgba(255,215,0,.07)',border:'1px solid rgba(255,215,0,.18)',marginBottom:12,fontSize:9.5,color:'rgba(255,255,255,.6)',lineHeight:1.55}},'\ud83d\udd2e Jan 2026 forecasts based on Q4 2025 linear trend. Confidence interval \u00b18%. Gold bar = prediction.'),
-      h('div',{className:'cr cr2'},
-        h('div',{className:'cbox'},h('div',{className:'clbl'},'FOOTFALL FORECAST (incl. Jan 2026)'),h(BarChart,{data:pred,keys:['ff'],colors:pred.map(d=>d.pred?'#FFD700':'#00B4D8'),height:160})),
-        h('div',{className:'cbox'},h('div',{className:'clbl'},'JAN 2026 PREDICTIONS'),
-          h('div',{style:{display:'flex',flexDirection:'column',gap:8,paddingTop:6}},
-            [{l:'Forecast Footfall',v:'368',d:'+8%',c:'#00B4D8'},{l:'Projected Leads',v:'96',d:'+7%',c:'#4ADE80'},{l:'NPS Score',v:'84',d:'+4%',c:'#FFD700'},{l:'Audit Score',v:'89%',d:'+1%',c:'#A78BFA'}].map(p=>
-              h('div',{key:p.l,style:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'9px 11px',borderRadius:9,background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.05)'}},
-                h('span',{style:{fontSize:9.5,color:'rgba(255,255,255,.55)'}},p.l),
-                h('div',{style:{display:'flex',alignItems:'center',gap:7}},h('span',{style:{fontSize:14,fontWeight:700,fontFamily:'Rajdhani,sans-serif',color:p.c}},p.v),h('span',{style:{fontSize:8.5,padding:'1px 6px',borderRadius:99,background:p.c+'1e',color:p.c}},'\u2191 '+p.d))
-              )
-            )
-          )
-        )
-      )
-    ),
+    // FIX 12c — Predictive tab replaced with placeholder + actual data charts
+    tab==='predictive'&&h(PredictiveTab,{monthly}),
     tab==='rankings'&&h('div',null,
       h('div',{className:'clbl',style:{marginBottom:8}},'SALESPERSON ACHIEVEMENT RANKINGS'),
       h('div',{style:{marginBottom:13}},spRanks.map((sp,i)=>h('div',{key:i,className:'sp-row',style:{border:`1px solid ${i===0?'rgba(255,215,0,.22)':'rgba(255,255,255,.05)'}`}},
@@ -1135,7 +2044,7 @@ function OverviewCards({stats,prevStats}){
   const cards=[
     {ico:'\ud83d\udc65',lbl:'Total Footfall',val:stats.footfall,sub:'All visitor types',c:'#00B4D8',tr:_tr('footfall')},
     {ico:'\ud83d\udcc8',lbl:'Lead Conversion',val:(stats.convRate||0)+'%',sub:'Online leads',c:'#4ADE80',tr:_tr('convRate')},
-    {ico:'\u2b50',lbl:'Sat. Score',val:stats.nps||0,sub:'Architect satisfaction',c:'#FFD700',tr:_tr('nps')},
+    {ico:'\u2b50',lbl:'Sat. Score',val:stats.sat||0,sub:'Architect satisfaction',c:'#FFD700',tr:_tr('sat')},
     {ico:'\ud83d\udccb',lbl:'Audit Score',val:(stats.audit||0)+'%',sub:'Compliance score',c:'#A78BFA',tr:_tr('audit')},
     {ico:'\ud83c\udfe2',lbl:'Showroom Score',val:(stats.showroom||0)+'/10',sub:'Upkeep rating',c:'#FB923C',tr:_tr('showroom')},
     {ico:'\ud83c\udfaf',lbl:'Total Leads',val:stats.leads||0,sub:'All sources',c:'#F472B6',tr:_tr('leads')},
@@ -1198,7 +2107,7 @@ function ECComparison({rawKpi,rawPlans,fdate,selDate,customFrom,customTo}){
     {label:'Showroom Score',blr:blr.showroom+'/10',del:del.showroom+'/10',bv:blr.showroom,dv:del.showroom,hi:true},
     {label:'MIS Compliance',blr:blr.misComp+'%',del:del.misComp+'%',bv:blr.misComp,dv:del.misComp,hi:true},
     {label:'Skills Avg Score',blr:blr.skills+'%',del:del.skills+'%',bv:blr.skills,dv:del.skills,hi:true},
-    {label:'Architect NPS',blr:blr.archNps,del:del.archNps,bv:blr.archNps,dv:del.archNps,hi:true},
+    {label:'Architect Sat.',blr:blr.archSat,del:del.archSat,bv:blr.archSat,dv:del.archSat,hi:true},
     {label:'Expense vs Budget',blr:blr.expPct+'%',del:del.expPct+'%',bv:blr.expPct,dv:del.expPct,hi:false},
     {label:'Audit Score',blr:blr.audit+'%',del:del.audit+'%',bv:blr.audit,dv:del.audit,hi:true},
     {label:'Customer CSAT',blr:'\u2605'+blr.csat,del:'\u2605'+del.csat,bv:blr.csat,dv:del.csat,hi:true},
@@ -1270,9 +2179,6 @@ function Login({onLogin,onViewer}){
       h('button',{className:'vo-btn',onClick:onViewer},h('div',null,h('div',{className:'vo-btn-txt'},'\ud83d\udc41 View Only Mode'),h('div',{style:{fontSize:9,color:'rgba(255,255,255,.4)',marginTop:2}},'No login required \u00b7 Read-only access')),h('span',{style:{color:'rgba(255,255,255,.3)',fontSize:12}},'\u203a')),
       h('div',{className:'ltab-bar'},['login','otp'].map(m=>h('button',{key:m,className:'ltab'+(mode===m?' act':''),onClick:()=>setMode(m)},m==='login'?'\ud83d\udd11 Email Login':'\ud83d\udcf1 OTP Login'))),
       err&&h('div',{className:'lerr'},err),
-      /* DEMO CREDENTIALS — uncomment for local dev only:
-      h('div',{className:'demo-tip'},'\ud83d\udca1 Demo: sanju.gupta@aisglass.com / Admin@123 \u00b7 rajath.m@aisglass.com / Manager@123'),
-      */
       mode==='login'&&h('div',null,
         h('label',{className:'flbl',htmlFor:'lemail'},'EMAIL ADDRESS'),
         h('div',{className:'fwrap'},h('span',{className:'fico'},'\ud83d\udce7'),h('input',{id:'lemail',className:'linput',type:'email',value:email,onChange:e=>setEmail(e.target.value),placeholder:'name@aisglass.com',onKeyDown:e=>e.key==='Enter'&&handleLogin()})),
@@ -1330,17 +2236,19 @@ const TITLES={
 
 // Date range dict
 const DR={
-  'Oct 2025':{s:'2025-10-01',e:'2025-10-31'},
-  'Nov 2025':{s:'2025-11-01',e:'2025-11-30'},
-  'Dec 2025':{s:'2025-12-01',e:'2025-12-31'},
-  'Q4 2025':{s:'2025-10-01',e:'2025-12-31'},
-  'Jan 2026':{s:'2026-01-01',e:'2026-01-31'},
-  'Feb 2026':{s:'2026-02-01',e:'2026-02-28'},
-  'Mar 2026':{s:'2026-03-01',e:'2026-03-31'},
-  'Apr 2026':{s:'2026-04-01',e:'2026-04-30'},
-  'May 2026':{s:'2026-05-01',e:'2026-05-31'},
-  'Q1 2026':{s:'2026-01-01',e:'2026-03-31'},
-  'Q2 2026':{s:'2026-04-01',e:'2026-06-30'},
+  'Oct 25':{s:'2025-10-01',e:'2025-10-31'},
+  'Nov 25':{s:'2025-11-01',e:'2025-11-30'},
+  'Dec 25':{s:'2025-12-01',e:'2025-12-31'},
+  'Q4 FY25':{s:'2025-10-01',e:'2025-12-31'},
+  'Jan 26':{s:'2026-01-01',e:'2026-01-31'},
+  'Feb 26':{s:'2026-02-01',e:'2026-02-28'},
+  'Mar 26':{s:'2026-03-01',e:'2026-03-31'},
+  'Apr 26':{s:'2026-04-01',e:'2026-04-30'},
+  'May 26':{s:'2026-05-01',e:'2026-05-31'},
+  'Jun 26':{s:'2026-06-01',e:'2026-06-30'},
+  'Q1 FY26':{s:'2026-01-01',e:'2026-03-31'},
+  'Q2 FY26':{s:'2026-04-01',e:'2026-06-30'},
+  'YTD 26':{s:'2026-01-01',e:new Date().toISOString().slice(0,10)},
 };
 
 // ═══ APP (MAIN COMPONENT) ═════════════════════════════════════
@@ -1350,7 +2258,7 @@ function App(){
   const[viewerMode,setViewerMode]=useState(false);
   const[page,setPage]=useState('dashboard');
   const[slim,setSlim]=useState(false);
-  const[selDate,setSelDate]=useState('Q4 2025');
+  const[selDate,setSelDate]=useState('May 26');
   const[customFrom,setCustomFrom]=useState('');
   const[customTo,setCustomTo]=useState('');
   const[showDatePop,setShowDatePop]=useState(false);
@@ -1358,6 +2266,11 @@ function App(){
   const[rawPlans,setRawPlans]=useState([]);
   const[toast,setToast]=useState('');
   const[currentEc,setCurrentEc]=useState('combined');
+  const[exceptionFilter,setExceptionFilter]=useState('all');
+  const[notes,setNotes]=useState([]);
+  const[isOnline,setIsOnline]=useState(navigator.onLine);
+  const[dataLoading,setDataLoading]=useState(true);
+  const[lastSync,setLastSync]=useState(null);
   const showToast=msg=>setToast(msg);
 
   useEffect(()=>{
@@ -1373,6 +2286,25 @@ function App(){
     return onAuthStateChanged(auth,u=>setAuthUser(u));
   },[fbReady]);
 
+  // Online / offline detection
+  useEffect(()=>{
+    const goOnline=()=>setIsOnline(true);
+    const goOffline=()=>setIsOnline(false);
+    window.addEventListener('online',goOnline);
+    window.addEventListener('offline',goOffline);
+    return()=>{window.removeEventListener('online',goOnline);window.removeEventListener('offline',goOffline);};
+  },[]);
+
+  // Keyboard shortcuts: Ctrl+P = print, Esc = close modals/exception
+  useEffect(()=>{
+    const handler=e=>{
+      if((e.ctrlKey||e.metaKey)&&e.key==='p'){e.preventDefault();window.print();}
+      if(e.key==='Escape'){setShowDatePop(false);setExceptionFilter('all');}
+    };
+    window.addEventListener('keydown',handler);
+    return()=>window.removeEventListener('keydown',handler);
+  },[]);
+
   const userConfig=useMemo(()=>authUser?getUserConfig(authUser.email):null,[authUser]);
 
   // Initialize EC tab for manager
@@ -1380,14 +2312,17 @@ function App(){
     if(userConfig&&userConfig.ecs.length===1)setCurrentEc(userConfig.ecs[0]);
   },[userConfig]);
 
-  // Subscribe to Firestore
+  // Subscribe to Firestore — track loading and last-sync timestamp
   useEffect(()=>{
     if(!fbReady||(!authUser&&!viewerMode))return;
     const ecIds=userConfig?.ecs||['bangalore','delhi'];
-    const u1=subscribeKpiData(ecIds,setRawKpi);
-    const u2=subscribePlanData(ecIds,setRawPlans);
+    let loaded1=false,loaded2=false;
+    const tryDoneLoading=()=>{if(loaded1&&loaded2){setDataLoading(false);setLastSync(new Date());}};
+    const u1=subscribeKpiData(ecIds,rows=>{setRawKpi(rows);loaded1=true;tryDoneLoading();setLastSync(new Date());});
+    const u2=subscribePlanData(ecIds,rows=>{setRawPlans(rows);loaded2=true;tryDoneLoading();});
     if(authUser&&userConfig?.role==='Admin')checkAndSeedIfEmpty(authUser.email);
-    return()=>{u1&&u1();u2&&u2();};
+    const u3=window._fb.onSnapshot(window._fb.collection(window._fb.db,NOTES_COLLECTION),snap=>{const rows=[];snap.forEach(d=>rows.push({id:d.id,...d.data()}));setNotes(rows);},()=>{});
+    return()=>{u1&&u1();u2&&u2();u3&&u3();};
   },[fbReady,authUser,viewerMode,userConfig]);
 
   // Date filter function
@@ -1425,7 +2360,7 @@ function App(){
     const afAvg=fAF.length?fAF.reduce((a,f)=>a+f.rating,0)/fAF.length:0;
     const auSc=fAu.reduce((a,s)=>a+s.score,0),auMx=fAu.reduce((a,s)=>a+s.maxScore,0);
     const swAvg=fSW.length?fSW.reduce((a,s)=>a+s.score,0)/fSW.length:0;
-    return{footfall:fFF.length,convRate:fL.length?Math.round(conv/fL.length*100):0,nps:Math.round(afAvg*20),audit:auMx?Math.round(auSc/auMx*100):0,showroom:parseFloat(swAvg.toFixed(1)),leads:fL.length};
+    return{footfall:fFF.length,convRate:fL.length?Math.round(conv/fL.length*100):0,sat:Math.round(afAvg*20),audit:auMx?Math.round(auSc/auMx*100):0,showroom:parseFloat(swAvg.toFixed(1)),leads:fL.length};
   },[fL,fFF,fAF,fAu,fSW]);
 
   // prevStats — same calculation over the previous equivalent period for trend arrows
@@ -1453,7 +2388,7 @@ function App(){
     const pAfAvg=pAF.length?pAF.reduce((a,f)=>a+f.rating,0)/pAF.length:0;
     const pAuSc=pAu.reduce((a,s)=>a+s.score,0),pAuMx=pAu.reduce((a,s)=>a+s.maxScore,0);
     const pSwAvg=pSW.length?pSW.reduce((a,s)=>a+s.score,0)/pSW.length:0;
-    return{footfall:pFF.length,convRate:pL.length?Math.round(pConv/pL.length*100):0,nps:Math.round(pAfAvg*20),audit:pAuMx?Math.round(pAuSc/pAuMx*100):0,showroom:parseFloat(pSwAvg.toFixed(1)),leads:pL.length};
+    return{footfall:pFF.length,convRate:pL.length?Math.round(pConv/pL.length*100):0,sat:Math.round(pAfAvg*20),audit:pAuMx?Math.round(pAuSc/pAuMx*100):0,showroom:parseFloat(pSwAvg.toFixed(1)),leads:pL.length};
   },[selDate,customFrom,customTo,rawKpi,ecFilter]);
 
   // allData object for analytics & insights
@@ -1462,6 +2397,27 @@ function App(){
     datamgmt:fDM,skills:fSk,archFb:fAF,expenses:fEx,audits:fAu,custFb:fCF
   }),[fPlans,fL,fA,fFF,fSW,fDM,fSk,fAF,fEx,fAu,fCF]);
 
+  // Memoize expensive computations to avoid re-running on every render
+  const memoInsights=useMemo(()=>generateDataInsights(allData),[allData]);
+  const memoActionCenter=useMemo(()=>computeActionCenter(allData,prevStats),[allData,prevStats]);
+
+  // Check if current date range has any data at all
+  const hasDataInRange=useMemo(()=>{
+    const totalRecords=[...fL,...fFF,...fA,...fSW,...fDM,...fSk,...fAF,...fEx,...fAu,...fCF].length;
+    return totalRecords>0;
+  },[fL,fFF,fA,fSW,fDM,fSk,fAF,fEx,fAu,fCF]);
+
+  // Format last sync time
+  const lastSyncLabel=useMemo(()=>{
+    if(!lastSync)return null;
+    const mins=Math.floor((Date.now()-lastSync.getTime())/60000);
+    if(mins<1)return'Just now';
+    if(mins===1)return'1 min ago';
+    return mins+'min ago';
+  },[lastSync]);
+
+  const manualRefresh=()=>{setDataLoading(true);setRawKpi([]);setRawPlans([]);setTimeout(()=>setDataLoading(false),400);};
+
   const canEdit=userConfig&&(userConfig.role==='Admin'||userConfig.role==='Manager');
   const isAdmin=userConfig?.role==='Admin';
   const isManager=userConfig?.role==='Manager';
@@ -1469,27 +2425,49 @@ function App(){
   const canApproveExpense=isAdmin;  // only Admin can approve expenses
   const canEditTargets=isAdmin;     // only Admin can change plan targets
 
+  // Notes CRUD helpers
+  const addNote=data=>fsAdd(NOTES_COLLECTION,data);
+  const delNote=id=>fsDelete(NOTES_COLLECTION,id);
+
   const handleLogout=()=>{window._fb.signOut(window._fb.auth);setViewerMode(false);setPage('dashboard');};
 
   // Render page content
   const renderPage=()=>{
-    const kpiProps={add:fsAdd,upd:fsUpdate,del:fsDelete,canEdit,canDelete,showToast};
+    const kpiProps={add:fsAdd,upd:fsUpdate,del:fsDelete,canEdit,canDelete,canApproveExpense,canEditTargets,showToast};
     if(page==='compare'&&isAdmin)return h(ECComparison,{rawKpi,rawPlans,fdate,selDate,customFrom,customTo});
+    const ecLabelStr=currentEc==='combined'?'Both ECs':(EC_LABELS[currentEc]||currentEc);
+    const emptyWarn=!hasDataInRange&&!dataLoading&&h(EmptyRangeWarning,{dateLabel:activeDateLabel});
+    const dashCommon=h('div',null,
+      h(ManagementFilterBar,{selDate,activeDateLabel,currentEc,exceptionFilter,setExceptionFilter,page,setPage,isAdmin}),
+      emptyWarn,
+      exceptionFilter!=='all'&&h(ExceptionFilterBar,{filter:exceptionFilter,onChange:setExceptionFilter}),
+      exceptionFilter!=='all'
+        ?h(ExceptionView,{filter:exceptionFilter,allData})
+        :h('div',null,
+            h(FreshnessSummary,{allData}),
+            h(OverviewCards,{stats,prevStats}),
+            h(ActionCenter,{allData,prevStats}),
+            h(ManagementSummary,{allData,dateLabel:activeDateLabel,ecLabel:ecLabelStr}),
+            h(NotesPanel,{notes,addNote,delNote,canDelete,userConfig,selDate,currentEc}),
+            h('div',{style:{display:'flex',justifyContent:'flex-end',marginBottom:8}},h(ExportAllBtn,{allData,dateLabel:activeDateLabel}))
+          )
+    );
     if(page==='dashboard')return h('div',null,
-      h(OverviewCards,{stats,prevStats}),
-      h(ManagementSummary,{allData,dateLabel:activeDateLabel,ecLabel:currentEc==='combined'?'Both ECs':(EC_LABELS[currentEc]||currentEc)}),
-      h(Analytics,{allData}),
-      h(KPI1,{...kpiProps,data:fL}),
-      h(KPI2,{...kpiProps,data:fA}),
-      h(KPI3,{...kpiProps,data:fFF}),
-      h(KPI4,{...kpiProps,data:fSW}),
-      h(KPI5,{...kpiProps,data:fDM}),
-      h(KPI6,{...kpiProps,data:fSk}),
-      h(KPI7,{...kpiProps,data:fAF}),
-      h(KPI8,{...kpiProps,data:fEx}),
-      h(KPI9,{...kpiProps,data:fAu}),
-      h(KPI10,{data:fPlans,upd:fsUpdate,showToast}),
-      h(KPI11,{...kpiProps,data:fCF})
+      dashCommon,
+      exceptionFilter==='all'&&h('div',null,
+        h(Analytics,{allData}),
+        h(KPI1,{...kpiProps,data:fL}),
+        h(KPI2,{...kpiProps,data:fA}),
+        h(KPI3,{...kpiProps,data:fFF}),
+        h(KPI4,{...kpiProps,data:fSW}),
+        h(KPI5,{...kpiProps,data:fDM}),
+        h(KPI6,{...kpiProps,data:fSk}),
+        h(KPI7,{...kpiProps,data:fAF}),
+        h(KPI8,{...kpiProps,data:fEx}),
+        h(KPI9,{...kpiProps,data:fAu}),
+        h(KPI10,{data:fPlans,upd:fsUpdate,showToast,canEditTargets}),
+        h(KPI11,{...kpiProps,data:fCF})
+      )
     );
     if(page==='kpi1')return h(KPI1,{...kpiProps,data:fL,defOpen:true});
     if(page==='kpi2')return h(KPI2,{...kpiProps,data:fA});
@@ -1500,19 +2478,21 @@ function App(){
     if(page==='kpi7')return h(KPI7,{...kpiProps,data:fAF});
     if(page==='kpi8')return h(KPI8,{...kpiProps,data:fEx});
     if(page==='kpi9')return h(KPI9,{...kpiProps,data:fAu});
-    if(page==='kpi10')return h(KPI10,{data:fPlans,upd:fsUpdate,showToast});
+    if(page==='kpi10')return h(KPI10,{data:fPlans,upd:fsUpdate,showToast,canEditTargets});
     if(page==='kpi11')return h(KPI11,{...kpiProps,data:fCF});
     if(page==='analytics')return h(Analytics,{allData});
     return h('div',{style:{color:'rgba(255,255,255,.3)',padding:24}},'Page not found');
   };
 
   if(!fbReady)return h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontSize:13,color:'rgba(255,255,255,.4)',background:'#0A1628'}},'\ud83d\udd04 Connecting to Firebase...');
-  if(!authUser&&!viewerMode)return h(Login,{onLogin:()=>{},onViewer:()=>setViewerMode(true)});
+  if(!authUser&&!viewerMode)return h(ErrorBoundary,null,h(Login,{onLogin:()=>{},onViewer:()=>setViewerMode(true)}));
 
   // Visible NAV — add compare for admin
   const visibleNav=[...NAV,...(isAdmin?[{id:'compare',ico:'\u2696\ufe0f',lbl:'EC Comparison',sub:'Admin'}]:[] )];
 
-  return h('div',{className:'app'},
+  return h(ErrorBoundary,null,
+    h('div',{className:'app'},
+    h(LoadingOverlay,{show:dataLoading&&rawKpi.length===0&&rawPlans.length===0}),
     // ── Sidebar ─────────────────────────────────────────────
     h('div',{className:'sb '+(slim?'slim':'wide')},
       h('div',{className:'sb-logo'},
@@ -1522,13 +2502,13 @@ function App(){
       ),
       viewerMode&&!slim&&h('div',{className:'vo-badge'},h('span',{style:{fontSize:11}},'\ud83d\udc41'),h('span',null,'View Only Mode')),
       h('div',{className:'sb-nav'},
-        visibleNav.map(n=>h('button',{key:n.id,className:'nav-item'+(page===n.id?' act':''),'aria-label':n.lbl,onClick:()=>setPage(n.id)},
+        visibleNav.map(n=>h('button',{key:n.id,className:'nav-item'+(page===n.id?' act':''),'aria-label':n.lbl,title:n.lbl,onClick:()=>setPage(n.id)},
           h('div',{className:'nav-ico'},n.ico),
           !slim&&h('div',{className:'nav-txt'},h('p',null,n.lbl),h('span',null,n.sub))
         ))
       ),
       h('div',{className:'sb-foot'},
-        h('button',{className:'nav-item','aria-label':'Logout',onClick:handleLogout,style:{width:'100%'}},
+        h('button',{className:'nav-item','aria-label':'Logout',title:viewerMode?'Exit Viewer':'Logout',onClick:handleLogout,style:{width:'100%'}},
           h('div',{className:'nav-ico'},'\ud83d\udeaa'),
           !slim&&h('div',{className:'nav-txt'},h('p',null,viewerMode?'Exit Viewer':'Logout'),h('span',null,viewerMode?'Go to login':'Sign out'))
         )
@@ -1536,6 +2516,7 @@ function App(){
     ),
     // ── Main ────────────────────────────────────────────────
     h('div',{className:'main'},
+      !isOnline&&h(OfflineBanner),
       // Header
       h('div',{className:'hdr'},
         h('div',{className:'hdr-title'},
@@ -1549,7 +2530,7 @@ function App(){
           h('button',{className:'dp'+(selDate==='Custom'?' act':''),'aria-label':'Custom date range',onClick:()=>setShowDatePop(v=>!v)},'\ud83d\udcc5 Custom')
         ),
         selDate==='Custom'&&customFrom&&customTo&&h('span',{className:'active-range-lbl'},customFrom+' \u2192 '+customTo),
-        h('button',{className:'print-btn','aria-label':'Print dashboard',onClick:()=>window.print()},'\ud83d\udda8 Print'),
+        h('button',{className:'print-btn','aria-label':'Print dashboard (Ctrl+P)',title:'Print (Ctrl+P)',onClick:()=>window.print()},'\ud83d\udda8 Print'),
         h('div',{className:'hdr-user'},
           h('div',{className:'avatar'},(userConfig?.name||'V')[0].toUpperCase()),
           h('div',null,h('p',null,userConfig?.name||(viewerMode?'Viewer':'User')),h('span',null,viewerMode?'View Only':(userConfig?.role||'Viewer')))
@@ -1560,24 +2541,27 @@ function App(){
       // Content
       h('div',{className:'content'},
         // EC tab bar (only on dashboard and non-compare pages)
-        page!=='compare'&&h(ECTabBar,{ecs:userConfig?.ecs||['bangalore','delhi'],current:currentEc,onChange:setCurrentEc}),
+        page!=='compare'&&h(ECTabBar,{ecs:userConfig?.ecs||[],current:currentEc,onChange:setCurrentEc}),
         // Combined view banner
         currentEc==='combined'&&page!=='compare'&&h('div',{style:{padding:'9px 13px',borderRadius:10,background:'rgba(255,215,0,.07)',border:'1px solid rgba(255,215,0,.18)',marginBottom:12,fontSize:9.5,color:'rgba(255,255,255,.6)',display:'flex',alignItems:'center',gap:8}},
           h('span',null,'\ud83d\udcca'),h('span',null,'Combined view — showing data from all Experience Centers. Switch tabs above to filter by EC.')
         ),
         renderPage(),
-        // Sync indicator
-        (authUser||viewerMode)&&h('div',{style:{textAlign:'center',padding:'12px 0 4px',fontSize:8.5,color:'rgba(255,255,255,.2)',display:'flex',alignItems:'center',justifyContent:'center',gap:5}},
+        // Sync indicator with manual refresh
+        (authUser||viewerMode)&&h('div',{style:{textAlign:'center',padding:'12px 0 4px',fontSize:8.5,color:'rgba(255,255,255,.2)',display:'flex',alignItems:'center',justifyContent:'center',gap:8}},
           h('span',{className:'sync-dot'}),
-          'Live sync \u00b7 AIS Showroom Dashboard \u00b7 Firebase'
+          h('span',{className:'sync-time'},'Live sync \u00b7 AIS Windows \u00b7 Firebase'+(lastSyncLabel?' \u00b7 '+lastSyncLabel:'')),
+          h('button',{className:'refresh-btn','aria-label':'Manual refresh',title:'Refresh data',onClick:manualRefresh},'\u21bb Refresh')
         )
       )
     ),
     h(Toast,{msg:toast,onDone:()=>setToast('')})
-  );
+  ));
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+ReactDOM.createRoot(document.getElementById('root')).render(
+  h(ErrorBoundary,null,h(App))
+);
 </script>
 </body>
 </html>
